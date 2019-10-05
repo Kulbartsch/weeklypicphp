@@ -13,7 +13,7 @@ A simple PHP script to scale a JPG image to the right proportions and set EXIF d
   * *creator*
   * *license*
 * Show table of existing/required/new EXIF parameters
-* Storing the parameters *weekly-pic-username*, *creator* and *license* in a cookie for convenience, if requested
+* Storing the parameters *weekly-pic-username*, *creator*, *license* and *delete-GPS-data* in a cookie for convenience, if requested
 * Choose between *weekly* and *monthly* pic
 * Preset week and month numbers for filename (but changeable)
 * Automatic generation of valid weekly-pic filename

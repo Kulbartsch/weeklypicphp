@@ -33,17 +33,19 @@
       include 'src/config.php';
       include 'src/functions.php';
 
-      // read cookie storing common values (Weekly-Pic-Name, Creator, license)
+      // read cookie storing common values (Weekly-Pic-Name, Creator, license, nogeo)
       if(isset($_COOKIE[$cookie_name])) {
-        $cookie_value  = explode( $cookie_split , $_COOKIE[$cookie_name] , 3 );
+        $cookie_value  = explode( $cookie_split , $_COOKIE[$cookie_name] , 4 );
         $val_user      = $cookie_value[0];
         $val_creator   = $cookie_value[1];
         $val_license   = $cookie_value[2];
+        $val_nogeo     = $cookie_value[3]; // 'checked' or empty
         $val_usecookie = ' checked ';
       } else {
         $val_user      = '';
         $val_creator   = '';
         $val_license   = '';
+        $val_nogeo     = ' ';
         $val_usecookie = ' ';
       }
       log_usage('1', $val_user);
@@ -80,7 +82,8 @@
           <input type="text" id="creator" name="creator" value="<?= $val_creator ?>"><br/>
           Lizenz 🍪 (optional):<br/>
           <input type="text" id="license" name="license" value="<?= $val_license ?>"><br/>
-          <input type="checkbox" id="nogeo" name="nogeo" value="nogeo"> Lösche Geo-Daten aus dem Bild.<br>
+          Geo-Daten im Bild 🍪:</br>
+          <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br>
         </p>
         <p>
           <input type="checkbox" id="usecookie" name="usecookie" value="usecookie" <?= $val_usecookie ?> > Nutze ein Cookie für deine 🍪-Daten.

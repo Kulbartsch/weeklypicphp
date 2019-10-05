@@ -17,16 +17,18 @@
   $description_isset = false;
   if(array_key_exists("nogeo", $_POST)){
     $no_geo = true;
+    $nogeo_cookie = 'checked';
   } else {
     $no_geo = false;
+    $nogeo_cookie = ' ';
   }
 
   // cookie (must be handled before any html code)
   // Store common values cookies for next time, if requested
   if(array_key_exists("usecookie", $_POST)) {
-    $cookie_value = implode( $cookie_split, array($user, $creator, $license) );
+    $cookie_value = implode( $cookie_split, array($user, $creator, $license, $nogeo_cookie) );
     setcookie($cookie_name, $cookie_value, $cookie_expires, "/");
-  } else { // delete cookie if no storing requested (in case there was a cookie before)
+  } elseif(isset($_COOKIE[$cookie_name])) { // delete cookie if no storing requested (in case there was a cookie before)
     $cookie_value = '';
     setcookie($cookie_name, $cookie_value, 1, "/");
   }
@@ -231,7 +233,7 @@
       // display picture attributes (EXIF) existing compared to requested
 
       echo '<h2>Eckdaten des <i>hochgeladenen</i> Bildes</h2>';
-      exif_display($new_path, $requested);
+      exif_display($new_path, $requested, FALSE);
 
 
       //####################################################################
@@ -300,7 +302,7 @@
       // display picture attributes (EXIF) existing compared to requested
 
       echo '<h2>Eckdaten des <i>überarbeiteten</i> Bildes</h2>';
-      exif_display($new_path, $requested);
+      exif_display($new_path, $requested, TRUE);
 
       //####################################################################
       // display picture  and  furhter actions (buttons) to delete (and upload) picture

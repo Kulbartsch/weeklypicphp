@@ -11,7 +11,7 @@ Ein (einfaches) PHP-Skript, um ein JPG-Bild auf die richtigen Proportionen zu sk
   * *Urheber*
   * *Lizenz*
 * Tabelle der vorhandenen/erforderlichen/neuen EXIF-Daten anzeigen
-* Speicherung der Parameter *Weekly-Pic-Benutzername*, *Urheber* und *Lizenz* in einem Cookie, für deinen Komfort, falls gewünscht.
+* Speicherung der Parameter *Weekly-Pic-Benutzername*, *Urheber*, *Lizenz* und *GPS-Daten-löschen* in einem Cookie, für deinen Komfort, falls gewünscht.
 * Wahlmöglichkeit zwischen *wöchentlich* und *monatlich*
 * Voreinstellung der Wochen- und Monatsnummern für den Dateinamen (änderbar)
 * Automatische Generierung eines gültigen Weekly-Pic Dateinamens

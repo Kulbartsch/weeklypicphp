@@ -46,7 +46,7 @@
   }
 
 
-  function exif_display($filename, $requested) {
+  function exif_display($filename, $requested, $complain) {
     // reads EXIF data using exiftool -s (-s uses the technical names)
     // displays EXIF data given by the requested hash compared to the requested data.
     // returns: "Width" or "Height" for the direction to be 2000 pixels. (so the larger side)
@@ -91,7 +91,9 @@
     }
     echo "</table></p>";
     // BUG: GPS detected even if deleted because of GPSVersionID Tag
-    echo "<p><small>Achtung, es kann hier angezeigt werden, dass GPS Daten vorhanden sind, obwohl diese gelöscht wurden, weil noch eine GPS-Version-ID vorhanden ist, was in Ordnung ist. Die Fehlerbehebung ist in Arbeit.</small></p>";
+    if($complain) {
+      echo "<p><small>Achtung, es kann hier angezeigt werden, dass GPS Daten vorhanden sind, obwohl diese gelöscht wurden, weil noch eine GPS-Version-ID vorhanden ist, was in Ordnung ist. Die Fehlerbehebung ist in Arbeit.</small></p>";
+    }
 
     // link GPS data to OSM
     $geocoordinates = exif_get_tag_value($exif_data, 'GPSPosition');

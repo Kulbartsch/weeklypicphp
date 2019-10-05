@@ -2,6 +2,8 @@
 .DS_Store
 _files/*.jpg
 _files/*.jpeg
+_files/*.JPG
+_files/*.JPEG
 *.log
-src/upload_server.config
 *.config
+U9M*
