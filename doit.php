@@ -180,7 +180,7 @@
 
       //Alles okay, verschiebe Datei an neuen Pfad
       move_uploaded_file($fileToUpload['tmp_name'], $new_path);
-      echo 'Bild erfolgreich hochgeladen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
+      echo 'Dein Bild ist erfolgreich hier angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
 
 
       //####################################################################
@@ -250,7 +250,7 @@
         echo "</p>";
       }
       if($result !== 0) {
-        log_command_result($command, $result, $data);
+        log_command_result($command, $result, $data, $user);
         cancel_processing('Fehler bei der Größenänderung.');
       }
       if(unlink($new_path) == false) {
@@ -292,7 +292,7 @@
           echo "</p>";
         }
         if($result !== 0) {
-          log_command_result($command, $result, $data);
+          log_command_result($command, $result, $data, $user);
           echo '<p>⚠️ Problem bei der Änderung der Metadataten aufgetreten.</p>';
         }
       }

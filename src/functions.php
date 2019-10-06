@@ -55,15 +55,16 @@
     }
   }
 
-  function log_command_result($cmd, $result, $output) {
+  function log_command_result($cmd, $result, $output, $user) {
     global $command_log;
-    $log_msg = PHP_EOL . 'time:' . date("c") . PHP_EOL .
+    $log_msg = PHP_EOL . 'time:' . date("c") . ';' . $user . PHP_EOL .
                'command: ' . $cmd . PHP_EOL . 'result: ' . $result . PHP_EOL .
                'output:' . PHP_EOL . print_r($output, TRUE) . PHP_EOL .
                '-- END --' . PHP_EOL . PHP_EOL ;
     if(file_put_contents($command_log, $log_msg, FILE_APPEND) === FALSE) {
       echo "<p>⚠️ Problem bei Command-Log schreiben</p>";
     }
+    log_usage('CE', $user)
   }
 
   function log_usage($page, $user) {

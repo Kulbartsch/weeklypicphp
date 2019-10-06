@@ -43,7 +43,7 @@
           echo "</p>";
         }
         if($result !== 0) {
-          log_command_result($command, $result, $data);
+          log_command_result($command, $result, $data, $user);
           echo '<p>⚠️ Problem beim Upload aufgetreten.</p>';
         } else {
           echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
