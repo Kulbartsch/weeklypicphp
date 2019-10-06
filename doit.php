@@ -309,7 +309,7 @@
 
       echo '<h2>Das überarbeitete Bild! </h2>';
       echo '<p><img src="' . $new_path . '" alt="Your processed WeeklyPic" width="600" ><br />';
-      echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. Das sollte allerdings kein Problem sein.</small></p>';
+      echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. (Firefox kann das.) Das sollte allerdings kein Problem sein.</small></p>';
       // HINT: Image Orientation (find it in the css style above) is currently only supported by Firefox
       // IDEA: Rotate a portrait image?
 

@@ -64,7 +64,7 @@
     if(file_put_contents($command_log, $log_msg, FILE_APPEND) === FALSE) {
       echo "<p>⚠️ Problem bei Command-Log schreiben</p>";
     }
-    log_usage('CE', $user)
+    log_usage('CE', $user);
   }
 
   function log_usage($page, $user) {
