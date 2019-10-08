@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>.:fotoaufbrecherli:.</title>
+    <title>WeeklyPic-One-Stop-Foto</title>
     <style type="text/css">
       body {margin:30px auto; max-width:650px; line-height:1.6; font-size:18px;
         color:#444; padding:0 10px;

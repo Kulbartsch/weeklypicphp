@@ -39,7 +39,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>.:fotoaufbrecherli:.</title>
+    <title>WeeklyPic-One-Stop-Foto</title>
     <style type="text/css">
       body {margin:5% auto; line-height:1.6; font-size:18px;
         color:#444; padding:0 10px;
@@ -61,6 +61,7 @@
       // REVIEW: make output nicer if upload server config file is missing.
       // BUG: a not processed upload - i.e. picture is to big - i not detected = no filename
       // IDEA: make a web-page to show all EXIF data
+      // IDEA: check for umlaute in requested picture title
 
       // IDEA: validate picture date against requested week/month and year
       // Maybe calculate and check the date-range inbetween the foto should have been made
@@ -100,7 +101,7 @@
 
       log_usage('2', $user);
       if(empty($user)) {
-        cancel_processing("Fehler! Kein Benutzer angegeben.");
+        cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
 
       $requested_month = validate_number_and_return_string(sanitize_input("month_number", TRUE), 1, 12);
@@ -115,6 +116,9 @@
       //####################################################################
       // File validation and upload handling
 
+      if(array_key_exists("fileToUpload", $_FILES) == FALSE) {
+        cancel_processing("Fehler! Das Bild wurde nicht hochgeladen.");
+      }
       $fileToUpload  = $_FILES["fileToUpload"];
       $file_basename = basename($fileToUpload["name"]);
       $upload_file   = $upload_folder . $file_basename;
@@ -137,9 +141,9 @@
       }
 
       //Überprüfung der Dateigröße
-      $max_size = 10000*1024; //10MB
+      $max_size = 32000*1024; //32MB
       if($_FILES['fileToUpload']['size'] > $max_size) {
-        cancel_processing("Bitte keine Dateien größer 10 MB hochladen.");
+        cancel_processing("Bitte keine Dateien größer 32 MB hochladen.");
       }
 
       //Überprüfung dass das Bild keine Fehler enthält
@@ -280,7 +284,7 @@
       if(strlen($et_param)==0) {
         echo '<p>Keine Metadaten-Anpassung notwendig.<p>';
       } else {
-        // exiftool -s = very short output
+        // exiftool -s = very short output of tag names
         //          -v = verbose output
         $command =  $exiftool_command . ' -v2 -s -overwrite_original ' . $et_param .
                     ' ' . escapeshellarg($new_path) . ' 2>&1';
