@@ -23,7 +23,8 @@
             return date('n', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
             break;
         case '=Week':
-            return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
+            // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
+            return get_picture_wp_week($list);
             break;
         default:
             return 'n/a';
@@ -46,7 +47,7 @@
   }
 
 
-  function exif_display($filename, $requested, $complain) {
+  function exif_display($filename, $requested, $complain, $req_week = 0) {
     // reads EXIF data using exiftool -s (-s uses the technical names)
     // displays EXIF data given by the requested hash compared to the requested data.
     // returns: "Width" or "Height" for the direction to be 2000 pixels. (so the larger side)

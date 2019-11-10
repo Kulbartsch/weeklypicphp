@@ -104,6 +104,8 @@
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
 
+      $default_month = date('n');
+      $default_week  = date('W');
       $requested_month = validate_number_and_return_string(sanitize_input("month_number", TRUE), 1, 12);
       $requested_week  = validate_number_and_return_string(sanitize_input("week_number", TRUE), 1, 52);
       if($_POST["timeframe"] == "Monat") {
@@ -241,6 +243,9 @@
 
 
       //####################################################################
+      // prozessing
+
+      //--------------------------------------------------------------------
       // resize picture
 
       $command =  $convert_command . ' ' . escapeshellarg($new_path) .
@@ -265,7 +270,7 @@
       }
 
 
-      //####################################################################
+      //--------------------------------------------------------------------
       // update picture EXIF to requested/required attributes
 
       // build exiftool commandline parameters
@@ -307,6 +312,7 @@
 
       echo '<h2>Eckdaten des <i>überarbeiteten</i> Bildes</h2>';
       exif_display($new_path, $requested, TRUE);
+
 
       //####################################################################
       // display picture  and  furhter actions (buttons) to delete (and upload) picture

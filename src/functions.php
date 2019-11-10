@@ -81,4 +81,50 @@
     }
   }
 
+  function get_picture_date($tags) {
+    $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
+    if( $exif_create_date === '' ) {
+      return 'nodate';
+    } else {
+      return DateTime::createFromFormat('Y:m:d G:i:s', $exif_create_date);
+    }
+  }
+
+  // weekly pic picture week is shifted by 2 days in the future 
+  function get_picture_wp_week($tags) {
+    $picdate = get_picture_date($tags);
+    if($picdate == 'nodate') {
+      return 0;
+    } else {
+      return $picdate->add(new DateInterval('P2D'))->format('W');
+    }
+  }
+
+  // calculate several date parts - currently not used
+  function picture_dates($tags) {
+    $returns['result'] = 'ok';
+    // get CreateDate tag
+    $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
+    if( $exif_create_date === '' ) {
+      $returns['result'] = 'Error: Picture has no create date!';
+      return $returns;
+    }
+    // convert Tag to date (CreateDate : 2019:05:15 22:58:54)
+    $returns['date']  = DateTime::createFromFormat('Y:m:d G:i:s', $exif_create_date);
+    // $returns['month'] = $returns['date']->format('m'); 
+    // $returns['week']  = $returns['date']->format('W'); 
+    // $returns['year']  = $returns['date']->format('Y'); 
+    $dayinweek = $returns['date']->format('w');  // Sunday = 0 ... Saturday = 6
+    if ($dayinweek < 6) {
+      $returns['wp_week_start_date'] = $returns['date']->sub(new DateInterval('P'.($dayinweek+1).'D'));
+      $returns['wp_week_end_date']   = $returns['date']->add(new DateInterval('P'.(5-$dayinweek).'D'));
+    } else { // = 6 = saturday
+      $returns['wp_week_start_date'] = $returns['date']; 
+      $returns['wp_week_end_date']   = $returns['date']->add(new DateInterval('P6D'));
+    }
+    // $returns['wp_year_start_date'] = 
+    // $returns['wp_year_end_date']   = 
+    $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
+  }
+
 ?>
