@@ -55,15 +55,20 @@
     //$exif_data = exif_read_data($new_path, "FILE,COMPUTED,ANY_TAG,IFDO,COMMENT,EXIF", true);
     //if($debugging == true) { print_r($exif_data); };
 
+    global $user;
     global $exiftool_command;
-    exec($exiftool_command . ' -s ' . escapeshellarg($filename), $exif_data, $exiftool_result);
+    $cmd = $exiftool_command . ' -s ' . escapeshellarg($filename);
+    exec($cmd, $exif_data, $exiftool_result);
     if(false == true) { // debug
       echo "<p>filename: "; print_r($filename);
       echo "<br>exif_data: <br><pre>"; print_r($exif_data); echo "</pre>";
       echo "<br>exiftool_result: "; print_r($exiftool_result);
       echo "</p>";
     }
-    if($exiftool_result !== 0) { cancel_processing('Fehler beim Aufruf des EXIF-Tools!'); }
+    if($exiftool_result !== 0) { 
+      log_command_result($cmd, $exiftool_result, $exif_data, $user);
+      cancel_processing('Fehler beim Aufruf des EXIF-Tools!'); 
+    }
 
     // Calculate new size
     $pic_width  = exif_get_tag_value($exif_data, 'ImageWidth');
