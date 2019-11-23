@@ -58,8 +58,8 @@
 
     <?php
 
-      // BUG: Umlaute in user name chrashes exiftool. (Don't allow Umlaut in User name)
-      // BUG: Umlaute in Title are droped in metadata
+      // CHECK: Umlaute in user name chrashes exiftool, because umlaute are dropped. Might be fixed with Umlaut in title bug - check
+      // TODO: Don't allow Umlaute and special characters in User name
       // BUG: Empty title results in wrong description (Take avaible title from existing exif data)
       // REVIEW: make output nicer if upload server config file is missing.
       // BUG: a not processed upload - i.e. picture is to big - i not detected = no filename
