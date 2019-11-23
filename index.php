@@ -55,6 +55,7 @@
       $default_week  = date('W');
 
       // IDEA: general footer with Authors and link to github
+      // TODO: Validate username (no Umlaute, etc) in website
 
     ?>
 

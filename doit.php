@@ -58,15 +58,18 @@
 
     <?php
 
+      // BUG: Umlaute in user name chrashes exiftool. (Don't allow Umlaut in User name)
+      // BUG: Umlaute in Title are droped in metadata
+      // BUG: Empty title results in wrong description (Take avaible title from existing exif data)
       // REVIEW: make output nicer if upload server config file is missing.
       // BUG: a not processed upload - i.e. picture is to big - i not detected = no filename
       // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
 
-      // IDEA: validate picture date against requested week/month and year
-      // Maybe calculate and check the date-range inbetween the foto should have been made
-      // $requested['=DateFrom']              = '';  // The date-range inbetween
-      // $requested['=DateTo']                = '';  // the foto should have been made
+      // TODO: validate picture date against requested week/month and year
+      //       Maybe calculate and check the date-range inbetween the foto should have been made
+      //       $requested['=DateFrom']              = '';  // The date-range inbetween
+      //       $requested['=DateTo']                = '';  // the foto should have been made
 
       //####################################################################
 

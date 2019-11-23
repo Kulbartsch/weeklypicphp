@@ -29,10 +29,11 @@
   // convert_command=<programname>  // imagemagick convert
   // exiftool_command=<programname> // EXIFtool
   // curl_command=<programname>     // curl
+  // lc_ctype=<os_locale>           
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)
-  // Don't forget to put the upload_server.config into the .gitignore file.
+  // Don't forget to put the upload_server.config into the .gitignore file!!!
 
   $upload_server    = 'na';
   $upload_login     = 'na';
@@ -43,6 +44,7 @@
   $convert_command  = 'na';     // imagemagick convert
   $exiftool_command = 'na';     // EXIFtool
   $curl_command     = 'na';     // curl
+  $lc_ctype         = 'na'; 
 
   $upload_server_f  = 'src/config.config';
   $upload_ok        = FALSE;
@@ -104,28 +106,38 @@
         } else {
           echo '<p>⚠️ Error in Upload-Server-Configuration, curl_command already defined.';
         }
+      } elseif (substr($line, 0, 9) == 'lc_ctype=') {
+        if($lc_ctype == 'na') {
+          $lc_ctype = trim(substr($line, 9));
+        } else {
+          echo '<p>⚠️ Error in Upload-Server-Configuration, lc_ctype already defined.';
+        }
       }
 
     }
 
-    if($upload_server == 'na' OR $upload_login == 'na') {
-      echo '<p>⚠️ Upload-Server-Configuration incomplete!';
-    } else {
-      $upload_ok = TRUE;
-    }
-
-    // Set Defaults - if not imported from file
-    if($usage_logging == 99)      { $usage_logging    = 1; }           // Default, log pages called
-    if($upload_folder == 'na')    { $upload_folder    = '_files/'; }   // Das Upload-Verzeichnis
-    if($command_log == 'na')      { $command_log      = '_log/exec_cmd.log'; }
-    if($usage_log == 'na')        { $usage_log        = '_log/usage.log'; }
-    if($convert_command == 'na')  { $convert_command  = '/usr/local/bin/convert'; }    // imagemagick convert
-    if($exiftool_command == 'na') { $exiftool_command = '/usr/local/bin/exiftool'; }   // EXIFtool
-    if($curl_command == 'na')     { $curl_command     = '/usr/bin/curl'; }             // curl
-
   } else {
     echo '<p>⚠️ Upload-Server-Configuration file is missing!';
   }
+
+  if($upload_server == 'na' OR $upload_login == 'na') {
+    echo '<p>⚠️ Upload-Server-Configuration incomplete!';
+  } else {
+    $upload_ok = TRUE;
+  }
+
+  // Set Defaults - if not imported from file
+  if($usage_logging == 99)      { $usage_logging    = 1; }           // Default, log pages called
+  if($upload_folder == 'na')    { $upload_folder    = '_files/'; }   // Das Upload-Verzeichnis
+  if($command_log == 'na')      { $command_log      = '_log/exec_cmd.log'; }
+  if($usage_log == 'na')        { $usage_log        = '_log/usage.log'; }
+  if($convert_command == 'na')  { $convert_command  = '/usr/local/bin/convert'; }    // imagemagick convert
+  if($exiftool_command == 'na') { $exiftool_command = '/usr/local/bin/exiftool'; }   // EXIFtool
+  if($curl_command == 'na')     { $curl_command     = '/usr/bin/curl'; }             // curl
+  if($lc_ctype == 'na')         { $lc_ctype         = 'en_US.UTF-8'; }
+
+  setlocale(LC_CTYPE, $lc_ctype);
+
 
   if(!$upload_ok) {
     echo '<br>Es ist kein automatischer Upload zu WeekyPic möglich. Dies kann nur manuell (Download+Upload) erfolgen.</p>';
