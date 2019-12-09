@@ -8,3 +8,4 @@ _files/*.JPEG
 *.config
 U9M*
 weeklypicphp.code-workspace
+src/upload_server.config
