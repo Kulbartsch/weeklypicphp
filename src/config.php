@@ -29,6 +29,7 @@
   // convert_command=<programname>  // imagemagick convert
   // exiftool_command=<programname> // EXIFtool
   // curl_command=<programname>     // curl
+  // TODO:destination_folder=<foldername> // Zielverzeichnis für die Ablage des Bildes 
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)

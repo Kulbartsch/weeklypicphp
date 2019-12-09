@@ -37,5 +37,8 @@ So sind beispielsweise, wenn der Künstler geändert werden soll, die folgenden 
 # Bekannte Probleme
 
 * Aus Darktable exportierte EXIF-Daten wahrscheinlich falsch.
-  * Es sieht so aus, dass aus Darktable exportierte Bilder bei der Verarbeitung mit exiftool zu einem `Error = Bad Format (0) für IFD0-Eintrag 0` führen. Das Bild wird dann nicht angepasst und die Verarbeitung bricht ab. Ich arbeite an einer Lösung, dass in diesem und ähnlichen Fällen die Metadaten neu, richtig geschrieben werden.
-* Es kann fälschlicherweise angezeigt werden, dass GPS Daten vorhanden sind, obwohl diese gelöscht wurden, weil noch eine GPS-Version-ID vorhanden ist. Geodaten wurden allerdings gelöscht.
+  * Es sieht so aus, dass in MacOS aus Darktable exportierte Bilder bei der Verarbeitung mit exiftool zu einem `Error = Bad Format (0) für IFD0-Eintrag 0` führen. Das Bild wird dann nicht angepasst und die Verarbeitung bricht ab. Ich arbeite an einer Lösung, dass in diesem und ähnlichen Fällen die Metadaten neu, richtig geschrieben werden.
+
+## behoben 
+
+* Es kann fälschlicherweise angezeigt werden, dass GPS Daten vorhanden sind, obwohl diese gelöscht wurden, weil noch eine GPS-Version-ID vorhanden ist. Geodaten wurden allerdings gelöscht. 
