@@ -54,4 +54,7 @@ So, for example, if you want to change the artist, the following tags are affect
 
 * Darktable EXIF data probably wrong.
   * It seems, that data exported from Darktable will result in an `Error = Bad format (0) for IFD0 entry 0` when processed with exiftool. In this case the picture can't be processed and the program stops. I'm working on a solution, that in this and similar cases the EXIF data will be rewritten correctly.
+
+## solved 
+
 * It may be incorrectly displayed that GPS data is present even though it has been deleted because a GPS version ID is still present. However, geodata has been deleted.

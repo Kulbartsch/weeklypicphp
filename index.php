@@ -62,7 +62,7 @@
     <p>
       <form action="doit.php" method="post" enctype="multipart/form-data">
         <p>
-          Bild-Datei auswählen:<br/>
+          Bild-Datei auswählen (max. 30 MB):<br/>
           <input type="file" name="fileToUpload" id="fileToUpload" required>
         </p>
         <p>

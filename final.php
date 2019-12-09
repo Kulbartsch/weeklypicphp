@@ -29,10 +29,10 @@
       $pathfilename = $_SESSION['pathfilename'];
       $filebasename = $_SESSION['filebasename'];
       $user         = $_SESSION['user'];
-      log_usage('3', $user);
 
       // upload
       if (isset($_POST['upload'])) { // upload button was klicked
+        log_usage('3u', $user);
         $command = $curl_command . ' -u ' . $upload_login . ' -X PUT --data-binary @"' .
                    $pathfilename . '" "' . $upload_server . $filebasename . '.jpg" 2>&1';
         exec($command, $data, $result);
@@ -48,6 +48,8 @@
         } else {
           echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
         }
+      } else {
+        log_usage('3d', $user);
       }
 
       // delete - always

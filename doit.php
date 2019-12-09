@@ -62,14 +62,10 @@
       // TODO: Don't allow Umlaute and special characters in User name
       // BUG: Empty title results in wrong description (Take avaible title from existing exif data)
       // REVIEW: make output nicer if upload server config file is missing.
-      // BUG: a not processed upload - i.e. picture is to big - i not detected = no filename
+      // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
-
-      // TODO: validate picture date against requested week/month and year
-      //       Maybe calculate and check the date-range inbetween the foto should have been made
-      //       $requested['=DateFrom']              = '';  // The date-range inbetween
-      //       $requested['=DateTo']                = '';  // the foto should have been made
+      // IDEA: validate if picture is for the current week/month (and year)
 
       //####################################################################
 
@@ -107,12 +103,16 @@
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
 
+      $default_month = date('n');
+      $default_week  = date('W');
       $requested_month = validate_number_and_return_string(sanitize_input("month_number", TRUE), 1, 12);
       $requested_week  = validate_number_and_return_string(sanitize_input("week_number", TRUE), 1, 52);
       if($_POST["timeframe"] == "Monat") {
         $filename = 'm_' . $requested_month . '_' . $user ;
+        $requested_period = 'M';
       } else { // asume Woche
         $filename = 'w_' . $requested_week . '_' . $user ;
+        $requested_period = 'W';
       }
 
 
@@ -210,8 +210,8 @@
 
       $requested['.ImageWidth']            = '2000';
       $requested['.ImageHeight']           = '2000';
-      $requested['ExifImageWidth']         = $requested['.ImageWidth'];
-      $requested['ExifImageHeight']        = $requested['.ImageHeight'];
+      // $requested['.ExifImageWidth']        = $requested['.ImageWidth'];
+      // $requested['.ExifImageHeight']       = $requested['.ImageHeight'];
       $requested['.Orientation']           = '';
 
       $requested['Artist']                 = $creator;
@@ -228,13 +228,16 @@
       $requested['.CreatorWorkURL']        = $requested['.URL'];
 
       $requested['?GPS']                   = $no_geo ? $tag_not_set : $tag_is_set;
+      $requested['=GPS']                   = $no_geo ? $tag_not_set : $tag_is_set;
       $requested['.GPS']                   = ''; // debug
       $requested['.GPSPosition']           = '';
 
       $requested['.CreateDate']            = '';
-      $requested['=Month']                 = $requested_month;
-      $requested['=Week']                  = $requested_week;
-
+      if($requested_period == 'M') {
+        $requested['=Month']               = $requested_month;
+      } else {
+        $requested['=Week']                = $requested_week;
+      }
 
       //####################################################################
       // display picture attributes (EXIF) existing compared to requested
@@ -244,6 +247,9 @@
 
 
       //####################################################################
+      // prozessing
+
+      //--------------------------------------------------------------------
       // resize picture
 
       $command =  $convert_command . ' ' . escapeshellarg($new_path) .
@@ -268,7 +274,7 @@
       }
 
 
-      //####################################################################
+      //--------------------------------------------------------------------
       // update picture EXIF to requested/required attributes
 
       // build exiftool commandline parameters
@@ -309,14 +315,15 @@
       // display picture attributes (EXIF) existing compared to requested
 
       echo '<h2>Eckdaten des <i>überarbeiteten</i> Bildes</h2>';
-      exif_display($new_path, $requested, TRUE);
+      $all_good = exif_display($new_path, $requested, TRUE);
+
 
       //####################################################################
       // display picture  and  furhter actions (buttons) to delete (and upload) picture
 
       echo '<h2>Das überarbeitete Bild! </h2>';
       echo '<p><img src="' . $new_path . '" alt="Your processed WeeklyPic" width="600" ><br />';
-      echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. (Firefox kann das.) Das sollte allerdings kein Problem sein.</small></p>';
+      echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. (Firefox kann das.) Das ist allerdings kein Problem für WeeklyPic.</small></p>';
       // HINT: Image Orientation (find it in the css style above) is currently only supported by Firefox
       // IDEA: Rotate a portrait image?
 
@@ -324,9 +331,16 @@
       $_SESSION['filebasename'] = $filename;
       $_SESSION['user'] = $user;
 
+    echo '<h2>Und nun?</h2>';
+
+    if($all_good = false) {
+      echo '<p>Es scheint ein Problem mit deinem Bild zu geben. (siehe "Eckdaten des überarbeiteten Bildes") ';
+      echo '   Bitte prüfe das und probiere es eventuel noch mal. ';
+      echo '   Solltest du meinen, dass alles in Ordnung ist, kannst du einfach fortfahren.</p>'; 
+    }
+
     ?>
 
-    <h2>Und nun?</h2>
     <p><?php if($upload_ok) { echo 'Hier kannst du das Bild nun dirket zum WeeklyPic-Upload senden und hier löschen.<br>'; } ?>
        Sollte dir das Ergebnis hier nicht gefallen, solltest du das Bild hier löschen. (Sonst wird es auch irgendwann später gelöscht.)</p>
     <p><form method="post" action="final.php?<?php echo htmlspecialchars(SID); ?>">
