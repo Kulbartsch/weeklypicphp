@@ -333,7 +333,7 @@
 
     echo '<h2>Und nun?</h2>';
 
-    if($all_good = false) {
+    if($all_good == false) {
       echo '<p>Es scheint ein Problem mit deinem Bild zu geben. (siehe "Eckdaten des überarbeiteten Bildes") ';
       echo '   Bitte prüfe das und probiere es eventuel noch mal. ';
       echo '   Solltest du meinen, dass alles in Ordnung ist, kannst du einfach fortfahren.</p>'; 
