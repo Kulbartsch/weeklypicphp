@@ -1,11 +1,12 @@
 .htaccess
 .DS_Store
-_files/*.jpg
-_files/*.jpeg
-_files/*.JPG
-_files/*.JPEG
+*.jpg
+*.jpeg
+*.JPG
+*.JPEG
 *.log
 *.config
 U9M*
 weeklypicphp.code-workspace
-src/upload_server.config
+_destination
+_destination/*

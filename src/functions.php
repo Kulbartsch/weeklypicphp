@@ -35,12 +35,12 @@
   function delete_file($filename) {
     if(file_exists($filename)) {
       if(unlink($filename) == false) {
-        echo '<p>⚠️ Fehler beim Löschen der Bild-Datei. (1)</p>';
+        echo '<p>⚡️ Fehler beim Löschen der Bild-Datei. Das sollte nicht passieren.</p>';
         echo '<p>Bitte informiere einen Admin über das Problem.</p>';
         return FALSE;
       } else {
         if(file_exists($filename)) {
-          echo '<p>⚠️ Fehler beim Löschen der Bild-Datei. (2)</p>';
+          echo '<p>⚡️ Fehler beim Löschen der Bild-Datei. (2)</p>';
           echo '<p>Bitte informiere einen Admin über das Problem.</p>';
           return FALSE;
         } else {
@@ -49,11 +49,45 @@
         }
       }
     } else {
-      echo '<p>⚠️ Die zu löschende Bild-Datei existiert nicht. 🤔</p>';
+      echo '<p>⚡️ Die zu löschende Bild-Datei existiert nicht. 🤔</p>';
       echo '<p>Bitte informiere einen Admin über das Problem.</p>';
       return FALSE;
     }
   }
+
+
+  function move_file($filename, $destination) {
+    if(file_exists($filename)) {
+      if(substr($destination,-1) == '/') { 
+        $moveto = $destination . basename($filename); 
+      } else {
+        $moveto = $destination . '/' . basename($filename); 
+      }
+      if(file_exists($moveto)) {
+        echo '<p>Ein Bild mit diesem Namen existiert schon WeeklyPic Eingangs-Verzeichnis. Das vorhandene Bild wird gelöscht und durch das neue ersetzt. </p>';
+        delete_file($moveto);
+      } 
+      if(rename($filename, $moveto) == false) {
+        echo '<p>⚡️ Fehler beim Verschieben der Bild-Datei (1). Das sollte nicht passieren. </p>';
+        echo '<p>Bitte informiere einen Admin über das Problem.</p>';
+        return FALSE;
+      } else {
+        if(file_exists($filename)) {
+          echo '<p>⚠️ Fehler beim Verscheiben der Bild-Datei. (2) Das sollte nicht passieren. </p>';
+          echo '<p>Bitte informiere einen Admin über das Problem.</p>';
+          return FALSE;
+        } else {
+          echo '<p>✅ Das Bild wurde ins WeeklyPic Eingangs-Verzeichnis verschoben.</p>';
+          return TRUE;
+        }
+      }
+    } else {
+      echo '<p>⚠️ Die Bild-Datei existiert nicht (mehr). 🤔 Das sollte nicht passieren. </p>';
+      echo '<p>Bitte informiere einen Admin über das Problem.</p>';
+      return FALSE;
+    }
+  }
+
 
   function log_command_result($cmd, $result, $output, $user) {
     global $command_log;

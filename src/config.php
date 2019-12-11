@@ -9,6 +9,11 @@
   $tag_is_set       = 'ja';
   $tag_not_set      = 'nein';
 
+  $pushing_pic      = 0;  // 0=nothing & 1=cloud-upload & 2=filesystem & 4=FTP
+  $push_cloud       = 1;
+  $push_filesystem  = 2;
+  $push_ftp         = 4;
+
   date_default_timezone_set('Europe/Berlin');  // see https://www.php.net/manual/en/timezones.php
 
   if($debugging) { // debug
@@ -19,36 +24,42 @@
   // The file must contain at least the first two lines to enable upload.
   // There must be *no* space between the parametername and the '=' !
   // ----
-  // server=<URL of the server>
-  // login=<password>
+  // TODO:For consitency and also accept "cloud_server" and login.
+  // [cloud_]server=<URL of the server>  // URL to NextCloud or OwnCloud Server
+  // [cloud_]login=<password>            // Login to NextCloud or OwnCloud Server as URL addition
   // # optional parameters
-  // loglevel=<n>                   // 0=no logging, 1=only pages, 2=and user
-  // upload_folder=<foldername>     // Das Upload-Verzeichnis
+  // loglevel=<n>                       // 0=no logging, 1=only pages, 2=and user
+  // upload_folder=<foldername>         // Das Upload-Verzeichnis
   // command_log=<filename>
   // usage_log=<filename>
-  // convert_command=<programname>  // imagemagick convert
-  // exiftool_command=<programname> // EXIFtool
-  // curl_command=<programname>     // curl
+  // convert_command=<programname>      // imagemagick convert
+  // exiftool_command=<programname>     // EXIFtool
+  // curl_command=<programname>         // curl
   // lc_ctype=<os_locale>           
-  // TODO:destination_folder=<foldername> // Zielverzeichnis für die Ablage des Bildes 
+  // destination_folder=<foldername>    // Zielverzeichnis für die Ablage des Bildes - if folder is not set it's not used
+  // IDEA:ftp_destination=<URL>           // i.e. sftp://example.com/destination/path - if destination is not set no sftp upload is done
+  // IDEA:ftp_login=<user:pw>             // username:password for sftp server
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)
   // Don't forget to put the upload_server.config into the .gitignore file!!!
 
-  $upload_server    = 'na';
-  $upload_login     = 'na';
-  $usage_logging    =  99;      //  99=unset
-  $upload_folder    = 'na';     // Das Upload-Verzeichnis
-  $command_log      = 'na';
-  $usage_log        = 'na';
-  $convert_command  = 'na';     // imagemagick convert
-  $exiftool_command = 'na';     // EXIFtool
-  $curl_command     = 'na';     // curl
-  $lc_ctype         = 'na'; 
+  $upload_server      = 'na';
+  $upload_login       = 'na';
+  $usage_logging      =  99;      //  99=unset
+  $upload_folder      = 'na';     // Das Upload-Verzeichnis
+  $command_log        = 'na';
+  $usage_log          = 'na';
+  $convert_command    = 'na';     // imagemagick convert
+  $exiftool_command   = 'na';     // EXIFtool
+  $curl_command       = 'na';     // curl
+  $lc_ctype           = 'na'; 
+  $destination_folder = 'na';
+  $ftp_destination    = 'na';
+  $ftp_login          = 'na';
 
   $upload_server_f  = 'src/config.config';
-  $upload_ok        = FALSE;
+ 
   if (file_exists($upload_server_f)) {
     $server_config_lines = explode(PHP_EOL, file_get_contents($upload_server_f));
     foreach ($server_config_lines as $line) {
@@ -105,27 +116,41 @@
         if($curl_command == 'na') {
           $curl_command = trim(substr($line, 13));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, curl_command already defined.';
+          echo '<p>⚠️ Error in configuration, curl_command already defined.';
         }
       } elseif (substr($line, 0, 9) == 'lc_ctype=') {
         if($lc_ctype == 'na') {
           $lc_ctype = trim(substr($line, 9));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, lc_ctype already defined.';
+          echo '<p>⚠️ Error in configuration, lc_ctype already defined.';
+        }                            //  1234567890123456789012345
+      } elseif (substr($line, 0, 19) == 'destination_folder=') {
+        if($destination_folder == 'na') {
+          $destination_folder = trim(substr($line, 19));
+        } else {
+          echo '<p>⚠️ Error in configuration, destination_folder already defined.';
         }
       }
 
-    }
+    }  
 
   } else {
-    echo '<p>⚠️ Upload-Server-Configuration file is missing!';
+    echo '<p>⚠️ Upload-Server-Configuration file is missing!</p>';
   }
 
-  if($upload_server == 'na' OR $upload_login == 'na') {
-    echo '<p>⚠️ Upload-Server-Configuration incomplete!';
-  } else {
-    $upload_ok = TRUE;
-  }
+  // $pushing_pic      = 0;  // 0=nothing & 1=cloud-upload & 2=filesystem & 4=FTP
+  // $push_cloud       = 1;
+  // $push_filesystem  = 2;
+  // $push_ftp         = 4;
+  if($upload_server <> 'na' AND $upload_login <> 'na') {
+    $pushing_pic = $pushing_pic | $push_cloud;
+  } 
+  if($destination_folder <> 'na') {
+    $pushing_pic = $pushing_pic | $push_filesystem;
+  } 
+  if($ftp_destination <> 'na' AND $ftp_login <> 'na') {
+    $pushing_pic = $pushing_pic | $push_ftp;
+  } 
 
   // Set Defaults - if not imported from file
   if($usage_logging == 99)      { $usage_logging    = 1; }           // Default, log pages called
@@ -139,9 +164,8 @@
 
   setlocale(LC_CTYPE, $lc_ctype);
 
-
-  if(!$upload_ok) {
-    echo '<br>Es ist kein automatischer Upload zu WeekyPic möglich. Dies kann nur manuell (Download+Upload) erfolgen.</p>';
+  if($pushing_pic == 0) {
+    echo '<p>Es ist kein automatischer Upload zu WeekyPic möglich. Dies kann nur manuell (Download+Upload) erfolgen.</p>';
   }
 
   if(1 == 2) { // debug

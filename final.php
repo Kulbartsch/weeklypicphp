@@ -33,27 +33,48 @@
       // upload
       if (isset($_POST['upload'])) { // upload button was klicked
         log_usage('3u', $user);
-        $command = $curl_command . ' -u ' . $upload_login . ' -X PUT --data-binary @"' .
-                   $pathfilename . '" "' . $upload_server . $filebasename . '.jpg" 2>&1';
-        exec($command, $data, $result);
-        if($debugging) { // debug
-          echo "<p>command: "; print_r($command);
-          echo "<br>data: <br><pre>"; print_r($data); echo "</pre>";
-          echo "<br>result: "; print_r($result);
-          echo "</p>";
+
+        if($pushing_pic == 0) {
+          echo '<p>⚡️ Fehler: WeeklyPic Bereitstellung angefordert, aber keine Ziel Konfiguration gefunden.</p>';
         }
-        if($result !== 0) {
-          log_command_result($command, $result, $data, $user);
-          echo '<p>⚠️ Problem beim Upload aufgetreten.</p>';
-        } else {
-          echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
+        
+        if(($pushing_pic & $push_cloud) > 0) {
+          $command = $curl_command . ' -u ' . $upload_login . ' -X PUT --data-binary @"' .
+                    $pathfilename . '" "' . $upload_server . $filebasename . '.jpg" 2>&1';
+          exec($command, $data, $result);
+          if($debugging) { // debug
+            echo "<p>command: "; print_r($command);
+            echo "<br>data: <br><pre>"; print_r($data); echo "</pre>";
+            echo "<br>result: "; print_r($result);
+            echo "</p>";
+          }
+          if($result !== 0) {
+            log_command_result($command, $result, $data, $user);
+            echo '<p>⚡️ Problem beim Upload aufgetreten.</p>';
+          } else {
+            echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
+          }
+        } 
+
+        if(($pushing_pic & $push_ftp) > 0) {
+          echo '<p>⚡️ Fehler: Dateisystem Bereitstellung noch nichr implementiert.</p>';
+          // IDEA: Implement FTP push 
+          // Upload using curl on SFTP
+          //     curl  -k "sftp://83.46.38.23:22/CurlPutTest/" --user "testuser:testpassword" -T "C:\test\testfile.xml" --ftp-create-dirs
+        } 
+
+        if(($pushing_pic & $push_filesystem) > 0) {
+          move_file($pathfilename, $destination_folder); 
         }
-      } else {
+
+      } else {  // no upload 
         log_usage('3d', $user);
       }
 
-      // delete - always
-      delete_file($pathfilename);
+      // delete - always, except is moved by filesystem delivery
+      if(($pushing_pic & $push_filesystem) == 0) {
+        delete_file($pathfilename);
+      }
 
     ?>
 

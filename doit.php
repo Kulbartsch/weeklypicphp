@@ -65,7 +65,8 @@
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
-      // IDEA: validate if picture is for the current week/month (and year)
+      // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
+      // TODO: make all picture delivery services optional
 
       //####################################################################
 
@@ -334,18 +335,19 @@
     echo '<h2>Und nun?</h2>';
 
     if($all_good == false) {
-      echo '<p>Es scheint ein Problem mit deinem Bild zu geben. (siehe "Eckdaten des überarbeiteten Bildes") ';
+      echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. (siehe "Eckdaten des überarbeiteten Bildes") ';
       echo '   Bitte prüfe das und probiere es eventuel noch mal. ';
       echo '   Solltest du meinen, dass alles in Ordnung ist, kannst du einfach fortfahren.</p>'; 
     }
 
+    // TODO: inform user about the ways the picture is pushed 
     ?>
 
-    <p><?php if($upload_ok) { echo 'Hier kannst du das Bild nun dirket zum WeeklyPic-Upload senden und hier löschen.<br>'; } ?>
+    <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun dirket für WeeklyPic bereitstellen und hier löschen.<br>'; } ?>
        Sollte dir das Ergebnis hier nicht gefallen, solltest du das Bild hier löschen. (Sonst wird es auch irgendwann später gelöscht.)</p>
     <p><form method="post" action="final.php?<?php echo htmlspecialchars(SID); ?>">
-      <?php if($upload_ok) { echo '<input type="submit" name="upload" value="hochladen und löschen">'; } ?>
-      <input type="submit" name="delete" value="löschen" >&nbsp;&nbsp;&nbsp;
+      <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; } ?>
+      <input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;
     </form></p>
     <p>Alternativ kannst du das Bild (mit einem Rechtsklick auf das Bild)
        heruntergeladen und wieder auf
