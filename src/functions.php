@@ -161,4 +161,31 @@
     $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
   }
 
+
+  // uploadToWP() {
+  // #1 Datei
+  // #2 Typ w/m
+  //   case "$2" in
+  //   w) ftp_dir="2019-woche-${newfile_kw#0*}";;
+  //   m) case "$DATE_MONTH" in
+  //       01) ftp_dir="januar-2019";;
+  //       02) ftp_dir="februar-2019";;
+  //       03) ftp_dir="maerz-2019";;
+  //       04) ftp_dir="april-2019";;
+  //       05) ftp_dir="mai-2019";;
+  //       06) ftp_dir="juni-2019";;
+  //       07) ftp_dir="juli-2019";;
+  //       08) ftp_dir="august-2019";;
+  //       09) ftp_dir="september-2019";;
+  //       10) ftp_dir="oktober-2019";;
+  //       11) ftp_dir="november-2019";;
+  //       12) ftp_dir="dezember-2019";;
+  //     esac
+  // esac
+  //
+  // writeLog "Transferiere die Datei nach weeklypic.de in das Verzeichnis $ftp_dir"
+  // lftp -e "set ftp:ssl-allow no;cd $ftp_dir;put $1;quit;" -u ...
+  //
+  // }
+
 ?>

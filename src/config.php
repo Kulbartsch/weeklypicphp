@@ -35,7 +35,7 @@
   // convert_command=<programname>      // imagemagick convert
   // exiftool_command=<programname>     // EXIFtool
   // curl_command=<programname>         // curl
-  // lc_ctype=<os_locale>           
+  // lc_ctype=<os_locale>               // locale matching OS avaible locale, should be UTF8 
   // destination_folder=<foldername>    // Zielverzeichnis für die Ablage des Bildes - if folder is not set it's not used
   // IDEA:ftp_destination=<URL>           // i.e. sftp://example.com/destination/path - if destination is not set no sftp upload is done
   // IDEA:ftp_login=<user:pw>             // username:password for sftp server
@@ -44,7 +44,7 @@
   // not handy if you use github. ;)
   // Don't forget to put the upload_server.config into the .gitignore file!!!
 
-  $upload_server      = 'na';
+  $upload_server      = 'na';     // Next/Own-Cloud Server
   $upload_login       = 'na';
   $usage_logging      =  99;      //  99=unset
   $upload_folder      = 'na';     // Das Upload-Verzeichnis
@@ -68,74 +68,74 @@
         if($upload_server == 'na') {
           $upload_server = trim(substr($line, 7));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, server already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, server already defined.</p>';
         }
       } elseif (substr($line, 0, 6) == 'login=') {
         if($upload_login == 'na') {
           $upload_login = trim(substr($line, 6));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, login already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, login already defined.</p>';
         }
       } elseif (substr($line, 0, 9) == 'loglevel=') {
         if($usage_logging == 99) {
           $usage_logging = intval(trim(substr($line, 9)));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, loglevel already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, loglevel already defined.</p>';
         }
       } elseif (substr($line, 0, 14) == 'upload_folder=') {
         if($upload_folder == 'na') {
           $upload_folder = trim(substr($line, 14));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, upload_folder already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, upload_folder already defined.</p>';
         }
       } elseif (substr($line, 0, 12) == 'command_log=') {
         if($command_log == 'na') {
           $command_log = trim(substr($line, 12));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, command_log already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, command_log already defined.</p>';
         }
       } elseif (substr($line, 0, 10) == 'usage_log=') {
         if($usage_log == 'na') {
           $usage_log = trim(substr($line, 10));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, usage_log already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, usage_log already defined.</p>';
         }
       } elseif (substr($line, 0, 16) == 'convert_command=') {
         if($convert_command == 'na') {
           $convert_command = trim(substr($line, 16));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, convert_command already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, convert_command already defined.</p>';
         }
       } elseif (substr($line, 0, 17) == 'exiftool_command=') {
         if($exiftool_command == 'na') {
           $exiftool_command = trim(substr($line, 17));
         } else {
-          echo '<p>⚠️ Error in Upload-Server-Configuration, exiftool_command already defined.';
+          echo '<p>⚠️ Error in Upload-Server-Configuration, exiftool_command already defined.</p>';
         }
       } elseif (substr($line, 0, 13) == 'curl_command=') {
         if($curl_command == 'na') {
           $curl_command = trim(substr($line, 13));
         } else {
-          echo '<p>⚠️ Error in configuration, curl_command already defined.';
+          echo '<p>⚠️ Error in configuration, curl_command already defined.</p>';
         }
       } elseif (substr($line, 0, 9) == 'lc_ctype=') {
         if($lc_ctype == 'na') {
           $lc_ctype = trim(substr($line, 9));
         } else {
-          echo '<p>⚠️ Error in configuration, lc_ctype already defined.';
+          echo '<p>⚠️ Error in configuration, lc_ctype already defined.</p>';
         }                            //  1234567890123456789012345
       } elseif (substr($line, 0, 19) == 'destination_folder=') {
         if($destination_folder == 'na') {
           $destination_folder = trim(substr($line, 19));
         } else {
-          echo '<p>⚠️ Error in configuration, destination_folder already defined.';
+          echo '<p>⚠️ Error in configuration, destination_folder already defined.</p>';
         }
       }
 
     }  
 
   } else {
-    echo '<p>⚠️ Upload-Server-Configuration file is missing!</p>';
+    echo '<p>⚠️ Server-Configuration file is missing!</p>';
   }
 
   // $pushing_pic      = 0;  // 0=nothing & 1=cloud-upload & 2=filesystem & 4=FTP

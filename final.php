@@ -50,7 +50,7 @@
           }
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
-            echo '<p>⚡️ Problem beim Upload aufgetreten.</p>';
+            echo '<p>⚡️ Problem beim Cloud-Upload aufgetreten.</p>';
           } else {
             echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
           }
@@ -60,7 +60,22 @@
           echo '<p>⚡️ Fehler: Dateisystem Bereitstellung noch nichr implementiert.</p>';
           // IDEA: Implement FTP push 
           // Upload using curl on SFTP
-          //     curl  -k "sftp://83.46.38.23:22/CurlPutTest/" --user "testuser:testpassword" -T "C:\test\testfile.xml" --ftp-create-dirs
+          //     curl  -k "sftp://844.421.42.23:22/CurlPutTest/" --user "testuser:testpassword" -T "C:\test\testfile.xml" --ftp-create-dirs
+          $command = $curl_command . ' -k "' . $ftp_destination . '" --user "' . $ftp_login . '" -T "' .
+                     $pathfilename . '" --ftp-create-dirs 2>&1';
+          exec($command, $data, $result);
+          if($debugging) { // debug
+            echo "<p>command: "; print_r($command);
+            echo "<br>data: <br><pre>"; print_r($data); echo "</pre>";
+            echo "<br>result: "; print_r($result);
+            echo "</p>";
+          }
+          if($result !== 0) {
+            log_command_result($command, $result, $data, $user);
+            echo '<p>⚡️ Problem beim FTP-Upload aufgetreten.</p>';
+          } else {
+            echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
+          }  
         } 
 
         if(($pushing_pic & $push_filesystem) > 0) {
