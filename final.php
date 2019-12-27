@@ -29,6 +29,10 @@
       $pathfilename = $_SESSION['pathfilename'];
       $filebasename = $_SESSION['filebasename'];
       $user         = $_SESSION['user'];
+      $filename     = $_SESSION['filename'];
+      $per_type     = $_SESSION['per_type'];
+      $period       = $_SESSION['period'];
+      $year         = $_SESSION['year'];
 
       // upload
       if (isset($_POST['upload'])) { // upload button was klicked
@@ -57,12 +61,17 @@
         } 
 
         if(($pushing_pic & $push_ftp) > 0) {
-          echo '<p>⚡️ Fehler: Dateisystem Bereitstellung noch nichr implementiert.</p>';
-          // IDEA: Implement FTP push 
-          // Upload using curl on SFTP
+          
+          // Use configured command for upload
+          $command = str_replace('$fqfn$', $pathfilename, $ftp_cmd);
+          $command = str_replace('$file$', $filename, $ftp_cmd);
+          $command = str_replace('$dir$', uploadWPdir($per_type, $period, $year), $command);
+
+          // Alternative Upload using curl on SFTP
           //     curl  -k "sftp://844.421.42.23:22/CurlPutTest/" --user "testuser:testpassword" -T "C:\test\testfile.xml" --ftp-create-dirs
-          $command = $curl_command . ' -k "' . $ftp_destination . '" --user "' . $ftp_login . '" -T "' .
-                     $pathfilename . '" --ftp-create-dirs 2>&1';
+          // $command = $curl_command . ' -k "' . $ftp_destination . '" --user "' . $ftp_login . '" -T "' .
+          //           $pathfilename . '" --ftp-create-dirs 2>&1';
+
           exec($command, $data, $result);
           if($debugging) { // debug
             echo "<p>command: "; print_r($command);

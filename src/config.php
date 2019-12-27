@@ -37,8 +37,7 @@
   // curl_command=<programname>         // curl
   // lc_ctype=<os_locale>               // locale matching OS avaible locale, should be UTF8 
   // destination_folder=<foldername>    // Zielverzeichnis für die Ablage des Bildes - if folder is not set it's not used
-  // IDEA:ftp_destination=<URL>           // i.e. sftp://example.com/destination/path - if destination is not set no sftp upload is done
-  // IDEA:ftp_login=<user:pw>             // username:password for sftp server
+  // ftp_exec=<full ftp command with parameters> // $file$ , $fqfn$ (full qualified filename) and $dir$ will be replaced
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)
@@ -55,8 +54,7 @@
   $curl_command       = 'na';     // curl
   $lc_ctype           = 'na'; 
   $destination_folder = 'na';
-  $ftp_destination    = 'na';
-  $ftp_login          = 'na';
+  $ftp_exec           = 'na';
 
   $upload_server_f  = 'src/config.config';
  
@@ -130,8 +128,15 @@
         } else {
           echo '<p>⚠️ Error in configuration, destination_folder already defined.</p>';
         }
+      } elseif (substr($line, 0, 9) == 'ftp_exec=') {
+        if($ftp_exec == 'na') {
+          $ftp_exec = trim(substr($line, 9));
+        } else {
+          echo '<p>⚠️ Error in configuration, ftp_exec already defined.</p>';
+        }
       }
 
+      
     }  
 
   } else {
@@ -148,7 +153,7 @@
   if($destination_folder <> 'na') {
     $pushing_pic = $pushing_pic | $push_filesystem;
   } 
-  if($ftp_destination <> 'na' AND $ftp_login <> 'na') {
+  if($ftp_exec <> 'na' ) {
     $pushing_pic = $pushing_pic | $push_ftp;
   } 
 

@@ -69,18 +69,14 @@
     return (int) ( $other / ( ( $me * 1.0 ) / $to ) );  // must convert to float (* 1.0) and back to int
   }
 
-
-  function exif_display($filename, $requested, $complain, $req_week = 0) {
+  function get_exif_data($filename) {
     // reads EXIF data using exiftool -s (-s uses the technical names)
-    // displays EXIF data given by the requested hash compared to the requested data.
-    // returns: true when everything is ok, or false if some requested tags don't match
+    // returns: list of exif data
 
     // PHP function "exif_read_data" doesn't read all tags, i.e. "Title", so this is deactivated.
-
     //$exif_data = exif_read_data($new_path, "FILE,COMPUTED,ANY_TAG,IFDO,COMMENT,EXIF", true);
     //if($debugging == true) { print_r($exif_data); };
-
-    global $user;
+    
     global $exiftool_command;
     $cmd = $exiftool_command . ' -s ' . escapeshellarg($filename);
     exec($cmd, $exif_data, $exiftool_result);
@@ -93,7 +89,15 @@
     if($exiftool_result !== 0) { 
       log_command_result($cmd, $exiftool_result, $exif_data, $user);
       cancel_processing('Fehler beim Aufruf des EXIF-Tools!'); 
-    }
+    }  
+    return $exif_data;
+  }
+
+  function exif_display($exif_data, $requested, $complain, $req_week = 0) {
+    // displays EXIF data given by the requested hash compared to the requested data.
+    // returns: true when everything is ok, or false if some requested tags don't match
+
+    global $user;
 
     // Calculate new size
     $pic_width  = exif_get_tag_value($exif_data, 'ImageWidth');

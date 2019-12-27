@@ -134,6 +134,27 @@
     }
   }
 
+  // get year of picture 
+  function get_picture_year($tags) {
+    $picdate = get_picture_date($tags);
+    if($picdate == 'nodate') {
+      return 0;
+    } else {
+      return $picdate->format('Y');
+    }
+  }
+    
+  // get year of week from last day of week
+  function get_picture_year_of_week($tags) {
+    $picdates = picture_dates($tags);
+    if( $picdates['result'] != 'ok') {
+      return 0;
+    } else {
+      return $picdates['wp_week_end_date']->format('Y');
+    }
+  }
+
+
   // calculate several date parts - currently not used
   function picture_dates($tags) {
     $returns['result'] = 'ok';
@@ -162,30 +183,51 @@
   }
 
 
-  // uploadToWP() {
-  // #1 Datei
-  // #2 Typ w/m
-  //   case "$2" in
-  //   w) ftp_dir="2019-woche-${newfile_kw#0*}";;
-  //   m) case "$DATE_MONTH" in
-  //       01) ftp_dir="januar-2019";;
-  //       02) ftp_dir="februar-2019";;
-  //       03) ftp_dir="maerz-2019";;
-  //       04) ftp_dir="april-2019";;
-  //       05) ftp_dir="mai-2019";;
-  //       06) ftp_dir="juni-2019";;
-  //       07) ftp_dir="juli-2019";;
-  //       08) ftp_dir="august-2019";;
-  //       09) ftp_dir="september-2019";;
-  //       10) ftp_dir="oktober-2019";;
-  //       11) ftp_dir="november-2019";;
-  //       12) ftp_dir="dezember-2019";;
-  //     esac
-  // esac
-  //
-  // writeLog "Transferiere die Datei nach weeklypic.de in das Verzeichnis $ftp_dir"
-  // lftp -e "set ftp:ssl-allow no;cd $ftp_dir;put $1;quit;" -u ...
-  //
-  // }
+  function uploadWPdir($per_type, $period, $year) { // returns path
+    if( $per_type == 'w' OR $per_type == 'W') {
+      return $year . '-woche-' . $period;
+    } else {  // assuming $per_type == 'm' -> month 
+      switch ($period) {
+        case 1:
+          return 'januar-' . $year;
+          break;
+        case 2:
+          return 'februar-' . $year;
+          break;
+        case 3:
+          return 'maerz-' . $year;
+          break;
+        case 4:
+          return 'april-' . $year;
+          break;
+        case 5:
+          return 'mai-' . $year;
+          break;
+        case 6:
+          return 'juni-' . $year;
+          break;
+        case 7:
+          return 'juli-' . $year;
+          break;
+        case 8:
+          return 'august-' . $year;
+          break;
+        case 9:
+          return 'september-' . $year;
+          break;
+        case 10:
+          return 'oktober-' . $year;
+          break;
+        case 11:
+          return 'november-' . $year;
+          break;
+        case 12:
+          return 'dezember-' . $year;
+          break;
+        default:
+          cancel_processing('Wrong period:' . $per_type . ',' . $period . ',' . $year);
+      }
+    }
+  }
 
 ?>

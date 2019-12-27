@@ -110,10 +110,12 @@
       $requested_week  = validate_number_and_return_string(sanitize_input("week_number", TRUE), 1, 52);
       if($_POST["timeframe"] == "Monat") {
         $filename = 'm_' . $requested_month . '_' . $user ;
-        $requested_period = 'M';
+        $requested_period_type = 'M';
+        $requested_period      = $requested_month;
       } else { // asume Woche
         $filename = 'w_' . $requested_week . '_' . $user ;
-        $requested_period = 'W';
+        $requested_period_type = 'W';
+        $requested_period      = $requested_week;
       }
 
 
@@ -234,7 +236,7 @@
       $requested['.GPSPosition']           = '';
 
       $requested['.CreateDate']            = '';
-      if($requested_period == 'M') {
+      if($requested_period_type == 'M') {
         $requested['=Month']               = $requested_month;
       } else {
         $requested['=Week']                = $requested_week;
@@ -244,11 +246,12 @@
       // display picture attributes (EXIF) existing compared to requested
 
       echo '<h2>Eckdaten des <i>hochgeladenen</i> Bildes</h2>';
-      exif_display($new_path, $requested, FALSE);
+      $exif_data = get_exif_data($new_path);
+      exif_display($exif_data, $requested, FALSE);
 
 
       //####################################################################
-      // prozessing
+      // processing
 
       //--------------------------------------------------------------------
       // resize picture
@@ -316,7 +319,8 @@
       // display picture attributes (EXIF) existing compared to requested
 
       echo '<h2>Eckdaten des <i>überarbeiteten</i> Bildes</h2>';
-      $all_good = exif_display($new_path, $requested, TRUE);
+      $exif_data = get_exif_data($new_path);
+      $all_good = exif_display($exif_data, $requested, TRUE);
 
 
       //####################################################################
@@ -330,14 +334,23 @@
 
       $_SESSION['pathfilename'] = $new_path;
       $_SESSION['filebasename'] = $filename;
-      $_SESSION['user'] = $user;
+      $_SESSION['user']         = $user;
+      $_SESSION['filename']     = $filename.'.'.$extension;    
+      $_SESSION['per_type']     = $requested_period_type;
+      $_SESSION['period']       = $requested_period;
+      if($requested_period_type == 'W') {
+        $_SESSION['year']         = get_picture_year_of_week($exif_data);
+      } else { // Month
+        $_SESSION['year']         = get_picture_year($exif_data);
+      }
 
     echo '<h2>Und nun?</h2>';
 
     if($all_good == false) {
       echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. (siehe "Eckdaten des überarbeiteten Bildes") ';
-      echo '   Bitte prüfe das und probiere es eventuel noch mal. ';
-      echo '   Solltest du meinen, dass alles in Ordnung ist, kannst du einfach fortfahren.</p>'; 
+      echo '   Bitte prüfe das und probiere es noch mal. ';
+      echo '   Solltest du meinen, dass alles in Ordnung ist, melde dich im Slack im #entwickler_talk.</p>'; 
+      cancel_processing('Die Bilddaten sind nicht in Ordnung.');
     }
 
     // TODO: inform user about the ways the picture is pushed 
