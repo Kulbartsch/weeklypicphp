@@ -63,8 +63,8 @@
         if(($pushing_pic & $push_ftp) > 0) {
           
           // Use configured command for upload
-          $command = str_replace('$fqfn$', $pathfilename, $ftp_cmd);
-          $command = str_replace('$file$', $filename, $ftp_cmd);
+          $command = str_replace('$fqfn$', $pathfilename, $ftp_exec);
+          $command = str_replace('$file$', $filename, $command);
           $command = str_replace('$dir$', uploadWPdir($per_type, $period, $year), $command);
 
           // Alternative Upload using curl on SFTP

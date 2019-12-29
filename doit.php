@@ -137,7 +137,9 @@
         echo "<br>log file:          $command_log";
         echo "<br>upload filename:   $upload_file</p>";
       }
-
+      
+      // BUG: Check if file exists. There are still situations when it's not detected.
+      
       //Überprüfung der Dateiendung
       $extension = strtolower(pathinfo($upload_file, PATHINFO_EXTENSION));
       //$allowed_extensions = array('png', 'jpg', 'jpeg', 'JPG', 'JPEG');

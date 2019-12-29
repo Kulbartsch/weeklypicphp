@@ -32,6 +32,15 @@
   }
 
 
+  function strip_leading_zero($x) {
+    if(substr($x, 0, 1) == '0') {
+      return substr($x, 1);
+    } else {
+      return $x;
+    }
+  }
+
+
   function delete_file($filename) {
     if(file_exists($filename)) {
       if(unlink($filename) == false) {
@@ -146,7 +155,15 @@
     
   // get year of week from last day of week
   function get_picture_year_of_week($tags) {
+    global $debugging;
     $picdates = picture_dates($tags);
+    if($debugging) { // debug
+      echo "<p>picdates: "; print_r($picdates); 
+      echo "<br>picdates['result']: "; print_r($picdates['result']); 
+      echo "<br>picdates[wp_week_end_date]: "; print_r($picdates['wp_week_end_date']); 
+      echo "<br> ->format(Y) : "; print_r($picdates['wp_week_end_date']->format('Y')); 
+      echo "</p>";
+    }
     if( $picdates['result'] != 'ok') {
       return 0;
     } else {
@@ -157,9 +174,13 @@
 
   // calculate several date parts - currently not used
   function picture_dates($tags) {
+    global $debugging;
     $returns['result'] = 'ok';
     // get CreateDate tag
     $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
+    if($debugging) { // debug
+      echo "<p>exif_create_date: "; print_r($exif_create_date); echo "</p>";
+    }
     if( $exif_create_date === '' ) {
       $returns['result'] = 'Error: Picture has no create date!';
       return $returns;
@@ -180,12 +201,13 @@
     // $returns['wp_year_start_date'] = 
     // $returns['wp_year_end_date']   = 
     $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
+    return $returns;
   }
 
 
   function uploadWPdir($per_type, $period, $year) { // returns path
     if( $per_type == 'w' OR $per_type == 'W') {
-      return $year . '-woche-' . $period;
+      return $year . '-woche-' . strip_leading_zero($period);
     } else {  // assuming $per_type == 'm' -> month 
       switch ($period) {
         case 1:

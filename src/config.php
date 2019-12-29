@@ -103,7 +103,7 @@
           $convert_command = trim(substr($line, 16));
         } else {
           echo '<p>⚠️ Error in Upload-Server-Configuration, convert_command already defined.</p>';
-        }
+        }                            //  12345678901234567 
       } elseif (substr($line, 0, 17) == 'exiftool_command=') {
         if($exiftool_command == 'na') {
           $exiftool_command = trim(substr($line, 17));
@@ -173,9 +173,12 @@
     echo '<p>Es ist kein automatischer Upload zu WeekyPic möglich. Dies kann nur manuell (Download+Upload) erfolgen.</p>';
   }
 
-  if(1 == 2) { // debug
+  if($debugging) { // debug
     echo "<p>server: "; print_r($upload_server);
     echo "<br>login: "; print_r($upload_login);
+    echo "<br>ftp_exec: "; print_r($ftp_exec);
+    echo "<br>pushing_pic: "; print_r($pushing_pic);
+    echo "<br>exiftool_command: "; print_r($exiftool_command);
     echo "</p>";
   }
 
