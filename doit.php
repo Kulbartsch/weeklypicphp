@@ -364,10 +364,8 @@
       <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; } ?>
       <input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;
     </form></p>
-    <p>Alternativ kannst du das Bild (mit einem Rechtsklick auf das Bild)
-       heruntergeladen und wieder auf
-       <a href='https://upload.weeklypic.de/' target="_blank">https://upload.weeklypic.de/</a>
-       hochladen.</p>
+    <p>Du kannst das bearbeitete Bild (mit einem Rechtsklick auf das Bild)
+       für dich herunterladen heruntergeladen.</p>
 
   </body>
 </html>

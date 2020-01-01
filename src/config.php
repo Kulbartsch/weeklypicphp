@@ -1,6 +1,6 @@
 <?php
 
-  $debugging        = FALSE;
+  $debugging        = TRUE;
 
   $cookie_name      = "WeeklyPicPHPParam";
   $cookie_split     = "§%§";
@@ -24,14 +24,13 @@
   // The file must contain at least the first two lines to enable upload.
   // There must be *no* space between the parametername and the '=' !
   // ----
-  // TODO:For consitency and also accept "cloud_server" and login.
-  // [cloud_]server=<URL of the server>  // URL to NextCloud or OwnCloud Server
-  // [cloud_]login=<password>            // Login to NextCloud or OwnCloud Server as URL addition
-  // # optional parameters
+  // server=<URL of the server>         // URL to NextCloud or OwnCloud Server
+  // login=<password>                   // Login to NextCloud or OwnCloud Server as URL addition
   // loglevel=<n>                       // 0=no logging, 1=only pages, 2=and user
   // upload_folder=<foldername>         // Das Upload-Verzeichnis
   // command_log=<filename>
   // usage_log=<filename>
+  // user_file=<filename>               // file with participants, formated <slack-id>[;<call-as>]
   // convert_command=<programname>      // imagemagick convert
   // exiftool_command=<programname>     // EXIFtool
   // curl_command=<programname>         // curl
@@ -49,6 +48,7 @@
   $upload_folder      = 'na';     // Das Upload-Verzeichnis
   $command_log        = 'na';
   $usage_log          = 'na';
+  $user_file          = 'na';
   $convert_command    = 'na';     // imagemagick convert
   $exiftool_command   = 'na';     // EXIFtool
   $curl_command       = 'na';     // curl
@@ -91,12 +91,18 @@
           $command_log = trim(substr($line, 12));
         } else {
           echo '<p>⚠️ Error in Upload-Server-Configuration, command_log already defined.</p>';
-        }
+        }                            //  12345678901234567 
       } elseif (substr($line, 0, 10) == 'usage_log=') {
         if($usage_log == 'na') {
           $usage_log = trim(substr($line, 10));
         } else {
           echo '<p>⚠️ Error in Upload-Server-Configuration, usage_log already defined.</p>';
+        }                            //  12345678901234567 
+      } elseif (substr($line, 0, 10) == 'user_file=') { 
+        if($user_file == 'na') {
+          $user_file = trim(substr($line, 10));
+        } else {
+          echo '<p>⚠️ Error in Upload-Server-Configuration, user_file already defined.</p>';
         }
       } elseif (substr($line, 0, 16) == 'convert_command=') {
         if($convert_command == 'na') {
@@ -162,6 +168,7 @@
   if($upload_folder == 'na')    { $upload_folder    = '_files/'; }   // Das Upload-Verzeichnis
   if($command_log == 'na')      { $command_log      = '_log/exec_cmd.log'; }
   if($usage_log == 'na')        { $usage_log        = '_log/usage.log'; }
+  if($user_file == 'na')        { $user_file        = '_log/user.txt'; }
   if($convert_command == 'na')  { $convert_command  = '/usr/local/bin/convert'; }    // imagemagick convert
   if($exiftool_command == 'na') { $exiftool_command = '/usr/local/bin/exiftool'; }   // EXIFtool
   if($curl_command == 'na')     { $curl_command     = '/usr/bin/curl'; }             // curl

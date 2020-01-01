@@ -17,7 +17,7 @@ A simple PHP script to scale a JPG image to the right proportions and set EXIF d
 * Choose between *weekly* and *monthly* pic
 * Preset week and month numbers for filename (but changeable)
 * Automatic generation of valid weekly-pic filename
-* Direct upload of picture to upload.weeklypic.de
+* Direct upload of picture to weeklypic.de
 * Mobile-friendly layout
 * Call up a map with the GPS coordinates of the image (if available)
 

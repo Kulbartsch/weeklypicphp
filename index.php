@@ -21,10 +21,7 @@
     <p>Hier kannst du auf einfachem Weg dein Wochen- oder Monatsbild skalieren auf
        2000 Pixel (lange Kante) skalieren und deine EXIF Beschreibung als Tag setzen.
        Nach dem Bearbeiten kannst du das Ergebnis kannst du von hier direkt auf
-       Upload.WeeklyPic.de hochladen lassen.
-       Alternativ kannst du es einfach herunterladen und danach selbst auf
-       <a href='https://upload.weeklypic.de/'>https://upload.weeklypic.de/</a>
-       hochladen, wenn du möchtest.</p>
+       WeeklyPic.de hochladen lassen.
     <hr />
     <h3>Dein Bild und Eckdaten</h3>
 
@@ -101,9 +98,9 @@
        Zugriffe auf die Seite werden protokolliert.
        Wenn bei der Bildbearbeitung Fehler auftreten werden diese zu analyse Zwecken protokolliert.<br />
        Bei Problemen wende dich bitte an die Entwickler im WeeklyPic-Slack-Channel #entwickler-talk.<br />
-       Die Anwedung hat noch Beta Status. Für die Funktionalität und
-       die Verfügbarkeit wird weder Garantie noch Haftung übernommen.</p>
-    <p>Den Quellcode findest du auf <a href="https://github.com/ylz/weeklypicphp/">GitHub</a>.</p>
+       Für die Funktionalität und die Verfügbarkeit wird weder Garantie noch Haftung übernommen.</p>
+    <p>Dieses Programm ist unter der GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 lizensiert.
+       Den Quellcode findest du auf <a href="https://github.com/Kulbartsch/weeklypicphp">GitHub</a>.</p>
 
   </body>
 </html>

@@ -123,6 +123,9 @@
           ( ( ( $exif_tag    == '?GPS' ) || ( $exif_tag   == '=GPS' ) ) &&
               ( $exif_tag_is == 'nein'   &&   $exif_value == 'ja'   ) )    ) { 
         echo '-'; 
+      } elseif($exif_tag == '=Week' && $exif_tag_is == 0) { 
+        // REVIEW: in case there is no CreateDate there is no week - let's accept this for now
+        echo '-'; 
       } elseif($exif_tag_is == $exif_value) { 
         echo '✅'; 
       } else { 

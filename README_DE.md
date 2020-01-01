@@ -15,7 +15,7 @@ Ein (einfaches) PHP-Skript, um ein JPG-Bild auf die richtigen Proportionen zu sk
 * Wahlmöglichkeit zwischen *wöchentlich* und *monatlich*
 * Voreinstellung der Wochen- und Monatsnummern für den Dateinamen (änderbar)
 * Automatische Generierung eines gültigen Weekly-Pic Dateinamens
-* Direkter Upload des Bildes an upload.weeklypic.de
+* Direkter Upload des Bildes an weeklypic.de
 * Mobilgeräte freundliches Design
 * Aufruf einer Karte mit den GPS Koordinaten des Bildes (sofern vorhanden)
 
