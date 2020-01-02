@@ -4,6 +4,7 @@
 
   include 'src/functions.php';
   include 'src/exif_parsing.php';
+  include 'src/user.php';
 
   // session (must be handled before any html code)
   session_start();
@@ -59,19 +60,34 @@
     <?php
 
       // CHECK: Umlaute in user name chrashes exiftool, because umlaute are dropped. Might be fixed with Umlaut in title bug - check
-      // TODO: Don't allow Umlaute and special characters in User name
       // BUG: Empty title results in wrong description (Take avaible title from existing exif data)
-      // REVIEW: make output nicer if upload server config file is missing.
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
-      // TODO: make all picture delivery services optional
+      // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
+
+      //####################################################################
+
+      // TODO: Get all data from picture
+
+
+      //####################################################################
+
+      // TODO: validate user name against DB
+      $user_db = load_user();
+      $user_info = get_user($user, $user_db);
+      if($user_info == FALSE){
+        echo "<p>Ich kenne dich nicht. 🤨</p>";
+        $user_called = $user;
+      } else {
+        $user_called = $user_info["called"];
+      }
 
       //####################################################################
 
       echo "<h1>Hallo! ❤️</h1>";
-      echo "<p>Grüezi $user.</p>";
+      echo "<p>Grüezi $user_called.</p>";
 
       if (!empty($description))
       {
@@ -355,7 +371,6 @@
       cancel_processing('Die Bilddaten sind nicht in Ordnung.');
     }
 
-    // TODO: inform user about the ways the picture is pushed 
     ?>
 
     <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun dirket für WeeklyPic bereitstellen und hier löschen.<br>'; } ?>
