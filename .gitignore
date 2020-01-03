@@ -6,6 +6,7 @@
 *.JPEG
 *.log
 *.config
+*.bak
 U9M*
 weeklypicphp.code-workspace
 _destination

@@ -25,6 +25,8 @@
       // more functions
       include 'src/functions.php';
 
+      log_debug('>>>> START final.php','');
+
       // get values from Session
       $pathfilename = $_SESSION['pathfilename'];
       $filebasename = $_SESSION['filebasename'];
@@ -63,9 +65,12 @@
         if(($pushing_pic & $push_ftp) > 0) {
           
           // Use configured command for upload
+          $upload_dir = uploadWPdir($per_type, $period, $year);
           $command = str_replace('$fqfn$', $pathfilename, $ftp_exec);
           $command = str_replace('$file$', $filename, $command);
-          $command = str_replace('$dir$', uploadWPdir($per_type, $period, $year), $command);
+          $command = str_replace('$dir$', $upload_dir, $command);
+
+          log_debug('Upload to', $upload_dir . ' ' . $filename);
 
           // Alternative Upload using curl on SFTP
           //     curl  -k "sftp://844.421.42.23:22/CurlPutTest/" --user "testuser:testpassword" -T "C:\test\testfile.xml" --ftp-create-dirs
@@ -82,8 +87,12 @@
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
             echo '<p>⚡️ Problem beim FTP-Upload aufgetreten.</p>';
+            log_debug('Upload Error','');
+            log_usage('3E', $user, 'FTP Upload error. ' . $upload_dir . ' ' . $filename);
           } else {
             echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
+            log_debug('Upload OK','');
+            log_usage('3F', $user, 'FTP Upload to ' . $upload_dir . ' ' . $filename);
           }  
         } 
 

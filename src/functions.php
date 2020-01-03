@@ -110,19 +110,41 @@
     log_usage('CE', $user);
   }
 
-  function log_usage($page, $user) {
+  function log_usage($page, $user, $info = '') {
     global $usage_log;
     global $usage_logging;
     if($usage_logging == 0) { return; }
     if($usage_logging == 1) {
-      $log_msg = date("c") . ';' . $page . PHP_EOL ;
+      $log_msg = date("c") . ';' . $page . ';;' . $info . PHP_EOL ;
     } else {
-      $log_msg = date("c") . ';' . $page . ';' . $user . PHP_EOL ;
+      $log_msg = date("c") . ';' . $page . ';' . $user . ';' . $info . PHP_EOL ;
     }
     if(file_put_contents($usage_log, $log_msg, FILE_APPEND) === FALSE) {
       echo "<p>⚠️ Problem bei Log schreiben</p>";
     }
   }
+
+  function log_debug($log_msg, $log_var) {
+    global $debugging;
+    global $debug_log;
+    if($debugging) {
+      if(file_put_contents($debug_log, $log_msg . ':' . print_r($log_var, TRUE) . PHP_EOL, FILE_APPEND) === FALSE) {
+        echo "<p>⚠️ Problem bei Debug-Log schreiben</p>";
+      }
+    }
+  }
+
+  
+  // get any picture creation date 
+  // DateCreated
+  // CreateDate
+  // DateTimeOriginal
+  // DateTimeCreated
+  // SubSecCreateDate
+  // SubSecDateTimeOriginal
+  // ModifyDate
+  // FileModifyDate
+
 
   function get_picture_date($tags) {
     $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
@@ -157,13 +179,10 @@
   function get_picture_year_of_week($tags) {
     global $debugging;
     $picdates = picture_dates($tags);
-    if($debugging) { // debug
-      echo "<p>picdates: "; print_r($picdates); 
-      echo "<br>picdates['result']: "; print_r($picdates['result']); 
-      echo "<br>picdates[wp_week_end_date]: "; print_r($picdates['wp_week_end_date']); 
-      echo "<br> ->format(Y) : "; print_r($picdates['wp_week_end_date']->format('Y')); 
-      echo "</p>";
-    }
+    log_debug("get_picture_year_of_week, picdates", $picdates); 
+    log_debug("get_picture_year_of_week, picdates['result']", $picdates['result']); 
+    log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 
+    log_debug("get_picture_year_of_week,  ->format(Y)", $picdates['wp_week_end_date']->format('Y')); 
     if( $picdates['result'] != 'ok') {
       return 0;
     } else {
@@ -178,34 +197,50 @@
     $returns['result'] = 'ok';
     // get CreateDate tag
     $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
-    if($debugging) { // debug
-      echo "<p>exif_create_date: "; print_r($exif_create_date); echo "</p>";
-    }
+    log_debug("picture_dates,exif_create_date", $exif_create_date);
     if( $exif_create_date === '' ) {
       $returns['result'] = 'Error: Picture has no create date!';
       return $returns;
     }
     // convert Tag to date (CreateDate : 2019:05:15 22:58:54)
     $returns['date']  = DateTime::createFromFormat('Y:m:d G:i:s', $exif_create_date);
+    log_debug("picture_dates,returns[date]: ", $returns['date']);
     // $returns['month'] = $returns['date']->format('m'); 
     // $returns['week']  = $returns['date']->format('W'); 
     // $returns['year']  = $returns['date']->format('Y'); 
     $dayinweek = $returns['date']->format('w');  // Sunday = 0 ... Saturday = 6
+    log_debug("picture_dates,dayinweek", ($dayinweek));
     if ($dayinweek < 6) {
-      $returns['wp_week_start_date'] = $returns['date']->sub(new DateInterval('P'.($dayinweek+1).'D'));
-      $returns['wp_week_end_date']   = $returns['date']->add(new DateInterval('P'.(5-$dayinweek).'D'));
+      $tmpdate = clone $returns['date'];
+      log_debug("picture_dates,dayinweek<6,tmpdate", $tmpdate);
+      $returns['wp_week_start_date'] = $tmpdate->sub(new DateInterval('P'.($dayinweek+1).'D'));
+      log_debug("picture_dates,dayinweek<6,wp_week_start_date", ($returns['wp_week_start_date']));
+      $tmpdate = clone $returns['date'];
+      log_debug("picture_dates,dayinweek<6,tmpdate", $tmpdate);
+      $returns['wp_week_end_date']   = $tmpdate->add(new DateInterval('P'.(5-$dayinweek).'D'));
+      log_debug("picture_dates,dayinweek<6,wp_week_end_date", $returns['wp_week_end_date']);
     } else { // = 6 = saturday
       $returns['wp_week_start_date'] = $returns['date']; 
-      $returns['wp_week_end_date']   = $returns['date']->add(new DateInterval('P6D'));
+      $tmpdate = clone $returns['date'];
+      $returns['wp_week_end_date']   = $tmpdate->add(new DateInterval('P6D'));
+      log_debug("picture_dates,dayinweek=6,wp_week_start_date", ($returns['wp_week_start_date']));
+      log_debug("picture_dates,dayinweek=6,wp_week_end_date", ($returns['wp_week_end_date']));
     }
     // $returns['wp_year_start_date'] = 
     // $returns['wp_year_end_date']   = 
+    // BUG: that must not be the last day of the real week!
     $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
+    log_debug("picture_dates,wp_week", ($returns['wp_week']));
     return $returns;
   }
 
 
   function uploadWPdir($per_type, $period, $year) { // returns path
+    global $user;
+    if($year == 2019) { // this is no more possible 
+      // $year = 2020; 
+      log_usage('-WY', $user, 'Problem: Year 2019 used.');
+    }
     if( $per_type == 'w' OR $per_type == 'W') {
       return $year . '-woche-' . strip_leading_zero($period);
     } else {  // assuming $per_type == 'm' -> month 

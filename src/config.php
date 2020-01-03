@@ -1,6 +1,8 @@
 <?php
 
-  $debugging        = TRUE;
+  $debugging        = FALSE;
+
+  $server_doc_root  = $_SERVER['DOCUMENT_ROOT'];
 
   $cookie_name      = "WeeklyPicPHPParam";
   $cookie_split     = "§%§";
@@ -48,6 +50,7 @@
   $upload_folder      = 'na';     // Das Upload-Verzeichnis
   $command_log        = 'na';
   $usage_log          = 'na';
+  $debug_log          = 'na';
   $user_file          = 'na';
   $convert_command    = 'na';     // imagemagick convert
   $exiftool_command   = 'na';     // EXIFtool
@@ -57,6 +60,8 @@
   $ftp_exec           = 'na';
 
   $upload_server_f  = 'src/config.config';
+  // $upload_server_f  = $server_doc_root . 'src/config.config'; // BUG: das geht nicht
+  //TODO: fix all path like above to make it usable for admin page
  
   if (file_exists($upload_server_f)) {
     $server_config_lines = explode(PHP_EOL, file_get_contents($upload_server_f));
@@ -97,6 +102,12 @@
           $usage_log = trim(substr($line, 10));
         } else {
           echo '<p>⚠️ Error in Upload-Server-Configuration, usage_log already defined.</p>';
+        }                            //  12345678901234567 
+      } elseif (substr($line, 0, 10) == 'debug_log=') {
+        if($debug_log == 'na') {
+          $debug_log = trim(substr($line, 10));
+        } else {
+          echo '<p>⚠️ Error in Upload-Server-Configuration, debug_log already defined.</p>';
         }                            //  12345678901234567 
       } elseif (substr($line, 0, 10) == 'user_file=') { 
         if($user_file == 'na') {
@@ -167,7 +178,8 @@
   if($usage_logging == 99)      { $usage_logging    = 1; }           // Default, log pages called
   if($upload_folder == 'na')    { $upload_folder    = '_files/'; }   // Das Upload-Verzeichnis
   if($command_log == 'na')      { $command_log      = '_log/exec_cmd.log'; }
-  if($usage_log == 'na')        { $usage_log        = '_log/usage.log'; }
+  if($usage_log == 'na')        { $usage_log        = '_log/usage.log'; } 
+  if($debug_log == 'na')        { $debug_log        = '_log/debug.log'; } 
   if($user_file == 'na')        { $user_file        = '_log/user.txt'; }
   if($convert_command == 'na')  { $convert_command  = '/usr/local/bin/convert'; }    // imagemagick convert
   if($exiftool_command == 'na') { $exiftool_command = '/usr/local/bin/exiftool'; }   // EXIFtool

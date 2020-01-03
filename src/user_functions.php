@@ -20,7 +20,7 @@
       }
       $indexname = strtoupper($userid);
       $user[$indexname]["userid"] = $userid;
-      $user[$indexname]["called"] = $called;
+      $user[$indexname]["called"] = htmlspecialchars($called);
     }
 
     if($debugging) { // debug

@@ -87,6 +87,7 @@
       echo "</p>";
     }
     if($exiftool_result !== 0) { 
+      global $user;
       log_command_result($cmd, $exiftool_result, $exif_data, $user);
       cancel_processing('Fehler beim Aufruf des EXIF-Tools!'); 
     }  

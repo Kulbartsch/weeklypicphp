@@ -4,10 +4,12 @@
 
   include 'src/functions.php';
   include 'src/exif_parsing.php';
-  include 'src/user.php';
+  include 'src/user_functions.php';
 
   // session (must be handled before any html code)
   session_start();
+
+  log_debug('>>>> START doit.php', '');
 
   // _POST Var Handling
   // IDEA: Restrict $user to  characters? [a-z,A-Z,_,0-9]
@@ -59,6 +61,8 @@
 
     <?php
 
+  $upload_server_f  = $server_doc_root . 'src/config.config';
+      // BUG: check all variable output if it's converted with htmlspecialchars() 
       // CHECK: Umlaute in user name chrashes exiftool, because umlaute are dropped. Might be fixed with Umlaut in title bug - check
       // BUG: Empty title results in wrong description (Take avaible title from existing exif data)
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
@@ -74,11 +78,14 @@
 
       //####################################################################
 
-      // TODO: validate user name against DB
+      // validate user name against DB
       $user_db = load_user();
       $user_info = get_user($user, $user_db);
       if($user_info == FALSE){
         echo "<p>Ich kenne dich nicht. 🤨</p>";
+        log_usage('2E', $user, 'User ' . $user . ' unknown');
+
+        // TODO: cancel processing when user is unknown
         $user_called = $user;
       } else {
         $user_called = $user_info["called"];
