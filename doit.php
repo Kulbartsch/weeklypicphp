@@ -82,7 +82,7 @@
       $user_db = load_user();
       $user_info = get_user($user, $user_db);
       if($user_info == FALSE){
-        echo "<p>Ich kenne dich nicht. 🤨</p>";
+        //echo "<p>Ich kenne dich nicht. 🤨</p>";
         log_usage('2E', $user, 'User ' . $user . ' unknown');
 
         // TODO: cancel processing when user is unknown
