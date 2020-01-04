@@ -32,7 +32,7 @@
     } elseif(substr($tag,0,1) == '=') {  // will be calculated
       switch ($tag) {
         case '=Month':
-          return date('n', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
+          return date('n', strtotime(get_any_picture_date($list))); // REVIEW: is this secure/stable?
            break;
         case '=Week':
           // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
@@ -112,7 +112,8 @@
     }
     // $requested['ExifImageWidth']  = $requested['.ImageWidth'];
     // $requested['ExifImageHeight'] = $requested['.ImageHeight'];
-
+    // Important Tags
+    $must_be_ok = array( 'ImageDescription', '=Week' );
     // Display comparisom table
     echo '<p><table style="border:1">';
     echo "<tr><th>EXIF Tag</th><th>aktuell</th><th>soll</th><th>?</th></tr>";
@@ -127,11 +128,16 @@
       } elseif($exif_tag == '=Week' && $exif_tag_is == 0) { 
         // REVIEW: in case there is no CreateDate there is no week - let's accept this for now
         echo '-'; 
-      } elseif($exif_tag_is == $exif_value) { 
+      } elseif(trim($exif_tag_is) == trim($exif_value)) { 
         echo '✅'; 
-      } else { 
-        echo '⚠️'; 
-        $all_good = false;
+      } else {  
+        log_debug('exif_display,tag ' . $exif_tag . ' in must_be_ok, result', array_search( $exif_tag, $must_be_ok ));
+        if(array_search( $exif_tag, $must_be_ok ) === FALSE){
+          echo '⚠️';
+        } else {
+          $all_good = false;
+          echo '🛑';
+        }
       }
       echo "</td></tr>";
     }

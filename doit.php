@@ -80,9 +80,10 @@
 
       // validate user name against DB
       $user_db = load_user();
+      log_debug('user_db', $user_db);
       $user_info = get_user($user, $user_db);
-      if($user_info == FALSE){
-        //echo "<p>Ich kenne dich nicht. 🤨</p>";
+      if($user_info == 'not_found'){
+        echo "<p>Ich kenne dich nicht. 🤨</p>";
         log_usage('2E', $user, 'User ' . $user . ' unknown');
 
         // TODO: cancel processing when user is unknown
@@ -229,26 +230,26 @@
 
       $requested['.FileName']              = '';
 
-      $requested['Title']                  = $description;
-      $requested['ObjectName']             = $requested['Title'];
+      $requested['Title']                  = $description;                      // XMP
+      $requested['ObjectName']             = $requested['Title'];               // IPTC
 
-      $requested['ImageDescription']       = $user . ' / ' . $description;
-      $requested['Description']            = $requested['ImageDescription'];
-      $requested['Caption-Abstract']       = $requested['ImageDescription'];
+      $requested['ImageDescription']       = $user . ' / ' . $description;      // EXIF (bot)
+      $requested['Description']            = $requested['ImageDescription'];    // XMP
+      $requested['Caption-Abstract']       = $requested['ImageDescription'];    // IPTC
 
-      $requested['.ImageWidth']            = '2000';
-      $requested['.ImageHeight']           = '2000';
-      // $requested['.ExifImageWidth']        = $requested['.ImageWidth'];
+      $requested['.ImageWidth']            = '2000';                            // FILE
+      $requested['.ImageHeight']           = '2000';                            // FILE
+      // $requested['.ExifImageWidth']        = $requested['.ImageWidth'];      // 
       // $requested['.ExifImageHeight']       = $requested['.ImageHeight'];
       $requested['.Orientation']           = '';
 
-      $requested['Artist']                 = $creator;
-      $requested['Creator']                = $requested['Artist'];
-      $requested['By-line']                = $requested['Artist'];
+      $requested['Artist']                 = $creator;                          // EXIF
+      $requested['Creator']                = $requested['Artist'];              // XMP
+      $requested['By-line']                = $requested['Artist'];              // IPTC
 
-      $requested['Copyright']              = $license;
-      $requested['Rights']                 = $requested['Copyright'];
-      $requested['CopyrightNotice']        = $requested['Copyright'];
+      $requested['Copyright']              = $license;                          // EXIF
+      $requested['Rights']                 = $requested['Copyright'];           // XMP
+      $requested['CopyrightNotice']        = $requested['Copyright'];           // IPTC
       // $requested['ProfileCopyright']       = ''; // not user specific
 
       $requested['.URL']                   = '';
@@ -260,7 +261,7 @@
       $requested['.GPS']                   = ''; // debug
       $requested['.GPSPosition']           = '';
 
-      $requested['.CreateDate']            = '';
+      $requested['.CreateDate']            = '';                                // EXIF
       if($requested_period_type == 'M') {
         $requested['=Month']               = $requested_month;
       } else {
@@ -372,11 +373,12 @@
     echo '<h2>Und nun?</h2>';
 
     if($all_good == false) {
-      echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. (siehe "Eckdaten des überarbeiteten Bildes") ';
+      echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue mal im Abschnitt "Eckdaten des überarbeiteten Bildes" in die Tabelle.';
+      echo '   Dort markiert ein 🛑 das Problem.';
       echo '   Bitte prüfe das und probiere es noch mal. ';
       echo '   Solltest du meinen, dass alles in Ordnung ist, melde dich im Slack im #entwickler_talk.</p>'; 
       cancel_processing('Die Bilddaten sind nicht in Ordnung.');
-    }
+    } else {
 
     ?>
 
@@ -388,6 +390,8 @@
     </form></p>
     <p>Du kannst das bearbeitete Bild (mit einem Rechtsklick auf das Bild)
        für dich herunterladen heruntergeladen.</p>
+
+    <?PHP } ?>
 
   </body>
 </html>

@@ -126,38 +126,57 @@
 
   function log_debug($log_msg, $log_var) {
     global $debugging;
+    global $debugging2;
     global $debug_log;
-    if($debugging) {
+    if($debugging == TRUE || $debugging2 == TRUE) {
       if(file_put_contents($debug_log, $log_msg . ':' . print_r($log_var, TRUE) . PHP_EOL, FILE_APPEND) === FALSE) {
         echo "<p>⚠️ Problem bei Debug-Log schreiben</p>";
       }
     }
   }
 
-  
-  // get any picture creation date 
-  // DateCreated
-  // CreateDate
-  // DateTimeOriginal
-  // DateTimeCreated
-  // SubSecCreateDate
-  // SubSecDateTimeOriginal
-  // ModifyDate
-  // FileModifyDate
+
+  // get any picture creation date  
+  function get_any_picture_date($tags) {
+    $date_tags = array( 
+      "CreateDate",                  // EXIF
+      "DateTimeOriginal",            // EXIF (bot)
+      "DateCreated",                 // XMP
+      "DigitalCreationDate",         // IPTC 
+      "DateTimeCreated",             // Composite
+      "SubSecCreateDate",            // Composite
+      "SubSecDateTimeOriginal",      // Composite
+      "ModifyDate",                  // EXIF
+      "SubSecModifyDate",            // Composite
+      "FileModifyDate"               // FILE
+    );
+    $i = 0;
+    foreach($date_tags as $dt) {
+      $date = exif_get_tag_value($tags, $dt);
+      if($date != '') {
+        log_debug('get_any_picture_date, Tag', $dt . ', Index:' . $i . ', Value:' . $date);
+        return substr($date, 0, 19);
+      }
+      $i += 1;  
+    }
+    log_debug('get_any_picture_date, No date found.', '');
+    return 'nodate';
+  }
 
 
   function get_picture_date($tags) {
-    $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
-    if( $exif_create_date === '' ) {
+    $exif_create_date = get_any_picture_date($tags);
+    if(($exif_create_date == '') or ($exif_create_date == 'nodate')) {
       return 'nodate';
     } else {
-      return DateTime::createFromFormat('Y:m:d G:i:s', $exif_create_date);
+      return DateTime::createFromFormat('Y:m:d G:i:s', substr($exif_create_date,0,19));
     }
   }
 
   // weekly pic picture week is shifted by 2 days in the future 
   function get_picture_wp_week($tags) {
     $picdate = get_picture_date($tags);
+    log_debug('get_any_picture_wp_week, picdate', $picdate);
     if($picdate == 'nodate') {
       return 0;
     } else {
@@ -196,7 +215,7 @@
     global $debugging;
     $returns['result'] = 'ok';
     // get CreateDate tag
-    $exif_create_date = exif_get_tag_value($tags, 'CreateDate');
+    $exif_create_date = get_any_picture_date($tags);
     log_debug("picture_dates,exif_create_date", $exif_create_date);
     if( $exif_create_date === '' ) {
       $returns['result'] = 'Error: Picture has no create date!';
@@ -228,7 +247,9 @@
     }
     // $returns['wp_year_start_date'] = 
     // $returns['wp_year_end_date']   = 
-    // BUG: that must not be the last day of the real week!
+
+    // BUG: the following, that must not be the last day of the real week! 
+    //      In case that 1st of January is Saturday or Sunday, this will break. Because WeeklyPic Week ends on Friday.
     $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
     log_debug("picture_dates,wp_week", ($returns['wp_week']));
     return $returns;

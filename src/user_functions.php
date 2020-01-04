@@ -9,8 +9,11 @@
         cancel_processing("Missing user file.");
     }
 
-    $user_lines = explode(PHP_EOL, file_get_contents($user_file));
+    $user_lines = explode("\n", file_get_contents($user_file));  // PHP_EOL
+    log_debug('load_user,user_lines', $user_lines);
+    log_debug('load_user,processing lines:', '');
     foreach ($user_lines as $line) {
+      log_debug('load_user,line', $line);
       $parts = explode(";", $line, 3);
       $userid = trim($parts[0]);
       if(array_key_exists(1, $parts)){
@@ -25,7 +28,6 @@
 
     if($debugging) { // debug
       echo "<p>User: "; print_r($user); 
-      //echo "<br>picdates['result']: "; print_r($picdates['result']); 
       echo "</p>";
     }
 
@@ -33,11 +35,15 @@
   }
 
   function get_user($userid, $users) {
+    log_debug('get_user,userid', $userid);
     $indexname = strtoupper(trim($userid));
+    log_debug('get_user,indexname', $indexname);
     if(array_key_exists($indexname, $users)){
+      log_debug('get_user,user-struct', $users[$indexname]);
       return $users[$indexname];
     } else {
-      return FALSE;
+      log_debug('get_user,not-found in', $users);
+      return 'not_found';
     }
   }
 

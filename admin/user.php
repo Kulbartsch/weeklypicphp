@@ -25,13 +25,15 @@
       <li>Leere Zeilen werden ignoriert.</li>
       <li>Zeilen, welche mit einem # beginnen sind Kommentarzeilen und werden ignoriert.</li>
       <li>Alle anderen Zeilen beschreiben je Zeile einen Benutzer.</li>
-      <li>Eine Benutzer-Zeile kann aus mehereren Feldern bestehen, welche durch ein ; getrennt sind.</li>
+      <li>Eine Benutzer-Zeile kann aus mehreren Feldern bestehen, welche durch ein ; getrennt sind.</li>
       <li>Das erste Feld ist der Slack-Name und muss angegeben werden. Die folgenden Felder sind optional.</li>
       <li>Das zweite Feld ist der Name mit dem der Benuzer in der App angeredet wird. Ist dieser nicht angegeben wird der Slack-Name verwendet.</li>
       <li>Alle weiteren Felder werden ignoriert.</li>
     </ul>
     <p>Beispiel:<br />
-    <pre>PeterP;Peter;Peter Parker</pre></p>
+    <pre>Benutzername;Ansprache;weitere Felder werden ignoriert
+Johann_B;Johann Sebastian;j.bach@example.com
+Marie;;Marie.Curie@example.com</pre></p>
 
     <h3>Die Benutzer-Datei:</h3>
     <?php

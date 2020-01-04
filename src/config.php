@@ -1,6 +1,7 @@
 <?php
 
   $debugging        = FALSE;
+  $debugging2       = TRUE;
 
   $server_doc_root  = $_SERVER['DOCUMENT_ROOT'];
 

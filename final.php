@@ -100,6 +100,8 @@
           move_file($pathfilename, $destination_folder); 
         }
 
+      } elseif(isset($_POST['upload2'])) { // upload button to check directory
+        // TODO: ... 
       } else {  // no upload 
         log_usage('3d', $user);
       }
