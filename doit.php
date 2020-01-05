@@ -63,7 +63,6 @@
 
   $upload_server_f  = $server_doc_root . 'src/config.config';
       // BUG: check all variable output if it's converted with htmlspecialchars() 
-      // CHECK: Umlaute in user name chrashes exiftool, because umlaute are dropped. Might be fixed with Umlaut in title bug - check
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
@@ -86,6 +85,9 @@
         $user_called = $user;
       } else {
         $user_called = $user_info["called"];
+        log_debug("Username from form", $user);
+        $user = $user_info["userid"];  // to bring the case of the name to its default 
+        log_debug("Username from user_db", $user);
       }
 
 
@@ -229,7 +231,7 @@
           echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben aber ich habe einen Titel im Bild gefunden, der verwendet wird. (Siehe die Tabelle.)</p>';
           log_usage('2I', $user, 'Got picture titel from picture itself: ' . $description);
         } else {
-          echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.</p>';
+          echo '<p>❗️❓ Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.</p>';
           log_usage('2I', $user, 'No picture titel found in picture itself. Picture is without title.');
         }
       }

@@ -172,19 +172,19 @@
           }
         } else {
           echo '<p>⚠️ Error in configuration, check_user already defined.</p>';
-        }                            //  1234567890123456789012345
-      } elseif (substr($line, 0, 7) == 'debug2=') {
-          switch(trim(substr($line, 9))) {
+        }                           //  1234567890123456789012345
+      } elseif (substr($line, 0, 11) == 'debugging2=') {
+          switch(trim(substr($line, 11))) {
             case 'FALSE':
               $debugging2 = FALSE;
-              log_debug('config.php,debugging2', $debugging2);
+              // log_debug('config.php,debugging2', $debugging2);
               break;
             case 'TRUE':
               $debugging2 = TRUE;
-              log_debug('config.php,debugging2', $debugging2);
+              // log_debug('config.php,debugging2', $debugging2);
               break;
             default:
-              log_debug('config.php,illegal debugging2 parameter', $line);
+              // log_debug('config.php,illegal debugging2 parameter', $line);
           }
       }
       
