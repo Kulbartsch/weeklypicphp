@@ -17,12 +17,12 @@
   $creator      = sanitize_input("creator", FALSE);
   $license      = sanitize_input("license", FALSE);
   $description  = sanitize_input("description", FALSE);
-  $description_isset = false;
+  $description_isset = FALSE;
   if(array_key_exists("nogeo", $_POST)){
-    $no_geo = true;
+    $no_geo = TRUE;
     $nogeo_cookie = 'checked';
   } else {
-    $no_geo = false;
+    $no_geo = FALSE;
     $nogeo_cookie = ' ';
   }
 
@@ -64,17 +64,11 @@
   $upload_server_f  = $server_doc_root . 'src/config.config';
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // CHECK: Umlaute in user name chrashes exiftool, because umlaute are dropped. Might be fixed with Umlaut in title bug - check
-      // BUG: Empty title results in wrong description (Take avaible title from existing exif data)
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
-
-      //####################################################################
-
-      // TODO: Get title from picture if not given by form
-
 
       //####################################################################
 
@@ -85,12 +79,15 @@
       if($user_info == 'not_found'){
         echo "<p>Ich kenne dich nicht. 🤨</p>";
         log_usage('2E', $user, 'User ' . $user . ' unknown');
-
-        // TODO: cancel processing when user is unknown
+        // cancel processing when user is unknown
+        if($check_user == 'ON') {
+          cancel_processing('Unbekanter Teilnehmer: ' . $user);
+        }
         $user_called = $user;
       } else {
         $user_called = $user_info["called"];
       }
+
 
       //####################################################################
 
@@ -101,6 +98,8 @@
       {
         echo "<p>Dein Bild soll also <i>$description</i> heissen?!</p>";
         $description_isset = true;
+      } else {
+        log_usage('2I', $user, 'No picture titel given on startpage');
       }
 
       if($debugging == TRUE) {
@@ -220,6 +219,23 @@
 
 
       //####################################################################
+      // Get title from picture if not given by form
+
+      $exif_data = get_exif_data($new_path);
+      if($description_isset == FALSE) {
+        $description = get_any_title($exif_data);
+        if($description != '') {
+          $description_isset = TRUE;
+          echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben aber ich habe einen Titel im Bild gefunden, der verwendet wird. (Siehe die Tabelle.)</p>';
+          log_usage('2I', $user, 'Got picture titel from picture itself: ' . $description);
+        } else {
+          echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.</p>';
+          log_usage('2I', $user, 'No picture titel found in picture itself. Picture is without title.');
+        }
+      }
+    
+
+      //####################################################################
       // generate requestet EXIF values
 
       // values might start with a special character wich have the folowwing rules:
@@ -233,7 +249,11 @@
       $requested['Title']                  = $description;                      // XMP
       $requested['ObjectName']             = $requested['Title'];               // IPTC
 
-      $requested['ImageDescription']       = $user . ' / ' . $description;      // EXIF (bot)
+      if($description_isset) {
+        $requested['ImageDescription']     = $user . ' / ' . $description;      // EXIF (bot)
+      } else {
+        $requested['ImageDescription']     = $user;                             // EXIF (bot)
+      }
       $requested['Description']            = $requested['ImageDescription'];    // XMP
       $requested['Caption-Abstract']       = $requested['ImageDescription'];    // IPTC
 
@@ -268,11 +288,11 @@
         $requested['=Week']                = $requested_week;
       }
 
+
       //####################################################################
       // display picture attributes (EXIF) existing compared to requested
 
       echo '<h2>Eckdaten des <i>hochgeladenen</i> Bildes</h2>';
-      $exif_data = get_exif_data($new_path);
       exif_display($exif_data, $requested, FALSE);
 
 
@@ -374,7 +394,7 @@
 
     if($all_good == false) {
       echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue mal im Abschnitt "Eckdaten des überarbeiteten Bildes" in die Tabelle.';
-      echo '   Dort markiert ein 🛑 das Problem.';
+      echo '<br />Dort markiert ein 🛑 das Problem.';
       echo '   Bitte prüfe das und probiere es noch mal.</p>';
       if($pushing_pic > 0) {
         echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. Die Admins prüfen das dann.</p>'; 

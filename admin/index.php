@@ -18,10 +18,16 @@
 
   	<h1>WeeklyPic-One-Stop-Foto Admin-Seite</h1>
 
-    <p>Hier gibt es bisher nur:</p>
+    <p>Hier gibt es nur:</p>
     <ul>
       <li><a href="user.php">Bearbeiten der Benutzer-Datei</a></li>
       <li><a href="usagelog.php">Anzeige des Nutzungs-Logs</a></li>
+    </ul>
+
+    <p>Weitere Links:</p>
+    <ul>
+      <li><a href="https://www.weeklypic.de/">WeeklyPic Projektseite</a></li>
+      <li><a href="https://wepi.alice-and-bob.de/U9MGw5B4a2pA4tS2h/">WeeklyPic One-Stop-Foto Upload</a></li>
     </ul>
 
     <p>Sollte etwas nicht wie erwartet funktionieren, informiere bitte den Admin dieses Servers, bzw. im WeeklyPic-Slack-Channel #entwickler-talk.</p>

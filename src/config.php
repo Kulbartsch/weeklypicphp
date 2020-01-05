@@ -42,6 +42,7 @@
   // ftp_exec=<full ftp command with parameters> // $file$ , $fqfn$ (full qualified filename) and $dir$ will be replaced
   // check_dir=<check_dir>              // directory to transfer pictures to check to
   // debugging2=<TRUE|FALSE>            // write to debug file
+  // check_user=<ON|OFF>                // hard check username - if switched on and user is uknown processing is cancelled
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)
@@ -62,6 +63,7 @@
   $destination_folder = 'na';
   $ftp_exec           = 'na';
   $check_dir          = 'na';
+  $check_user         = 'na';
 
   $upload_server_f  = 'src/config.config';
   // $upload_server_f  = $server_doc_root . 'src/config.config'; // BUG: absolute config file-path call (for admin pages necessary) does not work
@@ -148,19 +150,29 @@
           $destination_folder = trim(substr($line, 19));
         } else {
           echo '<p>⚠️ Error in configuration, destination_folder already defined.</p>';
-        }
+        }                           //  1234567890123456789012345
       } elseif (substr($line, 0, 9) == 'ftp_exec=') {
         if($ftp_exec == 'na') {
           $ftp_exec = trim(substr($line, 9));
         } else {
           echo '<p>⚠️ Error in configuration, ftp_exec already defined.</p>';
         }                            //  1234567890123456789012345
-      } elseif (substr($line, 0, 11) == 'check_dir=') {
+      } elseif (substr($line, 0, 10) == 'check_dir=') {
         if($check_dir == 'na') {
-          $check_dir = trim(substr($line, 11));
+          $check_dir = trim(substr($line, 10));
         } else {
           echo '<p>⚠️ Error in configuration, check_dir already defined.</p>';
-        }
+        }                            //  1234567890123456789012345
+      } elseif (substr($line, 0, 11) == 'check_user=') {
+        if($check_user == 'na') {
+          $check_user = strtoupper(trim(substr($line, 11)));
+          if(($check_user != 'ON') and ($check_user != 'OFF')) {
+            $check_user = 'na';
+            echo '<p>⚠️ Error in configuration, illegal value, check_user: ' . $line . '</p>';
+          }
+        } else {
+          echo '<p>⚠️ Error in configuration, check_user already defined.</p>';
+        }                            //  1234567890123456789012345
       } elseif (substr($line, 0, 7) == 'debug2=') {
           switch(trim(substr($line, 9))) {
             case 'FALSE':
@@ -208,6 +220,7 @@
   if($curl_command == 'na')     { $curl_command     = '/usr/bin/curl'; }             // curl
   if($lc_ctype == 'na')         { $lc_ctype         = 'en_US.UTF-8'; }
   if($check_dir == 'na')        { $check_dir        = '00_check'; }
+  if($check_user == 'na')       { $check_user       = 'ON'; }
 
   setlocale(LC_CTYPE, $lc_ctype);
 

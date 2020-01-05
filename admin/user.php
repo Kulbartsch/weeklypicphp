@@ -61,7 +61,7 @@ Marie;;Marie.Curie@example.com</pre></p>
 
     </form>
 
-    <p>Hier geht es <a href="index.php">zurück</a>.</p>
+    <p>Hier geht es <a href="index.php">zurück ohne zu speichern!</a>.</p>
     <p>Sollte etwas nicht wie erwartet funktionieren, informiere bitte den Admin dieses Servers, bzw. im WeeklyPic-Slack-Channel #entwickler-talk.</p>
 
   </body>

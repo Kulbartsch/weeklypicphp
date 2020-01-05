@@ -47,7 +47,8 @@
           <br/>Das erste Zeichen ist eine Ziffer von 1-3 für die in der Reihenfolge üblicherweise
           aufgerufenen Seiten (1=Startseite=index.php, 2=Bearbeitungsseite=doit.php, 3=Fertig-Seite=final.php). 
           Sollte dort ein "-" stehen kommt der Eintrag aus einer Funktion welche von verschiedenen Seiten aufgerufen werden konnte.
-          <br/>Das zweite Zeichen ist entweder eine "E" für einen Fehler (Error) oder eine "I" für eine Information.</li>
+          <br/>Das zweite Zeichen ist entweder eine "E" für einen Fehler (Error), ein "A" für einen Abbruch in der Verarbeitung, ein "W" für eine Warnung, oder eine "I" für eine Information.
+          <br/>Warnungen sind die nicht erfolgreichen Bildprüfungen, die nur den Upload in das "check" Verzeichnis erlauben.</li>
       <li>Das dritte Feld ist - sofern gefüllt - der User-Name. (Die Erfassung des Names kann abgeschaltet sein.)</li>
       <li>Das vierte Feld enthält weitere Infos.</li>
     </ul>

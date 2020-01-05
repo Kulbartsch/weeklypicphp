@@ -165,4 +165,29 @@
     return $all_good;
   }
 
+  function get_any_title($tags) {
+    $title_tags = array( 
+      "ImageDescription",  // user / title combined - EXIF (bot)
+      "Title",             // XMP
+      "ObjectName"         // IPTC 
+    );
+    $i = 0;
+    foreach($title_tags as $tt) {
+      $title = exif_get_tag_value($tags, $tt);
+      if($title != '') {
+        if($tt == 'ImageDescription') { // seperate user / title
+          $title = trim(explode('/', $title, 2)[1]);
+        }
+        if ($title != '') {
+          log_debug('get_any_title, Tag', $tt . ', Index:' . $i . ', Value:' . $title);
+          return trim($title);
+        }
+      }
+      $i += 1;  
+    }
+    log_debug('get_any_title, No title found.', '');
+    return '';
+  }
+
+
 ?>

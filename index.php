@@ -17,7 +17,7 @@
   <body>
 
   	<h1>Hallo! ❤️</h1>
-    <h2>Wilkommen zu WeeklyPicPHP β!</h2>
+    <h2>Wilkommen zu WeeklyPicPHP!</h2>
     <p>Hier kannst du auf einfachem Weg dein Wochen- oder Monatsbild auf
        2000 Pixel (lange Kante) skalieren und deine EXIF Beschreibung als Tag setzen.
        Nach dem Bearbeiten kannst du das Ergebnis direkt auf WeeklyPic.de hochladen.
