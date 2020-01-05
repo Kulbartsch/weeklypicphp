@@ -18,10 +18,9 @@
 
   	<h1>Hallo! ❤️</h1>
     <h2>Wilkommen zu WeeklyPicPHP β!</h2>
-    <p>Hier kannst du auf einfachem Weg dein Wochen- oder Monatsbild skalieren auf
+    <p>Hier kannst du auf einfachem Weg dein Wochen- oder Monatsbild auf
        2000 Pixel (lange Kante) skalieren und deine EXIF Beschreibung als Tag setzen.
-       Nach dem Bearbeiten kannst du das Ergebnis kannst du von hier direkt auf
-       WeeklyPic.de hochladen lassen.
+       Nach dem Bearbeiten kannst du das Ergebnis direkt auf WeeklyPic.de hochladen.
     <hr />
     <h3>Dein Bild und Eckdaten</h3>
 
@@ -52,6 +51,7 @@
       $default_week  = date('W');
 
       // IDEA: general footer with Authors and link to github
+      // IDEA: "Expertenmodus: Bild ist WeeklyPic konform erstellt, keine MetaDaten oder Größe anpassen, nur prüfen und hochladen."
       // TODO: Validate username (no Umlaute, etc) in website
 
     ?>
@@ -96,7 +96,7 @@
     <h3>Disclaimer</h3>
     <p>Die Bilder, die nicht gelöscht wurden, werden periodisch von Hand gelöscht.<br>
        Zugriffe auf die Seite werden protokolliert.
-       Wenn bei der Bildbearbeitung Fehler auftreten werden diese zu analyse Zwecken protokolliert.<br />
+       Wenn bei der Bildbearbeitung Fehler auftreten werden die Fehlermeldungen zu Analyse Zwecken protokolliert.<br />
        Bei Problemen wende dich bitte an die Entwickler im WeeklyPic-Slack-Channel #entwickler-talk.<br />
        Für die Funktionalität und die Verfügbarkeit wird weder Garantie noch Haftung übernommen.</p>
     <p>Dieses Programm ist unter der GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 lizensiert.

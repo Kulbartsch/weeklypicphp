@@ -68,10 +68,10 @@
           // Use configured command for upload
           if(isset($_POST['upload2'])) {
             $upload_dir = $check_dir;
-            log_usage('3I', $user, 'Upload to ' . $upload_dir . ' (upload2)');
+            log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload2)');
           } else {
             $upload_dir = uploadWPdir($per_type, $period, $year);
-            log_usage('3I', $user, 'Upload to ' . $upload_dir . ' (upload)');
+            log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload)');
           }
           $command = str_replace('$fqfn$', $pathfilename, $ftp_exec);
           $command = str_replace('$file$', $filename, $command);
@@ -95,11 +95,11 @@
             log_command_result($command, $result, $data, $user);
             echo '<p>⚡️ Problem beim FTP-Upload aufgetreten.</p>';
             log_debug('Upload Error','');
-            log_usage('3E', $user, 'FTP Upload error. ' . $upload_dir . ' ' . $filename);
+            log_usage('3E', $user, 'FTP upload error. ' . $upload_dir . ' ' . $filename);
           } else {
             echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
             log_debug('Upload OK','');
-            log_usage('3I', $user, 'FTP Upload to ' . $upload_dir . ' ' . $filename);
+            log_usage('3I', $user, 'FTP upload successful to ' . $upload_dir . ' ' . $filename);
           }  
         } 
 

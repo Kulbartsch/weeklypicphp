@@ -248,7 +248,7 @@
     // $returns['wp_year_start_date'] = 
     // $returns['wp_year_end_date']   = 
 
-    // BUG: the following, that must not be the last day of the real week! 
+    // BUG: This is not the last day of the real week! Therefore a wrong year could be determinded.
     //      In case that 1st of January is Saturday or Sunday, this will break. Because WeeklyPic Week ends on Friday.
     $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
     log_debug("picture_dates,wp_week", ($returns['wp_week']));

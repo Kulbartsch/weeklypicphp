@@ -30,8 +30,7 @@
       if(file_exists($usage_log) == FALSE){
         cancel_processing("Missing usage_log file.");
       }
-      // read usage_log  // TODO: reduce to end-of-file 
-      // $lines = explode(PHP_EOL, file_get_contents($usage_log));
+      // read usage_log  
       exec('tail -n 200 ' . $usage_log, $lines, $result);
       echo '<p>Es werden die letzten 200 Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
     ?>
@@ -46,7 +45,7 @@
       <li>Das erste Feld ist ein Zeitstempel. (In Lokaler Zeit mit der Abweichung zu UTC.)</li>
       <li>Das zweite Feld besteht aus zwei Zeichen: 
           <br/>Das erste Zeichen ist eine Ziffer von 1-3 für die in der Reihenfolge üblicherweise
-          aufgerufenen Seiten (1=index.php, 2=doit.php, 3=final.php). 
+          aufgerufenen Seiten (1=Startseite=index.php, 2=Bearbeitungsseite=doit.php, 3=Fertig-Seite=final.php). 
           Sollte dort ein "-" stehen kommt der Eintrag aus einer Funktion welche von verschiedenen Seiten aufgerufen werden konnte.
           <br/>Das zweite Zeichen ist entweder eine "E" für einen Fehler (Error) oder eine "I" für eine Information.</li>
       <li>Das dritte Feld ist - sofern gefüllt - der User-Name. (Die Erfassung des Names kann abgeschaltet sein.)</li>

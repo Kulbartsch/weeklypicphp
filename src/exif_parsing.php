@@ -94,7 +94,7 @@
     return $exif_data;
   }
 
-  function exif_display($exif_data, $requested, $complain, $req_week = 0) {
+  function exif_display($exif_data, $requested, $complain) {
     // displays EXIF data given by the requested hash compared to the requested data.
     // returns: true when everything is ok, or false if some requested tags don't match
 
@@ -113,40 +113,44 @@
     // $requested['ExifImageWidth']  = $requested['.ImageWidth'];
     // $requested['ExifImageHeight'] = $requested['.ImageHeight'];
     // Important Tags
-    $must_be_ok = array( 'ImageDescription', '=Week' );
+    // BUG: Also check longest line for 2000 pix (neccessary for expert-mode)
+    // BUG: Also check for ImageDescription (neccessary for expert-mode)
+    $must_be_ok = array( 'ImageDescription', '=Week', '=Month' );
     // Display comparisom table
     echo '<p><table style="border:1">';
-    echo "<tr><th>EXIF Tag</th><th>aktuell</th><th>soll</th><th>?</th></tr>";
+    echo "<tr><th>EXIF Tag</th><th>aktuell</th><th>soll</th>"; 
+    if($complain) { echo '<th>?</th>'; }
+    echo "</tr>";
     $all_good = true;
     foreach($requested as $exif_tag=>$exif_value) {
       $exif_tag_is = exif_get_tag_value($exif_data, $exif_tag);
-      echo "<tr><td>$exif_tag</td><td>$exif_tag_is</td><td>$exif_value</td><td>";
-      if( ($exif_value == '') || 
-          ( ( ( $exif_tag    == '?GPS' ) || ( $exif_tag   == '=GPS' ) ) &&
-              ( $exif_tag_is == 'nein'   &&   $exif_value == 'ja'   ) )    ) { 
-        echo '-'; 
-      } elseif($exif_tag == '=Week' && $exif_tag_is == 0) { 
-        // REVIEW: in case there is no CreateDate there is no week - let's accept this for now
-        echo '-'; 
-      } elseif(trim($exif_tag_is) == trim($exif_value)) { 
-        echo '✅'; 
-      } else {  
-        log_debug('exif_display,tag ' . $exif_tag . ' in must_be_ok, result', array_search( $exif_tag, $must_be_ok ));
-        if(array_search( $exif_tag, $must_be_ok ) === FALSE){
-          echo '⚠️';
-        } else {
-          $all_good = false;
-          echo '🛑';
+      echo "<tr><td>$exif_tag</td><td>$exif_tag_is</td><td>$exif_value"; 
+      if($complain) {
+        echo "</td><td>";
+        if( ($exif_value == '') || 
+            ( ( ( $exif_tag    == '?GPS' ) || ( $exif_tag   == '=GPS' ) ) &&
+                ( $exif_tag_is == 'nein'   &&   $exif_value == 'ja'   ) )    ) { 
+          echo '-'; 
+        } elseif($exif_tag == '=Week' && $exif_tag_is == 0) { 
+          // REVIEW: in case there is no CreateDate there is no week - let's accept this for now
+          echo '-'; 
+        } elseif(trim($exif_tag_is) == trim($exif_value)) { 
+          echo '✅'; 
+        } else {  
+          log_debug('exif_display,tag ' . $exif_tag . ' in must_be_ok, result', array_search( $exif_tag, $must_be_ok ));
+          if(array_search( $exif_tag, $must_be_ok ) === FALSE){
+            echo '⚠️';
+          } else {
+            $all_good = false;
+            echo '🛑';
+            log_usage('2W',$user,'Not OK: ' . $exif_tag . ' is: ' . $exif_tag_is . ' should: ' . $exif_value);
+          }
         }
       }
       echo "</td></tr>";
     }
     echo "</table></p>";
     
-    // fixed: GPS detected even if deleted because of GPSVersionID Tag
-    if($complain && 1 == 2) { // TODO:remove when cross checked
-      echo "<p><small>Achtung, es kann hier angezeigt werden, dass GPS Daten vorhanden sind, obwohl diese gelöscht wurden, weil noch eine GPS-Version-ID vorhanden ist, was in Ordnung ist. Die Fehlerbehebung ist in Arbeit.</small></p>";
-    }
 
     // link GPS data to OSM
     $geocoordinates = exif_get_tag_value($exif_data, 'GPSPosition');

@@ -64,7 +64,7 @@
   $check_dir          = 'na';
 
   $upload_server_f  = 'src/config.config';
-  // $upload_server_f  = $server_doc_root . 'src/config.config'; // BUG: das geht nicht
+  // $upload_server_f  = $server_doc_root . 'src/config.config'; // BUG: absolute config file-path call (for admin pages necessary) does not work
   //TODO: fix all path like above to make it usable for admin page
  
   if (file_exists($upload_server_f)) {
