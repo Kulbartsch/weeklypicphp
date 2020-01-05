@@ -123,7 +123,7 @@
       //####################################################################
       // generate filename from parameters
 
-      log_usage('2', $user);
+      log_usage('2I', $user);
       if(empty($user)) {
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
@@ -375,9 +375,14 @@
     if($all_good == false) {
       echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue mal im Abschnitt "Eckdaten des überarbeiteten Bildes" in die Tabelle.';
       echo '   Dort markiert ein 🛑 das Problem.';
-      echo '   Bitte prüfe das und probiere es noch mal. ';
-      echo '   Solltest du meinen, dass alles in Ordnung ist, melde dich im Slack im #entwickler_talk.</p>'; 
-      cancel_processing('Die Bilddaten sind nicht in Ordnung.');
+      echo '   Bitte prüfe das und probiere es noch mal.</p>';
+      if($pushing_pic > 0) {
+        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. Die Admins prüfen das dann.</p>'; 
+        echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
+        echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; 
+        echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
+        echo '</form></p>';
+      }
     } else {
 
     ?>
@@ -388,10 +393,11 @@
       <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; } ?>
       <input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;
     </form></p>
-    <p>Du kannst das bearbeitete Bild (mit einem Rechtsklick auf das Bild)
-       für dich herunterladen heruntergeladen.</p>
 
     <?PHP } ?>
+
+    <p>Du kannst das bearbeitete Bild (mit einem Rechtsklick auf das Bild)
+       für dich herunterladen.</p>
 
   </body>
 </html>

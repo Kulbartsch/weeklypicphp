@@ -1,7 +1,7 @@
 <?php
 
-  $debugging        = FALSE;
-  $debugging2       = TRUE;
+  $debugging        = FALSE;  
+  $debugging2       = FALSE;   // debug to file  
 
   $server_doc_root  = $_SERVER['DOCUMENT_ROOT'];
 
@@ -40,6 +40,8 @@
   // lc_ctype=<os_locale>               // locale matching OS avaible locale, should be UTF8 
   // destination_folder=<foldername>    // Zielverzeichnis für die Ablage des Bildes - if folder is not set it's not used
   // ftp_exec=<full ftp command with parameters> // $file$ , $fqfn$ (full qualified filename) and $dir$ will be replaced
+  // check_dir=<check_dir>              // directory to transfer pictures to check to
+  // debugging2=<TRUE|FALSE>            // write to debug file
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)
@@ -59,6 +61,7 @@
   $lc_ctype           = 'na'; 
   $destination_folder = 'na';
   $ftp_exec           = 'na';
+  $check_dir          = 'na';
 
   $upload_server_f  = 'src/config.config';
   // $upload_server_f  = $server_doc_root . 'src/config.config'; // BUG: das geht nicht
@@ -151,11 +154,29 @@
           $ftp_exec = trim(substr($line, 9));
         } else {
           echo '<p>⚠️ Error in configuration, ftp_exec already defined.</p>';
+        }                            //  1234567890123456789012345
+      } elseif (substr($line, 0, 11) == 'check_dir=') {
+        if($check_dir == 'na') {
+          $check_dir = trim(substr($line, 11));
+        } else {
+          echo '<p>⚠️ Error in configuration, check_dir already defined.</p>';
         }
+      } elseif (substr($line, 0, 7) == 'debug2=') {
+          switch(trim(substr($line, 9))) {
+            case 'FALSE':
+              $debugging2 = FALSE;
+              log_debug('config.php,debugging2', $debugging2);
+              break;
+            case 'TRUE':
+              $debugging2 = TRUE;
+              log_debug('config.php,debugging2', $debugging2);
+              break;
+            default:
+              log_debug('config.php,illegal debugging2 parameter', $line);
+          }
       }
-
       
-    }  
+    }
 
   } else {
     echo '<p>⚠️ Server-Configuration file is missing!</p>';
@@ -186,6 +207,7 @@
   if($exiftool_command == 'na') { $exiftool_command = '/usr/local/bin/exiftool'; }   // EXIFtool
   if($curl_command == 'na')     { $curl_command     = '/usr/bin/curl'; }             // curl
   if($lc_ctype == 'na')         { $lc_ctype         = 'en_US.UTF-8'; }
+  if($check_dir == 'na')        { $check_dir        = '00_check'; }
 
   setlocale(LC_CTYPE, $lc_ctype);
 

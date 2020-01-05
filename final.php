@@ -37,14 +37,13 @@
       $year         = $_SESSION['year'];
 
       // upload
-      if (isset($_POST['upload'])) { // upload button was klicked
-        log_usage('3u', $user);
+      if (isset($_POST['upload']) or isset($_POST['upload2'])) { // upload button was klicked
 
         if($pushing_pic == 0) {
           echo '<p>⚡️ Fehler: WeeklyPic Bereitstellung angefordert, aber keine Ziel Konfiguration gefunden.</p>';
         }
         
-        if(($pushing_pic & $push_cloud) > 0) {
+        if((($pushing_pic & $push_cloud) > 0) and isset($_POST['upload'])) {
           $command = $curl_command . ' -u ' . $upload_login . ' -X PUT --data-binary @"' .
                     $pathfilename . '" "' . $upload_server . $filebasename . '.jpg" 2>&1';
           exec($command, $data, $result);
@@ -57,15 +56,23 @@
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
             echo '<p>⚡️ Problem beim Cloud-Upload aufgetreten.</p>';
+            log_usage('3E', $user, 'Error uploading to Cloud');
           } else {
             echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
+            log_usage('3I', $user, 'Uploaded to Cloud');
           }
         } 
 
-        if(($pushing_pic & $push_ftp) > 0) {
+        if((($pushing_pic & $push_ftp) > 0) and (isset($_POST['upload']) or isset($_POST['upload2']))) {
           
           // Use configured command for upload
-          $upload_dir = uploadWPdir($per_type, $period, $year);
+          if(isset($_POST['upload2'])) {
+            $upload_dir = $check_dir;
+            log_usage('3I', $user, 'Upload to ' . $upload_dir . ' (upload2)');
+          } else {
+            $upload_dir = uploadWPdir($per_type, $period, $year);
+            log_usage('3I', $user, 'Upload to ' . $upload_dir . ' (upload)');
+          }
           $command = str_replace('$fqfn$', $pathfilename, $ftp_exec);
           $command = str_replace('$file$', $filename, $command);
           $command = str_replace('$dir$', $upload_dir, $command);
@@ -92,18 +99,19 @@
           } else {
             echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
             log_debug('Upload OK','');
-            log_usage('3F', $user, 'FTP Upload to ' . $upload_dir . ' ' . $filename);
+            log_usage('3I', $user, 'FTP Upload to ' . $upload_dir . ' ' . $filename);
           }  
         } 
 
         if(($pushing_pic & $push_filesystem) > 0) {
           move_file($pathfilename, $destination_folder); 
+          log_usage('3I', $user, 'File moved');
         }
 
-      } elseif(isset($_POST['upload2'])) { // upload button to check directory
-        // TODO: ... 
-      } else {  // no upload 
-        log_usage('3d', $user);
+      } elseif(isset($_POST['delete'])) {  // no upload 
+        log_usage('3I', $user, 'only deleting file');
+      } else {
+        log_usage('3E', $user, 'Unknow request');
       }
 
       // delete - always, except is moved by filesystem delivery

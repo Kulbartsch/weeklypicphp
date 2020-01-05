@@ -107,7 +107,7 @@
     if(file_put_contents($command_log, $log_msg, FILE_APPEND) === FALSE) {
       echo "<p>⚠️ Problem bei Command-Log schreiben</p>";
     }
-    log_usage('CE', $user);
+    log_usage('-E', $user, 'Exec Command Error');
   }
 
   function log_usage($page, $user, $info = '') {
@@ -260,7 +260,7 @@
     global $user;
     if($year == 2019) { // this is no more possible 
       // $year = 2020; 
-      log_usage('-WY', $user, 'Problem: Year 2019 used.');
+      log_usage('-E', $user, 'Problem: Year 2019 used.');
     }
     if( $per_type == 'w' OR $per_type == 'W') {
       return $year . '-woche-' . strip_leading_zero($period);

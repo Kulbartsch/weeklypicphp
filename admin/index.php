@@ -21,6 +21,7 @@
     <p>Hier gibt es bisher nur:</p>
     <ul>
       <li><a href="user.php">Bearbeiten der Benutzer-Datei</a></li>
+      <li><a href="usagelog.php">Anzeige des Nutzungs-Logs</a></li>
     </ul>
 
     <p>Sollte etwas nicht wie erwartet funktionieren, informiere bitte den Admin dieses Servers, bzw. im WeeklyPic-Slack-Channel #entwickler-talk.</p>

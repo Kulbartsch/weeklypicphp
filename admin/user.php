@@ -31,7 +31,7 @@
       <li>Alle weiteren Felder werden ignoriert.</li>
     </ul>
     <p>Beispiel:<br />
-    <pre>Benutzername;Ansprache;weitere Felder werden ignoriert
+    <pre># Benutzername;Ansprache;weitere Felder werden ignoriert
 Johann_B;Johann Sebastian;j.bach@example.com
 Marie;;Marie.Curie@example.com</pre></p>
 

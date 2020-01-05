@@ -45,7 +45,7 @@
         $val_nogeo     = ' ';
         $val_usecookie = ' ';
       }
-      log_usage('1', $val_user);
+      log_usage('1I', $val_user);
 
       // set default week and month numbers
       $default_month = date('n');
