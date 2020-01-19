@@ -136,9 +136,12 @@
     }
   }
 
-
-  // get any picture creation date  
-  function get_any_picture_date($tags) {
+  
+  // get any picture creation date info as an array with the keys:
+  // - tag  : which date tag was found, empty if none was found
+  // - prio : the index of the found tag, starting with 0, 99 if none was found
+  // - date : the found date-string, 'nodate' if none was found
+  function get_any_picture_date_info($tags) {
     $date_tags = array( 
       "CreateDate",                  // EXIF
       "DateTimeOriginal",            // EXIF (bot)
@@ -149,19 +152,26 @@
       "SubSecDateTimeOriginal",      // Composite
       "ModifyDate",                  // EXIF
       "SubSecModifyDate",            // Composite
-      "FileModifyDate"               // FILE
+      // "FileModifyDate"               // FILE (does only work from monday - friday)
     );
     $i = 0;
     foreach($date_tags as $dt) {
       $date = exif_get_tag_value($tags, $dt);
       if($date != '') {
         log_debug('get_any_picture_date, Tag', $dt . ', Index:' . $i . ', Value:' . $date);
-        return substr($date, 0, 19);
+        return ['tag' => $dt, 'prio' => $i, 'date' => substr($date, 0, 19)];
       }
       $i += 1;  
     }
     log_debug('get_any_picture_date, No date found.', '');
-    return 'nodate';
+    return ['tag' => '', 'prio' => 99, 'date' => 'nodate'];
+  }
+
+
+  // get any picture creation date  
+  function get_any_picture_date($tags) {
+    $da = get_any_picture_date_info($tags);
+    return $da['date'];
   }
 
 
@@ -177,7 +187,7 @@
   // weekly pic picture week is shifted by 2 days in the future 
   function get_picture_wp_week($tags) {
     $picdate = get_picture_date($tags);
-    log_debug('get_any_picture_wp_week, picdate', $picdate);
+    log_debug('get_any_picture_wp_week, picdate', print_r($picdate, TRUE));
     if($picdate == 'nodate') {
       return 0;
     } else {
@@ -201,12 +211,12 @@
     $picdates = picture_dates($tags);
     log_debug("get_picture_year_of_week, picdates", $picdates); 
     log_debug("get_picture_year_of_week, picdates['result']", $picdates['result']); 
-    log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 
-    log_debug("get_picture_year_of_week,  ->format(Y)", $picdates['wp_week_end_date']->format('Y')); 
     if( $picdates['result'] != 'ok') {
       return 0;
     } else {
       return $picdates['wp_week_end_date']->format('Y');
+      log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 
+      log_debug("get_picture_year_of_week,  ->format(Y)", $picdates['wp_week_end_date']->format('Y'));   
     }
   }
 
@@ -218,7 +228,7 @@
     // get CreateDate tag
     $exif_create_date = get_any_picture_date($tags);
     log_debug("picture_dates,exif_create_date", $exif_create_date);
-    if( $exif_create_date === '' ) {
+    if($exif_create_date === 'nodate') {
       $returns['result'] = 'Error: Picture has no create date!';
       return $returns;
     }

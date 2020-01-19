@@ -49,6 +49,9 @@
             return $tag_is_set;
           } 
           break;
+          case '=LongestSide':
+            return get_longest_side($list);
+            break;  
         default:
             return 'n/a';
       }
@@ -69,7 +72,7 @@
     return (int) ( $other / ( ( $me * 1.0 ) / $to ) );  // must convert to float (* 1.0) and back to int
   }
 
-  function get_exif_data($filename) {
+  function get_exif_data($filename, $html_table = FALSE) {
     // reads EXIF data using exiftool -s (-s uses the technical names)
     // returns: list of exif data
 
@@ -78,7 +81,11 @@
     //if($debugging == true) { print_r($exif_data); };
     
     global $exiftool_command;
-    $cmd = $exiftool_command . ' -s ' . escapeshellarg($filename);
+    if($html_table) {
+      $cmd = $exiftool_command . ' -h -G -s ' . escapeshellarg($filename);
+    } else {
+      $cmd = $exiftool_command . ' -s ' . escapeshellarg($filename);
+    }
     exec($cmd, $exif_data, $exiftool_result);
     if(false == true) { // debug
       echo "<p>filename: "; print_r($filename);
@@ -94,37 +101,39 @@
     return $exif_data;
   }
 
-  function exif_display($exif_data, $requested, $complain) {
-    // displays EXIF data given by the requested hash compared to the requested data.
-    // returns: true when everything is ok, or false if some requested tags don't match
 
-    global $user;
-
-    // Calculate new size
+  // get longest side of picture
+  function get_longest_side($exif_data) {
     $pic_width  = exif_get_tag_value($exif_data, 'ImageWidth');
     $pic_height = exif_get_tag_value($exif_data, 'ImageHeight');
     if($pic_width > $pic_height) {
-      $requested['.ImageHeight'] = scale_to(2000, $pic_width, $pic_height);
-      $requested['.ImageWidth']  = '2000';
+      return $pic_width;
     } else {
-      $requested['.ImageWidth']  = scale_to(2000, $pic_height, $pic_width);
-      $requested['.ImageHeight'] = '2000';
+      return $pic_height;
     }
-    // $requested['ExifImageWidth']  = $requested['.ImageWidth'];
-    // $requested['ExifImageHeight'] = $requested['.ImageHeight'];
+  }
+
+
+  // displays EXIF data, given by the $requested map, compared to the existing $exif_data.
+  //  - 
+  // returns: true when everything is ok, or false if some requested tags don't match
+  function exif_display($exif_data, $requested, $exif_data_orig, $complain) {
+
+    global $user;
+
     // Important Tags
-    // BUG: Also check longest line for 2000 pix (neccessary for expert-mode)
-    // BUG: Also check for ImageDescription (neccessary for expert-mode)
-    $must_be_ok = array( 'ImageDescription', '=Week', '=Month' );
+    $must_be_ok = array( 'ImageDescription', '=Week', '=Month', '=LongestSide' );
     // Display comparisom table
-    echo '<p><table style="border:1">';
-    echo "<tr><th>EXIF Tag</th><th>aktuell</th><th>soll</th>"; 
-    if($complain) { echo '<th>?</th>'; }
-    echo "</tr>";
+    echo PHP_EOL . '<p><div class="hideable"><table style="border:1">' . PHP_EOL;
+    echo "<tr><th>Meta Daten</th><th>des hochgeladenen Bildes</th><th>des bearbeiteten Bildes</th><th>wie diese sein sollten</th>"; 
+    if($complain) { echo '<th>?</th>'; } 
+    echo "</tr>" . PHP_EOL;
     $all_good = true;
     foreach($requested as $exif_tag=>$exif_value) {
-      $exif_tag_is = exif_get_tag_value($exif_data, $exif_tag);
-      echo "<tr><td>$exif_tag</td><td>$exif_tag_is</td><td>$exif_value"; 
+      $exif_tag_is  = exif_get_tag_value($exif_data, $exif_tag);
+      $exif_tag_was = exif_get_tag_value($exif_data_orig, $exif_tag);
+      echo "<tr><td>" . htmlspecialchars($exif_tag) . "</td><td>" . htmlspecialchars($exif_tag_was) .
+           "</td><td>" . htmlspecialchars($exif_tag_is) . "</td><td>" . htmlspecialchars($exif_value); 
       if($complain) {
         echo "</td><td>";
         if( ($exif_value == '') || 
@@ -134,6 +143,14 @@
         } elseif($exif_tag == '=Week' && $exif_tag_is == 0) { 
           // REVIEW: in case there is no CreateDate there is no week - let's accept this for now
           echo '-'; 
+        } elseif($exif_tag == '=LongestSide') {
+          if($exif_tag_is >= 2000 and $exif_tag_is <=2048 ) {
+            echo '✅'; 
+          } else {
+            $all_good = false;
+            echo '🛑';
+            log_usage('2W',$user,'Not OK: ' . $exif_tag . ' is: ' . $exif_tag_is . ' should: 2000-2048');
+          }
         } elseif(trim($exif_tag_is) == trim($exif_value)) { 
           echo '✅'; 
         } else {  
@@ -147,13 +164,13 @@
           }
         }
       }
-      echo "</td></tr>";
+      echo "</td></tr>" . PHP_EOL;
     }
-    echo "</table></p>";
+    echo "</table></div></p>" . PHP_EOL;
     
 
     // link GPS data to OSM
-    $geocoordinates = exif_get_tag_value($exif_data, 'GPSPosition');
+    $geocoordinates = exif_get_tag_value($exif_data_orig, 'GPSPosition');
     if($geocoordinates <> '') {
       $geocoordinates = str_ireplace ( ' deg' , '°' , $geocoordinates );
       $urlgeocoordinates = urlencode($geocoordinates);

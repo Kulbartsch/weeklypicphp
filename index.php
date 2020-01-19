@@ -17,7 +17,7 @@
   <body>
 
   	<h1>Hallo! ❤️</h1>
-    <h2>Wilkommen zu WeeklyPicPHP!</h2>
+    <h2>Wilkommen zum WeeklyPic One-Stop-Foto!</h2>
     <p>Hier kannst du auf einfachem Weg dein Wochen- oder Monatsbild auf
        2000 Pixel (lange Kante) skalieren und deine EXIF Beschreibung als Tag setzen.
        Nach dem Bearbeiten kannst du das Ergebnis direkt auf WeeklyPic.de hochladen.
@@ -31,17 +31,19 @@
 
       // read cookie storing common values (Weekly-Pic-Name, Creator, license, nogeo)
       if(isset($_COOKIE[$cookie_name])) {
-        $cookie_value  = explode( $cookie_split , $_COOKIE[$cookie_name] , 4 );
+        $cookie_value  = explode( $cookie_split , $_COOKIE[$cookie_name] , 6 );
         $val_user      = $cookie_value[0];
         $val_creator   = $cookie_value[1];
         $val_license   = $cookie_value[2];
         $val_nogeo     = $cookie_value[3]; // 'checked' or empty
+        $val_expert    = $cookie_value[4]; // 'checked' or empty
         $val_usecookie = ' checked ';
       } else {
         $val_user      = '';
         $val_creator   = '';
         $val_license   = '';
         $val_nogeo     = ' ';
+        $val_expert    = ' ';
         $val_usecookie = ' ';
       }
       log_usage('1I', $val_user);
@@ -50,9 +52,8 @@
       $default_month = date('n');
       $default_week  = date('W');
 
-      // IDEA: general footer with Authors and link to github
-      // IDEA: "Expertenmodus: Bild ist WeeklyPic konform erstellt, keine MetaDaten oder Größe anpassen, nur prüfen und hochladen."
-      // TODO: Validate username (no Umlaute, etc) in website
+      // IDEA: general footer with Authors and link to github for each page
+      // TODO: harden against XSS 
 
     ?>
 
@@ -82,6 +83,11 @@
           <input type="text" id="license" name="license" value="<?= $val_license ?>"><br/>
           Geo-Daten im Bild 🍪:</br>
           <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br>
+        </p>
+        <p>
+          Expertenmodus 🍪:</br>
+          <input type="checkbox" id="expert" name="expert" value="expert" <?= $val_expert ?>> Keine Metadaten ändern, Bild nur prüfen und hochladen.<br>
+          Du musst allerdings deinen WeeklyPic-Benutzernamen und den Bild-Zeitraum angeben. Die anderen Felder werden ignoriert.
         </p>
         <p>
           <input type="checkbox" id="usecookie" name="usecookie" value="usecookie" <?= $val_usecookie ?> > Nutze ein Cookie für deine 🍪-Daten.

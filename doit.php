@@ -25,11 +25,18 @@
     $no_geo = FALSE;
     $nogeo_cookie = ' ';
   }
+  if(array_key_exists("expert", $_POST)){
+    $expertmode = TRUE;
+    $expert_cookie = 'checked';
+  } else {
+    $expertmode = FALSE;
+    $expert_cookie = ' ';
+  }
 
   // cookie (must be handled before any html code)
   // Store common values cookies for next time, if requested
   if(array_key_exists("usecookie", $_POST)) {
-    $cookie_value = implode( $cookie_split, array($user, $creator, $license, $nogeo_cookie) );
+    $cookie_value = implode( $cookie_split, array($user, $creator, $license, $nogeo_cookie, $expert_cookie) );
     setcookie($cookie_name, $cookie_value, $cookie_expires, "/");
   } elseif(isset($_COOKIE[$cookie_name])) { // delete cookie if no storing requested (in case there was a cookie before)
     $cookie_value = '';
@@ -55,6 +62,13 @@
       th, td { padding: 3px;  text-align: left; }
       table, th, td { border: 1px solid black; }
       img { image-orientation: from-image; }
+      #drawer1:not(:target) .hideable,
+      #drawer1:not(:target) .hide,
+      #drawer1:target .show {display: none;}
+      #drawer1:target .hideable {display: block;}
+      .show, .hide { background: #fff; color: #333; border: 1px solid;
+        border-color: #333; border-radius: 4px; padding: 5px;
+        text-decoration: none;}
     </style>
   </head>
   <body>
@@ -64,7 +78,6 @@
   $upload_server_f  = $server_doc_root . 'src/config.config';
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
-      // IDEA: make a web-page to show all EXIF data
       // IDEA: check for umlaute in requested picture title
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
@@ -94,11 +107,11 @@
       //####################################################################
 
       echo "<h1>Hallo! ❤️</h1>";
-      echo "<p>Grüezi $user_called.</p>";
+      echo "<p>Grüezi " . htmlspecialchars($user_called) . ".</p>";
 
       if (!empty($description))
       {
-        echo "<p>Dein Bild soll also <i>$description</i> heissen?!</p>";
+        echo "<p>Dein Bild soll also <i>" . htmlspecialchars($description) . "</i> heissen?!</p>";
         $description_isset = true;
       } else {
         log_usage('2I', $user, 'No picture titel given on startpage');
@@ -124,7 +137,7 @@
       //####################################################################
       // generate filename from parameters
 
-      log_usage('2I', $user);
+      log_usage('2I', $user, $expertmode ? 'Expert' : '' );
       if(empty($user)) {
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
@@ -223,15 +236,21 @@
       //####################################################################
       // Get title from picture if not given by form
 
-      $exif_data = get_exif_data($new_path);
-      if($description_isset == FALSE) {
-        $description = get_any_title($exif_data);
+      $exif_data_orig = get_exif_data($new_path);
+      if(($description_isset === FALSE) or ($expertmode)) {
+        $description = get_any_title($exif_data_orig);
         if($description != '') {
           $description_isset = TRUE;
-          echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben aber ich habe einen Titel im Bild gefunden, der verwendet wird. (Siehe die Tabelle.)</p>';
+          if(!$expertmode) {
+            echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben aber ich habe einen Titel im Bild gefunden, der verwendet wird. (Siehe die Tabelle.)</p>';
+          }
           log_usage('2I', $user, 'Got picture titel from picture itself: ' . $description);
         } else {
-          echo '<p>❗️❓ Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.</p>';
+          if(!$expertmode) {
+            echo '<p>❗️❓ Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.</p>';
+          } else {
+            echo '<p>❗️❓ Im Expertenmodus wird der Titel aus dem Bild gelesen. Ich habe allerdings keinen Titel im Bild gefunden. Das Bild hat also keinen Titel.</p>';
+          }
           log_usage('2I', $user, 'No picture titel found in picture itself. Picture is without title.');
         }
       }
@@ -259,8 +278,11 @@
       $requested['Description']            = $requested['ImageDescription'];    // XMP
       $requested['Caption-Abstract']       = $requested['ImageDescription'];    // IPTC
 
-      $requested['.ImageWidth']            = '2000';                            // FILE
-      $requested['.ImageHeight']           = '2000';                            // FILE
+      $requested['.ImageWidth']            = '';                                // FILE
+      $requested['.ImageHeight']           = '';                                // FILE
+      $requested['=LongestSide']           = '2000-2048';                       
+      // $requested['.ImageWidth']            = '2000';                            // FILE
+      // $requested['.ImageHeight']           = '2000';                            // FILE
       // $requested['.ExifImageWidth']        = $requested['.ImageWidth'];      // 
       // $requested['.ExifImageHeight']       = $requested['.ImageHeight'];
       $requested['.Orientation']           = '';
@@ -278,9 +300,9 @@
       $requested['.WebStatement']          = $requested['.URL'];
       $requested['.CreatorWorkURL']        = $requested['.URL'];
 
-      $requested['?GPS']                   = $no_geo ? $tag_not_set : $tag_is_set;
+      // $requested['?GPS']                   = $no_geo ? $tag_not_set : $tag_is_set;
       $requested['=GPS']                   = $no_geo ? $tag_not_set : $tag_is_set;
-      $requested['.GPS']                   = ''; // debug
+      // $requested['.GPS']                   = ''; // debug
       $requested['.GPSPosition']           = '';
 
       $requested['.CreateDate']            = '';                                // EXIF
@@ -292,63 +314,40 @@
 
 
       //####################################################################
-      // display picture attributes (EXIF) existing compared to requested
-
-      echo '<h2>Eckdaten des <i>hochgeladenen</i> Bildes</h2>';
-      exif_display($exif_data, $requested, FALSE);
-
-
-      //####################################################################
       // processing
+
+      echo '<h2>Bearbeiten deines Bildes ...</h2>' . PHP_EOL;
+
+
+      //--------------------------------------------------------------------
+      // show all exif data if requested
+
+      $exif_html = get_exif_data($new_path, TRUE);
+      echo '<div id="drawer1">' . PHP_EOL;
+      echo 'Dein Bild hat ' . (count($exif_html) - 4) . ' Metadaten.<br />' . PHP_EOL;
+      echo 'Wenn du diese Daten sehen möchtest, kannst du dir eine Tabelle mit allen Metadaten deines hochgeladenen Bildes hier anzeigen lassen. <br />' . PHP_EOL;
+      echo 'Tabelle <a class="show" href="#drawer1">anzeigen</a><a class="hide" href="#">verstecken</a>.' . PHP_EOL;
+      echo PHP_EOL . '<p><div class="hideable"><table style="border:1">' . PHP_EOL;
+      $j = 0;
+      foreach($exif_html as $hline) {
+        if( $j > 2) {
+          echo $hline . PHP_EOL;
+        }
+        $j += 1;
+      }
+      echo '<br /></div></div>' . PHP_EOL;
+
 
       //--------------------------------------------------------------------
       // resize picture
 
-      $command =  $convert_command . ' ' . escapeshellarg($new_path) .
-                  ' -resize 2000x2000 ' . escapeshellarg($tmp_file) .
-                  ' 2>&1';
-      exec($command, $data, $result);
-      if($debugging) { // debug
-        echo "<p>command: "; print_r($command);
-        echo "<br>data: <br><pre>"; print_r($data); echo "</pre>";
-        echo "<br>result: "; print_r($result);
-        echo "</p>";
-      }
-      if($result !== 0) {
-        log_command_result($command, $result, $data, $user);
-        cancel_processing('Fehler bei der Größenänderung.');
-      }
-      if(unlink($new_path) == false) {
-        cancel_processing('Fehler beim Löschen der alten Datei. (resize)');
-      }
-      if(rename($tmp_file, $new_path) == false) {
-        cancel_processing('Fehler beim Umbennen der temporärern Datei. (resize)');
-      }
-
-
-      //--------------------------------------------------------------------
-      // update picture EXIF to requested/required attributes
-
-      // build exiftool commandline parameters
-      $et_param = ' ';
-      foreach($requested as $tag=>$tag_value) {
-        if($debugging and false) { echo "<p>TAG:$tag:VALUE:$tag_value:</p>"; }
-        if( (substr($tag,0,1) == '.') or (substr($tag,0,1) == '?') or (substr($tag,0,1) == '=') ) { continue; }
-        if( strlen($tag_value) == 0 ) { continue; }
-        $et_param = $et_param . ' -' . $tag . '=' . escapeshellarg($tag_value);
-      }
-      // remove GEO data
-      if($no_geo) {
-        $et_param = $et_param . ' -gps:all= -xmp:geotag= ';
-      }
-      // run command
-      if(strlen($et_param)==0) {
-        echo '<p>Keine Metadaten-Anpassung notwendig.<p>';
+      $longest_side = get_longest_side($exif_data_orig);
+      if(($longest_side >= 2000) and ($longest_side <= 2048)) {
+        echo '<p>✅ Dein Bild hat schon die passende Größe. Er erfolgt keine Anpassung.</p>' . PHP_EOL;
       } else {
-        // exiftool -s = very short output of tag names
-        //          -v = verbose output
-        $command =  $exiftool_command . ' -v2 -s -overwrite_original ' . $et_param .
-                    ' ' . escapeshellarg($new_path) . ' 2>&1';
+        $command =  $convert_command . ' ' . escapeshellarg($new_path) .
+                    ' -resize 2000x2000 ' . escapeshellarg($tmp_file) .
+                    ' 2>&1';
         exec($command, $data, $result);
         if($debugging) { // debug
           echo "<p>command: "; print_r($command);
@@ -358,8 +357,66 @@
         }
         if($result !== 0) {
           log_command_result($command, $result, $data, $user);
-          echo '<p>⚠️ Problem bei der Änderung der Metadataten aufgetreten.</p>';
+          cancel_processing('Fehler bei der Größenänderung.');
         }
+        if(unlink($new_path) == false) {
+          cancel_processing('Fehler beim Löschen der alten Datei. (resize)');
+        }
+        if(rename($tmp_file, $new_path) == false) {
+          cancel_processing('Fehler beim Umbennen der temporärern Datei. (resize)');
+        }
+        echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln für die längste Seite angepasst.</p>' . PHP_EOL;
+      }
+
+      //--------------------------------------------------------------------
+      // update picture EXIF to requested/required attributes
+
+      if($expertmode) {
+        echo '<p>Oh! 🧐 Expertenmodus. Es werden keine Metadaten geändert.</p>' . PHP_EOL;
+      } else {
+
+        // build exiftool commandline parameters
+        $et_param = ' ';
+        foreach($requested as $tag=>$tag_value) {
+          if($debugging and false) { echo "<p>TAG:$tag:VALUE:$tag_value:</p>"; }
+          if((substr($tag,0,1) == '.') or (substr($tag,0,1) == '?') or (substr($tag,0,1) == '=') ) { continue; }
+          if(strlen($tag_value) == 0) { continue; }
+          $et_param = $et_param . ' -' . $tag . '=' . escapeshellarg($tag_value);
+        }
+        // remove GEO data
+        if($no_geo) {
+          $et_param = $et_param . ' -gps:all= -xmp:geotag= ';
+        }
+        // run command
+        if(strlen(trim($et_param))==0) {
+          echo '<p>Keine Metadaten-Anpassung notwendig.<p>';
+        } else {
+          // exiftool -s = very short output of tag names
+          //          -v = verbose output
+          $command =  $exiftool_command . ' -v2 -s -overwrite_original ' . $et_param .
+                      ' ' . escapeshellarg($new_path) . ' 2>&1';
+          exec($command, $data, $result);
+          if($debugging) { // debug
+            echo "<p>command: "; print_r($command);
+            echo "<br>data: <br><pre>"; print_r($data); echo "</pre>";
+            echo "<br>result: "; print_r($result);
+            echo "</p>";
+          }
+          if($result !== 0) {
+            log_command_result($command, $result, $data, $user);
+            echo '<p>⚠️ Problem bei der Änderung der Metadataten aufgetreten.</p>';
+          }
+          echo '<p>✅ Die Metadaten in deinem Bild wurden angepasst.</p>' . PHP_EOL;
+        }
+
+      }
+
+      //--------------------------------------------------------------------
+      // check picture date
+
+      $date_info = get_any_picture_date_info($exif_data_orig);
+      if( $date_info['prio'] == 99 ) {
+        echo '<p>⚠️ Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.</p>';
       }
 
 
@@ -368,7 +425,7 @@
 
       echo '<h2>Eckdaten des <i>überarbeiteten</i> Bildes</h2>';
       $exif_data = get_exif_data($new_path);
-      $all_good = exif_display($exif_data, $requested, TRUE);
+      $all_good = exif_display($exif_data, $requested, $exif_data_orig, TRUE);
 
 
       //####################################################################

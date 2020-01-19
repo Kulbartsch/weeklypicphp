@@ -5,7 +5,7 @@ Ein (einfaches) PHP-Skript, um ein JPG-Bild auf die richtigen Proportionen zu sk
 # Features
 
 * Bild auf 2000px skalieren (längste Seite)
-* EXIF-Daten einstellen für
+* Metadaten-Daten einstellen für
   * *Titel*
   * *Beschreibung* (= weekliy-pic-username / title)
   * *Urheber*
@@ -18,11 +18,21 @@ Ein (einfaches) PHP-Skript, um ein JPG-Bild auf die richtigen Proportionen zu sk
 * Direkter Upload des Bildes an weeklypic.de
 * Mobilgeräte freundliches Design
 * Aufruf einer Karte mit den GPS Koordinaten des Bildes (sofern vorhanden)
+* Prüfen des Aufnahmedatums gegen die Woche, bzw. den Monat
+* Teilnehmer prüfen
+* Optional den Titel aus den Metadaten heranziehen
+* Problembehaftete Bilder, in ein "zu prüfen" Verzeichnis hochladen
+* Keine Anpassung der Bildgröße wenn diese schon OK ist
+* Expertenmodus, in dem keine Metadaten geändert werden
+* Anzeige aller Metadaten eines Bildes
+
+# Anwender Dokumentation
+
+Siehe ["how to use.pdf"](how to use.pdf) (deutsch).
 
 # Roadmap
 
 * Korrektur falscher EXIF-Daten aus dem Export von Darktable (siehe "Bekannte Probleme")
-* Prüfen des Aufnahmedatums gegen die Woche, bzw. den Monat
 
 # Hinweis
 
