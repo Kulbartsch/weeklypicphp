@@ -344,7 +344,7 @@
 
       $longest_side = get_longest_side($exif_data_orig);
       if(($longest_side >= 2000) and ($longest_side <= 2048)) {
-        echo '<p>✅ Dein Bild hat schon die passende Größe. Er erfolgt keine Anpassung.</p>' . PHP_EOL;
+        echo '<p>✅ Dein Bild hat schon die passende Größe. Es erfolgt keine Anpassung.</p>' . PHP_EOL;
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' . escapeshellarg($tmp_file) .
