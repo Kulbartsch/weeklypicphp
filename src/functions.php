@@ -184,6 +184,7 @@
     }
   }
 
+
   // weekly pic picture week is shifted by 2 days in the future 
   function get_picture_wp_week($tags) {
     $picdate = get_picture_date($tags);
@@ -195,6 +196,7 @@
     }
   }
 
+
   // get year of picture 
   function get_picture_year($tags) {
     $picdate = get_picture_date($tags);
@@ -205,6 +207,7 @@
     }
   }
     
+  
   // get year of week from last day of week
   function get_picture_year_of_week($tags) {
     global $debugging;

@@ -75,7 +75,8 @@
 
     <?php
 
-  $upload_server_f  = $server_doc_root . 'src/config.config';
+      $upload_server_f  = $server_doc_root . 'src/config.config';  // BUG: this does not work / not used
+
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: check for umlaute in requested picture title

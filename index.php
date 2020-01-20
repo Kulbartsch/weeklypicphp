@@ -36,7 +36,11 @@
         $val_creator   = $cookie_value[1];
         $val_license   = $cookie_value[2];
         $val_nogeo     = $cookie_value[3]; // 'checked' or empty
-        $val_expert    = $cookie_value[4]; // 'checked' or empty
+        if(array_key_exists(4, $cookie_value)) {
+          $val_expert  = $cookie_value[4]; // 'checked' or empty // new 
+        } else {
+          $val_expert  = ' ';
+        }
         $val_usecookie = ' checked ';
       } else {
         $val_user      = '';
