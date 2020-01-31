@@ -12,7 +12,6 @@
   log_debug('>>>> START doit.php', '');
 
   // _POST Var Handling
-  // IDEA: Restrict $user to  characters? [a-z,A-Z,_,0-9]
   $user         = sanitize_input("user", TRUE);
   $creator      = sanitize_input("creator", FALSE);
   $license      = sanitize_input("license", FALSE);
@@ -77,6 +76,9 @@
 
       $upload_server_f  = $server_doc_root . 'src/config.config';  // BUG: this does not work / not used
 
+      // TODO: convert extension JPEG to jpg
+      // BUG: Don't upload to too old timeranges
+      // BUG: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: check for umlaute in requested picture title
@@ -143,6 +145,7 @@
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
 
+      // TODO: also calculate year
       $default_month = date('n');
       $default_week  = date('W');
       $requested_month = validate_number_and_return_string(sanitize_input("month_number", TRUE), 1, 12);
@@ -210,6 +213,10 @@
       else {
         cancel_processing("Fehler! Keine PHP-EXIF functions verfügbar. Bitte Admins informieren!");
       }
+
+      // fix extension
+      $extension = strtolower($extension);
+      if($extension == 'jpeg') { $extension == 'jpg'; }
 
       // Pfad zum Upload
       $new_path = $upload_folder.$filename.'.'.$extension;
@@ -412,15 +419,7 @@
 
       }
 
-      //--------------------------------------------------------------------
-      // check picture date
-
-      $date_info = get_any_picture_date_info($exif_data_orig);
-      if( $date_info['prio'] == 99 ) {
-        echo '<p>⚠️ Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.</p>';
-      }
-
-
+      
       //####################################################################
       // display picture attributes (EXIF) existing compared to requested
 
@@ -428,6 +427,16 @@
       $exif_data = get_exif_data($new_path);
       $all_good = exif_display($exif_data, $requested, $exif_data_orig, TRUE);
 
+      //--------------------------------------------------------------------
+      // check picture date
+
+      $date_info = get_any_picture_date_info($exif_data_orig);
+      if( $date_info['prio'] == 99 ) {
+        echo '<p>🛑 Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.</p>';
+        $all_good = false;
+      }
+
+      
 
       //####################################################################
       // display picture  and  furhter actions (buttons) to delete (and upload) picture

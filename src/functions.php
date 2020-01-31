@@ -202,6 +202,7 @@
     $picdate = get_picture_date($tags);
     if($picdate == 'nodate') {
       return 0;
+      // return date('Y'); // BUG: This is not year change proof
     } else {
       return $picdate->format('Y');
     }
@@ -216,6 +217,7 @@
     log_debug("get_picture_year_of_week, picdates['result']", $picdates['result']); 
     if( $picdates['result'] != 'ok') {
       return 0;
+      // return date('Y'); // BUG: This is not year change proof
     } else {
       return $picdates['wp_week_end_date']->format('Y');
       log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 
@@ -272,9 +274,9 @@
 
   function uploadWPdir($per_type, $period, $year) { // returns path
     global $user;
-    if($year == 2019) { // this is no more possible 
-      // $year = 2020; 
-      log_usage('-E', $user, 'Problem: Year 2019 used.');
+    if($year < 2020) { 
+      log_usage('-E', $user, 'Problem: Year ' . $year . ' used.');
+      $year = date('Y'); 
     }
     if( $per_type == 'w' OR $per_type == 'W') {
       return $year . '-woche-' . strip_leading_zero($period);
