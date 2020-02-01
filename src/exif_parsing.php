@@ -12,6 +12,7 @@
     return $count;
   }
 
+
   function exif_get_tag_value($list, $tag) {
   // from a $list of EXIF-tags (returned by exiftool -s) pick the first one
   // *starting* with $tag and return its value (after the colon, trimmed).
@@ -71,6 +72,7 @@
     // If $me is scaled $to, then the $other side is scaled to return value
     return (int) ( $other / ( ( $me * 1.0 ) / $to ) );  // must convert to float (* 1.0) and back to int
   }
+
 
   function get_exif_data($filename, $html_table = FALSE) {
     // reads EXIF data using exiftool -s (-s uses the technical names)
@@ -153,6 +155,8 @@
           }
         } elseif(trim($exif_tag_is) == trim($exif_value)) { 
           echo '✅'; 
+        // ToDo: ignore case when comparing ImageDescription, so user name case is irrelevant in expert mode.
+        // ...
         } else {  
           log_debug('exif_display,tag ' . $exif_tag . ' in must_be_ok, result', array_search( $exif_tag, $must_be_ok ));
           if(array_search( $exif_tag, $must_be_ok ) === FALSE){

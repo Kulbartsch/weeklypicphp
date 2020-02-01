@@ -79,6 +79,7 @@
       // TODO: convert extension JPEG to jpg
       // BUG: Don't upload to too old timeranges
       // BUG: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
+      // BUG: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: check for umlaute in requested picture title
@@ -215,8 +216,10 @@
       }
 
       // fix extension
+      log_debug('Original extension', $extension);
       $extension = strtolower($extension);
-      if($extension == 'jpeg') { $extension == 'jpg'; }
+      if($extension == 'jpeg') { $extension = 'jpg'; }
+      log_debug('New extension', $extension);
 
       // Pfad zum Upload
       $new_path = $upload_folder.$filename.'.'.$extension;

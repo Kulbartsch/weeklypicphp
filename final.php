@@ -36,6 +36,8 @@
       $period       = $_SESSION['period'];
       $year         = $_SESSION['year'];
 
+      // TODO: repeat info about picture (name, timerange, ...)
+
       // upload
       if (isset($_POST['upload']) or isset($_POST['upload2'])) { // upload button was klicked
 
