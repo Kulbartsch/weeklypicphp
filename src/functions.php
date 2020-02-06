@@ -202,7 +202,6 @@
     $picdate = get_picture_date($tags);
     if($picdate == 'nodate') {
       return 0;
-      // return date('Y'); // BUG: This is not year change proof
     } else {
       return $picdate->format('Y');
     }
@@ -217,7 +216,6 @@
     log_debug("get_picture_year_of_week, picdates['result']", $picdates['result']); 
     if( $picdates['result'] != 'ok') {
       return 0;
-      // return date('Y'); // BUG: This is not year change proof
     } else {
       return $picdates['wp_week_end_date']->format('Y');
       log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 

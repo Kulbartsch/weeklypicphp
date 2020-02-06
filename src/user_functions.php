@@ -13,17 +13,21 @@
     log_debug('load_user,user_lines', $user_lines);
     log_debug('load_user,processing lines:', '');
     foreach ($user_lines as $line) {
-      log_debug('load_user,line', $line);
-      $parts = explode(";", $line, 3);
-      $userid = trim($parts[0]);
-      if(array_key_exists(1, $parts)){
-        $called = trim($parts[1]);
+      if((strlen(trim($line)) == 0) or (substr(trim($line),0,1) == '#')) { // ignore empty and comment lines
+        log_debug('load_user,ignored line', $line);
       } else {
-        $called = $userid;
+        log_debug('load_user,use line', $line);
+        $parts = explode(";", $line, 3);
+        $userid = trim($parts[0]);
+        if(array_key_exists(1, $parts)){
+          $called = trim($parts[1]);
+        } else {
+          $called = $userid;
+        }
+        $indexname = strtoupper($userid);
+        $user[$indexname]["userid"] = $userid;
+        $user[$indexname]["called"] = htmlspecialchars($called);
       }
-      $indexname = strtoupper($userid);
-      $user[$indexname]["userid"] = $userid;
-      $user[$indexname]["called"] = htmlspecialchars($called);
     }
 
     if($debugging) { // debug

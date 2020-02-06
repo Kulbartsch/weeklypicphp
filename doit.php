@@ -76,7 +76,6 @@
 
       $upload_server_f  = $server_doc_root . 'src/config.config';  // BUG: this does not work / not used
 
-      // TODO: convert extension JPEG to jpg
       // BUG: Don't upload to too old timeranges
       // BUG: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
       // BUG: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
@@ -436,6 +435,7 @@
       $date_info = get_any_picture_date_info($exif_data_orig);
       if( $date_info['prio'] == 99 ) {
         echo '<p>🛑 Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.</p>';
+        log_usage('2W', $user, 'No date found in picture.');
         $all_good = false;
       }
 
