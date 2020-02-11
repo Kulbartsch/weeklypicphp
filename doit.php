@@ -77,6 +77,9 @@
       $upload_server_f  = $server_doc_root . 'src/config.config';  // BUG: this does not work / not used
 
       // TODO: convert extension JPEG to jpg
+      // TODO: reduce primary log to pages 2 and 3 
+      // TODO: Better message when problems are deteced
+      // BUG: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
       // BUG: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
       // BUG: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
