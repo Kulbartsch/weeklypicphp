@@ -74,11 +74,9 @@
 
     <?php
 
-      $upload_server_f  = $server_doc_root . 'src/config.config';  // BUG: this does not work / not used
-
-      // TODO: convert extension JPEG to jpg
-      // TODO: reduce primary log to pages 2 and 3 
+      // TODO: reduce primary=usage log to pages 2 and 3, add an access log 
       // TODO: Better message when problems are deteced
+      // IDEA: Use bot to inform admins about pictures send to check directory
       // BUG: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
       // BUG: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
@@ -144,7 +142,7 @@
       //####################################################################
       // generate filename from parameters
 
-      log_usage('2I', $user, $expertmode ? 'Expert' : '' );
+      log_usage('2I', $user, $expertmode ? 'Expert' : 'no expert', TRUE, TRUE );
       if(empty($user)) {
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
@@ -468,11 +466,12 @@
     echo '<h2>Und nun?</h2>';
 
     if($all_good == false) {
-      echo '<p>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue mal im Abschnitt "Eckdaten des überarbeiteten Bildes" in die Tabelle.';
+      echo '<p><em>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue mal im Abschnitt "Eckdaten des überarbeiteten Bildes".';
       echo '<br />Dort markiert ein 🛑 das Problem.';
-      echo '   Bitte prüfe das und probiere es noch mal.</p>';
+      echo ' Bitte prüfe das und probiere es noch mal.</em></p>';
       if($pushing_pic > 0) {
-        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. Die Admins prüfen das dann.</p>'; 
+        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. ';
+        echo '<em></em>Die Admins prüfen das dann und müssen das Bild manuell in die Galerie verschieben.</em></p>'; 
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
         echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';

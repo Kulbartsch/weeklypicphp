@@ -3,7 +3,8 @@
   $debugging        = FALSE;  
   $debugging2       = FALSE;   // debug to file  
 
-  $server_doc_root  = $_SERVER['DOCUMENT_ROOT'];
+  $config_dir       = __DIR__;
+  $app_base_dir     = substr($config_dir, 0, -4); // remove '/src' from the end
 
   $cookie_name      = "WeeklyPicPHPParam";
   $cookie_split     = "§%§";
@@ -29,10 +30,11 @@
   // ----
   // server=<URL of the server>         // URL to NextCloud or OwnCloud Server
   // login=<password>                   // Login to NextCloud or OwnCloud Server as URL addition
-  // loglevel=<n>                       // 0=no logging, 1=only pages, 2=and user
+  // loglevel=<n>                       // 0=no logging, 1=only pages, 2=and user, 3=and anonymized IP, 4=and full IP 
   // upload_folder=<foldername>         // Das Upload-Verzeichnis
   // command_log=<filename>
   // usage_log=<filename>
+  // access_log=<filename>
   // user_file=<filename>               // file with participants, formated <slack-id>[;<call-as>]
   // convert_command=<programname>      // imagemagick convert
   // exiftool_command=<programname>     // EXIFtool
@@ -43,6 +45,7 @@
   // check_dir=<check_dir>              // directory to transfer pictures to check to
   // debugging2=<TRUE|FALSE>            // write to debug file
   // check_user=<ON|OFF>                // hard check username - if switched on and user is uknown processing is cancelled
+  // slack_api_token=<SLACK_API_TOKEN>  // slack API token
   // ----
   // Of course you could set the parameters directly here as well - but that's
   // not handy if you use github. ;)
@@ -50,11 +53,12 @@
 
   $upload_server      = 'na';     // Next/Own-Cloud Server
   $upload_login       = 'na';
-  $usage_logging      =  99;      //  99=unset
+  $usage_logging      =  99;      //  99=unset - named "loglevel" in config file 
   $upload_folder      = 'na';     // Das Upload-Verzeichnis
   $command_log        = 'na';
   $usage_log          = 'na';
   $debug_log          = 'na';
+  $access_log         = 'na';
   $user_file          = 'na';
   $convert_command    = 'na';     // imagemagick convert
   $exiftool_command   = 'na';     // EXIFtool
@@ -64,10 +68,9 @@
   $ftp_exec           = 'na';
   $check_dir          = 'na';
   $check_user         = 'na';
+  $slack_api_token    = 'na';
 
-  $upload_server_f  = 'src/config.config';
-  // $upload_server_f  = $server_doc_root . 'src/config.config'; // BUG: absolute config file-path call (for admin pages necessary) does not work
-  //TODO: fix all path like above to make it usable for admin page
+  $upload_server_f  = $config_dir . '/config.config'; 
  
   if (file_exists($upload_server_f)) {
     $server_config_lines = explode(PHP_EOL, file_get_contents($upload_server_f));
@@ -108,6 +111,12 @@
           $usage_log = trim(substr($line, 10));
         } else {
           echo '<p>⚠️ Error in Upload-Server-Configuration, usage_log already defined.</p>';
+        }                            //  12345678901234567 
+      } elseif (substr($line, 0, 11) == 'access_log=') {
+        if($access_log == 'na') {
+          $access_log = trim(substr($line, 11));
+        } else {
+          echo '<p>⚠️ Error in Upload-Server-Configuration, access_log already defined.</p>';
         }                            //  12345678901234567 
       } elseif (substr($line, 0, 10) == 'debug_log=') {
         if($debug_log == 'na') {
@@ -163,6 +172,12 @@
         } else {
           echo '<p>⚠️ Error in configuration, check_dir already defined.</p>';
         }                            //  1234567890123456789012345
+      } elseif (substr($line, 0, 16) == 'slack_api_token=') {
+        if($slack_api_token == 'na') {
+          $slack_api_token = trim(substr($line, 16));
+        } else {
+          echo '<p>⚠️ Error in configuration, slack_api_token already defined.</p>';
+        }                            //  1234567890123456789012345
       } elseif (substr($line, 0, 11) == 'check_user=') {
         if($check_user == 'na') {
           $check_user = strtoupper(trim(substr($line, 11)));
@@ -215,6 +230,7 @@
   if($usage_log == 'na')        { $usage_log        = '_log/usage.log'; } 
   if($debug_log == 'na')        { $debug_log        = '_log/debug.log'; } 
   if($user_file == 'na')        { $user_file        = '_log/user.txt'; }
+  if($access_log == 'na')       { $access_log       = '_log/access.log'; } 
   if($convert_command == 'na')  { $convert_command  = '/usr/local/bin/convert'; }    // imagemagick convert
   if($exiftool_command == 'na') { $exiftool_command = '/usr/local/bin/exiftool'; }   // EXIFtool
   if($curl_command == 'na')     { $curl_command     = '/usr/bin/curl'; }             // curl

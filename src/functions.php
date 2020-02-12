@@ -111,17 +111,41 @@
     log_usage('-E', $user, 'Exec Command Error');
   }
 
-  function log_usage($page, $user, $info = '') {
+  function log_usage($page, $user, $info = '', $loguse = TRUE, $logacs = FALSE ) {
     global $usage_log;
+    global $access_log;
     global $usage_logging;
-    if($usage_logging == 0) { return; }
-    if($usage_logging == 1) {
-      $log_msg = date("c") . ';' . $page . ';;' . $info . PHP_EOL ;
-    } else {
-      $log_msg = date("c") . ';' . $page . ';' . $user . ';' . $info . PHP_EOL ;
+
+    switch($usage_logging) {
+      case 0:
+        return; 
+      case 1:
+        $log_msg = date("c") . ';' . $page . ';;' . $info . PHP_EOL ;
+        $log_acs = $log_msg;
+        break;
+      case 2: 
+        $log_msg = date("c") . ';' . $page . ';' . $user . ';' . $info . PHP_EOL ;
+        $log_acs = $log_msg;
+        break;
+      case 3;
+        // TODO: implement anonymized IP logging
+      case 4; 
+        $log_msg = date("c") . ';' . $page . ';' . $user . ';' . $info . PHP_EOL ; // like 2
+        $log_acs = date("c") . ';' . $page . ';' . $user . ',' . get_ip_address() . ';' . $info . PHP_EOL ;
+        break;
+      default: // like 1
+        $log_msg = date("c") . ';' . $page . ';;' . $info . PHP_EOL ;
+        $log_acs = $log_msg;
     }
-    if(file_put_contents($usage_log, $log_msg, FILE_APPEND) === FALSE) {
-      echo "<p>⚠️ Problem bei Log schreiben</p>";
+    if($loguse) {
+      if(file_put_contents($usage_log, $log_msg, FILE_APPEND) === FALSE) {
+        echo "<p>⚠️ Problem bei Usage-Log schreiben</p>";
+      }
+    }
+    if($logacs) {
+      if(file_put_contents($access_log, $log_acs, FILE_APPEND) === FALSE) {
+        echo "<p>⚠️ Problem bei Access-Log schreiben</p>";
+      }
     }
   }
 
@@ -136,7 +160,63 @@
     }
   }
 
-  
+  // IP functions from
+  // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
+
+  /**
+  * Retrieves the best guess of the client's actual IP address.
+  * Takes into account numerous HTTP proxy headers due to variations
+  * in how different ISPs handle IP addresses in headers between hops.
+  */
+  function get_ip_address() {
+    // Check for shared internet/ISP IP
+    if (!empty($_SERVER['HTTP_CLIENT_IP']) && $this->validate_ip($_SERVER['HTTP_CLIENT_IP']))
+      return $_SERVER['HTTP_CLIENT_IP'];
+
+    // Check for IPs passing through proxies
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    // Check if multiple IP addresses exist in var
+      $iplist = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+      foreach ($iplist as $ip) {
+      if ($this->validate_ip($ip))
+        return $ip;
+      }
+    }
+    
+    if (!empty($_SERVER['HTTP_X_FORWARDED']) && $this->validate_ip($_SERVER['HTTP_X_FORWARDED']))
+      return $_SERVER['HTTP_X_FORWARDED'];
+    if (!empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && $this->validate_ip($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+      return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+    if (!empty($_SERVER['HTTP_FORWARDED_FOR']) && $this->validate_ip($_SERVER['HTTP_FORWARDED_FOR']))
+      return $_SERVER['HTTP_FORWARDED_FOR'];
+    if (!empty($_SERVER['HTTP_FORWARDED']) && $this->validate_ip($_SERVER['HTTP_FORWARDED']))
+      return $_SERVER['HTTP_FORWARDED'];
+
+    // Return unreliable IP address since all else failed
+    return $_SERVER['REMOTE_ADDR'];
+  }
+
+ /**
+  * Ensures an IP address is both a valid IP address and does not fall within
+  * a private network range.
+  *
+  * @access public
+  * @param string $ip
+  */
+  function validate_ip($ip) {
+     if (filter_var($ip, FILTER_VALIDATE_IP, 
+                         FILTER_FLAG_IPV4 | 
+                         FILTER_FLAG_IPV6 |
+                         FILTER_FLAG_NO_PRIV_RANGE | 
+                         FILTER_FLAG_NO_RES_RANGE) === false)
+         return false;
+     //self::$ip = $ip;
+     return true;
+  }
+
+ // *********************************************************************************
+
+
   // get any picture creation date info as an array with the keys:
   // - tag  : which date tag was found, empty if none was found
   // - prio : the index of the found tag, starting with 0, 99 if none was found

@@ -31,8 +31,8 @@
         cancel_processing("Missing usage_log file.");
       }
       // read usage_log  
-      exec('tail -n 200 ' . $usage_log, $lines, $result);
-      echo '<p>Es werden die letzten 200 Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
+      exec('tail -n 300 ' . $usage_log, $lines, $result);
+      echo '<p>Es werden die letzten 300 Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
     ?>
 
 <pre>
