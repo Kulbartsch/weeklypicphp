@@ -107,6 +107,14 @@
             log_debug('Upload OK','');
             log_usage('3I', $user, 'FTP upload successful to ' . $upload_dir . ' ' . $filename);
           }  
+          echo '<p>Dateiname: ' . htmlspecialchars($filenam) . '<br />' . PHP_EOL;
+          echo 'für Zeitraum: ' . $year;
+          if($per_type = 'M') {
+            echo ' Monat '; 
+          } else {
+            echo ' Woche ';
+          }
+          echo $period . '</p>' . PHP_EOL;
         } 
 
         if(($pushing_pic & $push_filesystem) > 0) {
