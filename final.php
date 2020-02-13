@@ -106,7 +106,7 @@
             log_debug('Upload OK','');
             log_usage('3I', $user, 'FTP upload successful to ' . $upload_dir . ' ' . $filename);
           }  
-          echo '<p>Dateiname: ' . htmlspecialchars($filenam) . '<br />' . PHP_EOL;
+          echo '<p>Dateiname: ' . htmlspecialchars($filename) . '<br />' . PHP_EOL;
           echo 'für Zeitraum: ' . $year;
           if($per_type = 'M') {
             echo ' Monat '; 

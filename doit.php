@@ -88,6 +88,7 @@
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
       // IDEA: general footer with Authors and link to github for each page
+      // IDEA: Use WeeklyPic Logo on Website
       // TODO: harden against XSS 
       // REVIEW: Get Slack Name and Channel from config file
       // TODO: Admin view access log
