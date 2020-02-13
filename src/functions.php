@@ -28,7 +28,8 @@
         return '';
       }
     } else {
-      return htmlspecialchars(trim($_POST[$param]));
+      return trim($_POST[$param]);
+      // return htmlspecialchars(trim($_POST[$param]));
     }
   }
 

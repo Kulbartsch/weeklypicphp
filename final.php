@@ -24,6 +24,7 @@
       include 'src/config.php';
       // more functions
       include 'src/functions.php';
+      include 'src/slack.php';
 
       log_debug('>>>> START final.php','');
 
@@ -39,8 +40,6 @@
 
       log_usage('3I', $user, '', FALSE, TRUE);
 
-      // TODO: repeat info about picture (name, timerange, ...)
-      
       // upload
       if (isset($_POST['upload']) or isset($_POST['upload2'])) { // upload button was klicked
 
@@ -74,7 +73,7 @@
           if(isset($_POST['upload2'])) {
             $upload_dir = $check_dir;
             log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload2)');
-            slack('Hallo Admins!\n' . $user . ' lädt das Bild ' . $filename . 'in den Prüfordner ' . $upload_dir . 'hoch.',  '#weeklypic-adm-2' );
+            slack('Hallo Admins! ' . $user . ' lädt das Bild ' . $filename . ' in den Prüfordner ' . $upload_dir . ' hoch.',  '#weeklypic-adm-2' );
           } else {
             $upload_dir = uploadWPdir($per_type, $period, $year);
             log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload)');

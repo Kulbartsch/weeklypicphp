@@ -22,6 +22,7 @@
     <?php
       // configuration constants
       // include '../src/config.php';
+      // BUG: use config file
       $usage_log = "../_log/usage.log";
       setlocale(LC_CTYPE, 'en_US.UTF-8');
       // more functions

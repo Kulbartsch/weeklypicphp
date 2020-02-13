@@ -56,6 +56,7 @@
         -webkit-font-smoothing:antialiased;
         font-family:"Helvetica Neue",Helvetica,Arial,Verdana,sans-serif }
       h1,h2,h3 {line-height:1.2}
+      em { color: #551111;  font-style: normal; text-shadow: 1px 1px #AAF;  } /* font-weight: bold; */
       input {font-size:18px}
       table{ border-collapse: collapse; }
       th, td { padding: 3px;  text-align: left; }
@@ -74,18 +75,23 @@
 
     <?php
 
-      // TODO: reduce primary=usage log to pages 2 and 3, add an access log 
-      // TODO: Better message when problems are deteced
-      // IDEA: Use bot to inform admins about pictures send to check directory
-      // BUG: not all critical messages are logged
+      // DONE: reduce primary=usage log to pages 2 and 3, add an access log 
+      // TODO: Better message when problems are deteced, list them before update, in case of uload to check folder send them to the admin slack channel
+      // DONE: Use bot to inform admins about pictures send to check directory
+      // CHECK: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
-      // BUG: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
-      // BUG: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
+      // DONE: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
+      // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // IDEA: check for umlaute in requested picture title
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
+      // IDEA: general footer with Authors and link to github for each page
+      // TODO: harden against XSS 
+      // REVIEW: Get Slack Name and Channel from config file
+      // TODO: Admin view access log
+      
 
       //####################################################################
 
@@ -467,12 +473,12 @@
     echo '<h2>Und nun?</h2>';
 
     if($all_good == false) {
-      echo '<p><em>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue mal im Abschnitt "Eckdaten des überarbeiteten Bildes".';
-      echo '<br />Dort markiert ein 🛑 das Problem.';
+      echo '<p><em>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue bitte oben im Abschnitt "Eckdaten des überarbeiteten Bildes". ';
+      echo 'Dort markiert ein 🛑 das Problem.';
       echo ' Bitte prüfe das und probiere es noch mal.</em></p>';
       if($pushing_pic > 0) {
         echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. ';
-        echo '<em></em>Die Admins prüfen das dann und müssen das Bild manuell in die Galerie verschieben.</em></p>'; 
+        echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
         echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';

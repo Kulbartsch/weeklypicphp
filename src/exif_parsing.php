@@ -153,10 +153,16 @@
             echo '🛑';
             log_usage('2W',$user,'Not OK: ' . $exif_tag . ' is: ' . $exif_tag_is . ' should: 2000-2048');
           }
+        } elseif($exif_tag == 'ImageDescription') {  // ignore case when comparing ImageDescription, so user name case is irrelevant in expert mode.
+          if(strtolower(trim($exif_tag_is)) == strtolower(trim($exif_value))) {
+            echo '✅'; 
+          } else {
+            $all_good = false;
+            echo '🛑';
+            log_usage('2W',$user,'Not OK: ' . $exif_tag . ' is: ' . $exif_tag_is . ' should: ' . $exif_value);
+          }
         } elseif(trim($exif_tag_is) == trim($exif_value)) { 
           echo '✅'; 
-        // ToDo: ignore case when comparing ImageDescription, so user name case is irrelevant in expert mode.
-        // ...
         } else {  
           log_debug('exif_display,tag ' . $exif_tag . ' in must_be_ok, result', array_search( $exif_tag, $must_be_ok ));
           if(array_search( $exif_tag, $must_be_ok ) === FALSE){

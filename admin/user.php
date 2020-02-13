@@ -38,7 +38,8 @@ Marie;;Marie.Curie@example.com</pre></p>
     <h3>Die Benutzer-Datei:</h3>
     <?php
       // configuration constants
-      // include '../src/config.php';
+      // BUG: use config file
+      // include '../src/config.php';  
       $user_file = "../_log/user.txt";
       setlocale(LC_CTYPE, 'en_US.UTF-8');
       // more functions

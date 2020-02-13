@@ -56,9 +56,6 @@
       $default_month = date('n');
       $default_week  = date('W');
 
-      // IDEA: general footer with Authors and link to github for each page
-      // TODO: harden against XSS 
-
     ?>
 
     <p>
