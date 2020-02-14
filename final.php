@@ -108,7 +108,7 @@
           }  
           echo '<p>Dateiname: ' . htmlspecialchars($filename) . '<br />' . PHP_EOL;
           echo 'für Zeitraum: ' . $year;
-          if($per_type = 'M') {
+          if($per_type == 'M') {
             echo ' Monat '; 
           } else {
             echo ' Woche ';

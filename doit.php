@@ -481,7 +481,7 @@
         echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. ';
         echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
-        echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; 
+        echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
         echo '</form></p>';
       }
@@ -492,7 +492,7 @@
     <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun direkt für WeeklyPic bereitstellen und hier löschen.<br>'; } ?>
        Sollte dir das Ergebnis hier nicht gefallen, solltest du das Bild hier löschen. (Sonst wird es auch irgendwann später gelöscht.)</p>
     <p><form method="post" action="final.php?<?php echo htmlspecialchars(SID); ?>">
-      <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen und löschen">&nbsp;&nbsp;&nbsp;'; } ?>
+      <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen">&nbsp;&nbsp;&nbsp;'; } ?>
       <input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;
     </form></p>
 
