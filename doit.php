@@ -149,7 +149,7 @@
       //####################################################################
       // generate filename from parameters
 
-      log_usage('2I', $user, $expertmode ? 'Expert' : 'no expert', TRUE, TRUE );
+      log_usage('2I', $user, $expertmode ? 'Expert' : 'no expert mode', TRUE, TRUE );
       if(empty($user)) {
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
@@ -412,8 +412,9 @@
         } else {
           // exiftool -s = very short output of tag names
           //          -v = verbose output
-          $command =  $exiftool_command . ' -v2 -s -overwrite_original ' . $et_param .
-                      ' ' . escapeshellarg($new_path) . ' 2>&1';
+          // 
+          $command =  $exiftool_command . ' -v2 -s -overwrite_original -charset exif=UTF8 -charset iptc=UTF8 -codedcharacterset=utf8 ' . 
+                      $et_param . ' ' . escapeshellarg($new_path) . ' 2>&1';
           exec($command, $data, $result);
           if($debugging) { // debug
             echo "<p>command: "; print_r($command);
