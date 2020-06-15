@@ -102,7 +102,7 @@
             log_debug('Upload Error','');
             log_usage('3E', $user, 'FTP upload error. ' . $upload_dir . ' ' . $filename);
           } else {
-            echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
+            echo '<p>✅ Das Bild wurde für WeeklyPic hochgeladen! 😃</p>';
             log_debug('Upload OK','');
             log_usage('3I', $user, 'FTP upload successful to ' . $upload_dir . ' ' . $filename);
           }  

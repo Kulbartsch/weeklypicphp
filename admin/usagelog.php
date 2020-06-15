@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WeeklyPic-One-Stop-Foto</title>
+    <title>WeeklyPic-One-Stop-Foto Admin - Usage-Log</title>
     <style type="text/css">
       body {margin:5% auto; line-height:1.6; font-size:18px;
         color:#444; padding:0 10px;
@@ -42,7 +42,7 @@
 
     <p>Das Format der Log-Datei ist wie folgt:</p>
     <ul>
-      <li>Eine Zeile kann aus mehreren Feldern bestehen, welche durch ein ";" getrennt sind.</li>
+      <li>Eine Zeile besteht aus mehreren Feldern, welche durch ein ";" getrennt sind.</li>
       <li>Das erste Feld ist ein Zeitstempel. (In Lokaler Zeit mit der Abweichung zu UTC.)</li>
       <li>Das zweite Feld besteht aus zwei Zeichen: 
           <br/>Das erste Zeichen ist eine Ziffer von 1-3 für die in der Reihenfolge üblicherweise
