@@ -192,7 +192,7 @@
     return $all_good;
   }
 
-  function get_any_title($tags) {
+  function get_any_title($tags, $user) {
     $title_tags = array( 
       "ImageDescription",  // user / title combined - EXIF (bot)
       "Title",             // XMP
@@ -202,13 +202,16 @@
     foreach($title_tags as $tt) {
       $title = exif_get_tag_value($tags, $tt);
       if($title != '') {
-        if($tt == 'ImageDescription') { // seperate user / title
-          $title = trim(explode('/', $title, 2)[1]);
+        // check if there is the username before a / slash
+        if( ! ( strpos($title, '/') === FALSE ) ) {
+          list($part1, $part2) = explode('/', $title, 2);
+          if ( strtoupper(trim($user)) == strtoupper(trim($part1)) ) {
+            log_debug('get_any_title, Tag', $tt . ', Index:' . $i . ', Value:' . $title . ', Title:' . $part2 );
+            return trim($part2);
+          }
         }
-        if ($title != '') {
-          log_debug('get_any_title, Tag', $tt . ', Index:' . $i . ', Value:' . $title);
-          return trim($title);
-        }
+        log_debug('get_any_title, Tag', $tt . ', Index:' . $i . ', Value=Title:' . $title);
+        return trim($title);
       }
       $i += 1;  
     }

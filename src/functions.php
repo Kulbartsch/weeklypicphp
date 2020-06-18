@@ -230,7 +230,7 @@
       "DigitalCreationDate",         // IPTC 
       "DateTimeCreated",             // Composite
       "SubSecCreateDate",            // Composite
-      "SubSecDateTimeOriginal",      // Composite
+      "SubSecDateTimeOriginal",      // Composite 
       "ModifyDate",                  // EXIF
       "SubSecModifyDate",            // Composite
       // "FileModifyDate"               // FILE (does only work from monday - friday)

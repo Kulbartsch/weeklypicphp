@@ -257,7 +257,7 @@
 
       $exif_data_orig = get_exif_data($new_path);
       if(($description_isset === FALSE) or ($expertmode)) {
-        $description = get_any_title($exif_data_orig);
+        $description = get_any_title($exif_data_orig, $user);
         if($description != '') {
           $description_isset = TRUE;
           if(!$expertmode) {
