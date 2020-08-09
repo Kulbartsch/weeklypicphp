@@ -236,9 +236,9 @@
           log_usage('2V', $user, "Fehler: PHP exif_imagetype returned: " . $detected_type . ". Allowed is: " . $allowed_types_txt . "See: https://www.php.net/manual/de/function.exif-imagetype.php for more information.");
           echo "<p><em>⚠️ Datei wurde nicht als JPEG-Bild erkannt. ";
           echo "(Auch wenn die Datei auf 'jpg' oder 'jpeg' endet ist dies technisch nich unbedingt ein JPEG-Bild.)<br />";
-          echo 'Eventuell liegt auch ein Fehler beim Upload vor;';
-          echo 'Probiere daher bitte die <b><a href="index.php">Start-Seite</a> neu aufzurufen / neu zu laden</b>,';
-          echo 'und dann das Bild erneut hochzuladen.'; 
+          echo 'Eventuell liegt ein Fehler beim Upload vor; ';
+          echo 'Probiere daher bitte die <b><a href="index.php">Start-Seite</a> neu aufzurufen / neu zu laden</b>, ';
+          echo 'und dann das Bild erneut hochzuladen. '; 
           echo '(Nicht über den "Zurück"-Button des Browsers.)</em></p>';
           cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet!" );
         }
