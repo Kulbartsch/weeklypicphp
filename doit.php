@@ -111,7 +111,7 @@
       } else {
         $user_called = $user_info["called"];
         log_debug("Username from form", $user);
-        log_usage('2V', $user, '<- username from from');
+        log_usage('2V', $user, '<- username from form');
         $user = $user_info["userid"];  // to bring the case of the name to its default 
         log_debug("Username from user_db", $user);
         log_usage('2V', $user, '<- username from user_db');
@@ -191,7 +191,7 @@
         echo "<br>log file:          $command_log";
         echo "<br>upload filename:   $upload_file</p>";
       }
-      log_usage('2V', $user, 'Upload-Filename: ' . $upload_file . 'PHP-Ulpoad-File-Type:' . $fileToUpload["type"]);
+      log_usage('2V', $user, 'Upload-Filename: ' . $upload_file . ' PHP-Upload file-type from file-extension:' . $fileToUpload["type"]);
 
       // Check if file exists. There are still situations when it's not detected.
       if(!file_exists($fileToUpload['tmp_name'])) {
@@ -225,8 +225,8 @@
         if(!in_array($detected_type, $allowed_types)) {
           $allowed_types_txt = "";
           foreach ($allowed_types as $x) $allowed_types_txt = $allowed_types_txt . $x . ", ";
-          log_usage('2V', $user, "Fehler: PHP exif_imagetype returned: " . $detected_type . ". Allowed is: " . $allowed_types_txt . " See: https://www.php.net/manual/de/function.exif-imagetype.php for more information.");
-          cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet.");
+          log_usage('2V', $user, "Fehler: PHP exif_imagetype returned: " . $detected_type . ". Allowed is: " . $allowed_types_txt . "See: https://www.php.net/manual/de/function.exif-imagetype.php for more information.");
+          cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet! (Auch wenn die Datei auf 'jpg' oder 'jpeg' endet ist dies <b>keine</b> JPEG-Bild.)" );
         }
       }
       else {

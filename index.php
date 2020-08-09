@@ -52,7 +52,7 @@
         $val_usecookie = ' ';
         log_usage('1I', $val_user, 'no cookie, browser: ' . $_SERVER['HTTP_USER_AGENT'], TRUE, TRUE);
       }
-      log_usage('1I', $val_user, '', TRUE, TRUE);
+      // log_usage('1I', $val_user, '', TRUE, TRUE);
 
       // set default week and month numbers
       $default_month = date('n');
