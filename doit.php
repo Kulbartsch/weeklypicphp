@@ -33,7 +33,7 @@
   }
 
   // cookie (must be handled before any html code)
-  // Store common values cookies for next time, if requested
+  // Store common values in cookies for next time, if requested
   if(array_key_exists("usecookie", $_POST)) {
     $cookie_value = implode( $cookie_split, array($user, $creator, $license, $nogeo_cookie, $expert_cookie) );
     setcookie($cookie_name, $cookie_value, $cookie_expires, "/");
@@ -84,7 +84,7 @@
       // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
-      // IDEA: check for umlaute in requested picture title
+      // DONE: check for umlaute in requested picture title
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
       // IDEA: general footer with Authors and link to github for each page
@@ -115,6 +115,14 @@
         $user = $user_info["userid"];  // to bring the case of the name to its default 
         log_debug("Username from user_db", $user);
         log_usage('2V', $user, '<- username from user_db');
+      }
+
+      log_usage('1I', $val_user, 'Browser: ' . $_SERVER['HTTP_USER_AGENT'], TRUE, TRUE);
+      // Info about cookie
+      if(array_key_exists("usecookie", $_POST)) {
+        log_usage('1I', $val_user, 'Setting/updating cookie.');
+      } elseif(isset($_COOKIE[$cookie_name])) { 
+        log_usage('1I', $val_user, 'Deleting cookie.');
       }
 
 
@@ -226,7 +234,13 @@
           $allowed_types_txt = "";
           foreach ($allowed_types as $x) $allowed_types_txt = $allowed_types_txt . $x . ", ";
           log_usage('2V', $user, "Fehler: PHP exif_imagetype returned: " . $detected_type . ". Allowed is: " . $allowed_types_txt . "See: https://www.php.net/manual/de/function.exif-imagetype.php for more information.");
-          cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet! (Auch wenn die Datei auf 'jpg' oder 'jpeg' endet ist dies <b>keine</b> JPEG-Bild.)" );
+          echo "<p><em>⚠️ Datei wurde nicht als JPEG-Bild erkannt. ";
+          echo "(Auch wenn die Datei auf 'jpg' oder 'jpeg' endet ist dies technisch nich unbedingt ein JPEG-Bild.)<br />";
+          echo 'Eventuell liegt auch ein Fehler beim Upload vor;';
+          echo 'Probiere daher bitte die <b><a href="index.php">Start-Seite</a> neu aufzurufen / neu zu laden</b>,';
+          echo 'und dann das Bild erneut hochzuladen.'; 
+          echo '(Nicht über den "Zurück"-Button des Browsers.)</em></p>';
+          cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet!" );
         }
       }
       else {
