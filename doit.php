@@ -117,12 +117,12 @@
         log_usage('2V', $user, '<- username from user_db');
       }
 
-      log_usage('2I', $val_user, 'Browser: ' . $_SERVER['HTTP_USER_AGENT'], TRUE, TRUE);
+      log_usage('2I', $user, 'Browser: ' . $_SERVER['HTTP_USER_AGENT'], TRUE, TRUE);
       // Info about cookie
       if(array_key_exists("usecookie", $_POST)) {
-        log_usage('2V', $val_user, 'Setting/updating cookie.');
+        log_usage('2V', $user, 'Setting/updating cookie.');
       } elseif(isset($_COOKIE[$cookie_name])) { 
-        log_usage('2V', $val_user, 'Deleting cookie.');
+        log_usage('2V', $user, 'Deleting cookie.');
       }
 
 
