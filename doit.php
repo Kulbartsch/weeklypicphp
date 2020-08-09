@@ -111,8 +111,10 @@
       } else {
         $user_called = $user_info["called"];
         log_debug("Username from form", $user);
+        log_usage('2V', $user, '<- username from from');
         $user = $user_info["userid"];  // to bring the case of the name to its default 
         log_debug("Username from user_db", $user);
+        log_usage('2V', $user, '<- username from user_db');
       }
 
 
@@ -125,6 +127,7 @@
       {
         echo "<p>Dein Bild soll also <i>" . htmlspecialchars($description) . "</i> heissen?!</p>";
         $description_isset = true;
+        log_usage('2V', $user, 'Picture titel from startpage: ' . $description);
       } else {
         log_usage('2I', $user, 'No picture titel given on startpage');
       }
@@ -168,7 +171,7 @@
         $requested_period_type = 'W';
         $requested_period      = $requested_week;
       }
-
+      log_usage('2V', $user, 'Period from form: ' . $requested_period_type . $requested_period);
 
       //####################################################################
       // File validation and upload handling
@@ -188,15 +191,19 @@
         echo "<br>log file:          $command_log";
         echo "<br>upload filename:   $upload_file</p>";
       }
-      
-      // BUG: Check if file exists. There are still situations when it's not detected.
-      
+      log_usage('2V', $user, 'Upload-Filename: ' . $upload_file . 'PHP-Ulpoad-File-Type:' . $fileToUpload["type"]);
+
+      // Check if file exists. There are still situations when it's not detected.
+      if(!file_exists($fileToUpload['tmp_name'])) {
+        cancel_processing("Fehler: Datei wurde nicht hochgeladen! (timeout?)");
+      }
+
       //Überprüfung der Dateiendung
       $extension = strtolower(pathinfo($upload_file, PATHINFO_EXTENSION));
       //$allowed_extensions = array('png', 'jpg', 'jpeg', 'JPG', 'JPEG');
       $allowed_extensions = array('jpg', 'jpeg', 'JPG', 'JPEG');
       if(!in_array($extension, $allowed_extensions)) {
-        cancel_processing("Fehler! Ungültige Dateiendung.");
+        cancel_processing("Fehler! Ungültige Dateiendung. Erlaubt sind: jpg, jpeg, JPG, JPEG");
       }
 
       //Überprüfung der Dateigröße
@@ -216,7 +223,10 @@
           echo "<br>detected type: " . $detected_type . "</p>";
         }
         if(!in_array($detected_type, $allowed_types)) {
-          cancel_processing("Nur der Upload von Bilddateien ist gestattet. Du verwendest $detected_type .");
+          $allowed_types_txt = "";
+          foreach ($allowed_types as $x) $allowed_types_txt = $allowed_types_txt . $x . ", ";
+          log_usage('2V', $user, "Fehler: PHP exif_imagetype returned: " . $detected_type . ". Allowed is: " . $allowed_types_txt . " See: https://www.php.net/manual/de/function.exif-imagetype.php for more information.");
+          cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet.");
         }
       }
       else {
@@ -250,7 +260,7 @@
       //Alles okay, verschiebe Datei an neuen Pfad
       move_uploaded_file($fileToUpload['tmp_name'], $new_path);
       echo 'Dein Bild ist erfolgreich hier angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
-
+      log_usage('2V', $user, 'Picture successfuly received.');
 
       //####################################################################
       // Get title from picture if not given by form

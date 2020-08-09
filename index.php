@@ -42,6 +42,7 @@
           $val_expert  = ' ';
         }
         $val_usecookie = ' checked ';
+        log_usage('1I', $val_user, 'cookie used', TRUE, TRUE);
       } else {
         $val_user      = '';
         $val_creator   = '';
@@ -49,8 +50,9 @@
         $val_nogeo     = ' ';
         $val_expert    = ' ';
         $val_usecookie = ' ';
+        log_usage('1I', $val_user, 'no cookie', TRUE, TRUE);
       }
-      log_usage('1I', $val_user, '', FALSE, TRUE);
+      log_usage('1I', $val_user, '', TRUE, TRUE);
 
       // set default week and month numbers
       $default_month = date('n');

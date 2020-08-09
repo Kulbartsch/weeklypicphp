@@ -203,10 +203,12 @@
       $title = exif_get_tag_value($tags, $tt);
       if($title != '') {
         // check if there is the username before a / slash
+        log_usage('2V', $user, 'Found title in tag ' . $tt . ': ' . $title);
         if( ! ( strpos($title, '/') === FALSE ) ) {
           list($part1, $part2) = explode('/', $title, 2);
           if ( strtoupper(trim($user)) == strtoupper(trim($part1)) ) {
             log_debug('get_any_title, Tag', $tt . ', Index:' . $i . ', Value:' . $title . ', Title:' . $part2 );
+            log_usage('2V', $user, 'Using title: ' . trim($part2));
             return trim($part2);
           }
         }
@@ -216,6 +218,7 @@
       $i += 1;  
     }
     log_debug('get_any_title, No title found.', '');
+    log_usage('2V', $user, 'No title in picture meta-data found.');
     return '';
   }
 

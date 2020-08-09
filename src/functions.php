@@ -6,7 +6,7 @@
     echo "<em>Die Verarbeitung wird abgebrochen.</em></p>";
     echo '<p>Gehe an den <a href="index.php">Anfang</a> zurück um es noch einmal zu probieren.</p>';
     echo '</body></hmtl>';
-    log_usage('-A', 'na', $msg);
+    log_usage('-A', '--', $msg);
     die();
   }
 
