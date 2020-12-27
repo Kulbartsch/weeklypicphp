@@ -26,7 +26,7 @@ A simple PHP script to scale a JPG image to the right proportions and set EXIF d
 * Upload problematic pictures in a "to check" folder
 * No adjustment of the image size if it is already OK
 * Expert mode in which no metadata is changed
-* Display of all metadata of an image
+* Display of all metadata of an uploaded image
   
 # User documentation
 
@@ -60,7 +60,7 @@ So, for example, if you want to change the artist, the following tags are affect
 4. Create `src/config.config` file and make customizing. (see src/config.php for more information).
 
 
-# Known Problems
+# Known Problem
 
 There are graphic tools which manipulate the EXIF Tags, but do this wrong so the EXIF data is corrupt or at least not consitent.
 This results in warnings or errors when this is processed with with exiftool. 
@@ -72,7 +72,3 @@ Examples of this are:
 * Rotating a picture with a Linux preview tool corrupts the EXIF data.
 
 Maybe I'll implement aln optional processing step, that drops the corrupt meta-data and just updates the necessary data.
- 
-## solved 
-
-* It may be incorrectly displayed that GPS data is present even though it has been deleted because a GPS version ID is still present. However, geodata has been deleted.
