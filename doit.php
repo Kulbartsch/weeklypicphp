@@ -169,7 +169,7 @@
       $default_month = date('n');
       $default_week  = date('W');
       $requested_month = validate_number_and_return_string(sanitize_input("month_number", TRUE), 1, 12);
-      $requested_week  = validate_number_and_return_string(sanitize_input("week_number", TRUE), 1, 52);
+      $requested_week  = validate_number_and_return_string(sanitize_input("week_number", TRUE), 1, 53);
       if($_POST["timeframe"] == "Monat") {
         $filename = 'm_' . $requested_month . '_' . $user ;
         $requested_period_type = 'M';

@@ -75,7 +75,7 @@
         <p>
           Bild-Zeitraum (für den Dateinamen):<br>
           <input type="radio" id="timeframe" name="timeframe" value="Woche" checked required>
-          Woche <input type="number" name="week_number" min="1" max="52" step="1=" value="<?= $default_week ?>"><br>
+          Woche <input type="number" name="week_number" min="1" max="53" step="1=" value="<?= $default_week ?>"><br>
           <input type="radio" id="timeframe" name="timeframe" value="Monat" required>
           Monat <input type="number" name="month_number" min="1" max="12" step="1=" value="<?= $default_month ?>"><br/>
         </p>
