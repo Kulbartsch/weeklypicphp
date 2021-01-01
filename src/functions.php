@@ -298,7 +298,7 @@
     if( $picdates['result'] != 'ok') {
       return 0;
     } else {
-      return $picdates['wp_week_end_date']->format('Y');
+      return $picdates['wp_week_year'];
       log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 
       log_debug("get_picture_year_of_week,  ->format(Y)", $picdates['wp_week_end_date']->format('Y'));   
     }
@@ -319,9 +319,9 @@
     // convert Tag to date (CreateDate : 2019:05:15 22:58:54)
     $returns['date']  = DateTime::createFromFormat('Y:m:d G:i:s', $exif_create_date);
     log_debug("picture_dates,returns[date]: ", $returns['date']);
-    // $returns['month'] = $returns['date']->format('m'); 
-    // $returns['week']  = $returns['date']->format('W'); 
-    // $returns['year']  = $returns['date']->format('Y'); 
+    $returns['month'] = $returns['date']->format('m'); 
+    $returns['week']  = $returns['date']->format('W'); 
+    $returns['year']  = $returns['date']->format('Y'); 
     $dayinweek = $returns['date']->format('w');  // Sunday = 0 ... Saturday = 6
     log_debug("picture_dates,dayinweek", ($dayinweek));
     if ($dayinweek < 6) {
@@ -340,13 +340,14 @@
       log_debug("picture_dates,dayinweek=6,wp_week_start_date", ($returns['wp_week_start_date']));
       log_debug("picture_dates,dayinweek=6,wp_week_end_date", ($returns['wp_week_end_date']));
     }
-    // $returns['wp_year_start_date'] = 
-    // $returns['wp_year_end_date']   = 
-
-    // BUG: This is not the last day of the real week! Therefore a wrong year could be determinded.
-    //      In case that 1st of January is Saturday or Sunday, this will break. Because WeeklyPic Week ends on Friday.
+    // if friday of wp-week is january and week > 52 -> subtract one year
     $returns['wp_week']            = $returns['wp_week_end_date']->format('W');
     log_debug("picture_dates,wp_week", ($returns['wp_week']));
+    $returns['wp_week_year']       = $returns['wp_week_end_date']->format('Y');
+    $returns['wp_month']           = $returns['wp_week_end_date']->format('n');
+    if ( $returns['wp_week'] >= 52 AND $returns['wp_month'] == 1 ) {
+      $returns['wp_week_year']     = $returns['wp_week_year'] - 1;
+    }
     return $returns;
   }
 
