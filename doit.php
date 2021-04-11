@@ -226,7 +226,7 @@
       }
 
       //Überprüfung der Dateigröße
-      $max_size = 32000*1024; //32MB
+      $max_size = 100000*1024; //100MB
       if($_FILES['fileToUpload']['size'] > $max_size) {
         cancel_processing("Bitte keine Dateien größer 32 MB hochladen.");
       }

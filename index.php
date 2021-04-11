@@ -63,8 +63,8 @@
     <p>
       <form action="doit.php" method="post" enctype="multipart/form-data">
         <p>
-          Bild-Datei auswählen (max. 30 MB):<br/>
-          <input type="file" name="fileToUpload" id="fileToUpload" required>
+          Bild-Datei auswählen (max. 100 MB):<br/>
+          <input type="file" name="fileToUpload" id="fileToUpload" max-size="1100000" required>
         </p>
         <p>
           WeeklyPic-Benutzername 🍪:<br/>
