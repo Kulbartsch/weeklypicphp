@@ -103,7 +103,7 @@
       //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
         // ... with your logic
         //throw new Exception('File too large!');
-      /}
+      //}
 
       //####################################################################
 
