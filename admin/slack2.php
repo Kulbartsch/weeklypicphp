@@ -24,8 +24,11 @@
       include '../src/slack.php';
       
       // _POST Var Handling
-      $to       = sanitize_input("to", TRUE);
-      $message  = sanitize_input("message", TRUE);
+      if (empty($_POST['to']) || empty($_POST['message'])) {
+          cancel_processing("Es muss der Empfänger und die Nachricht angegeben werden!");
+      } 
+      $to       = trim($_POST['to']);
+      $message  = trim($_POST['message']);
    
       if(substr($to, 0, 1) != '@' and substr($to, 0, 1) != '#') {
         cancel_processing('Empfänger muss mit @ oder # beginnen.');
