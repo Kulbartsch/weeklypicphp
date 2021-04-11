@@ -2,7 +2,10 @@
 
 [German Version of this README.](README_DE.md)
 
-A simple PHP script to scale a JPG image to the right proportions and set EXIF data for our Weeklypic.de community.
+A PHP web application to scale a JPG image to the right proportions and set EXIF data for our Weeklypic.de community. 
+
+Many things are configurable, so might be generally useful.
+Texts in the webapp are in german, internationalization is missing.
 
 # Features
 

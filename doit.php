@@ -93,6 +93,17 @@
       // REVIEW: Get Slack Name and Channel from config file
       // TODO: Admin view access log
       
+      //####################################################################
+
+      // TODO: implement
+      // validate server upload volume has not been exceeded
+      // check that post_max_size has not been reached
+      // convert_to_bytes is the function turn `5M` to bytes because $_SERVER['CONTENT_LENGTH'] is in bytes.
+      if (isset($_SERVER['CONTENT_LENGTH']) 
+          && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
+        // ... with your logic
+        //throw new Exception('File too large!');
+      }
 
       //####################################################################
 

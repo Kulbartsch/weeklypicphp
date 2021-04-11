@@ -20,9 +20,10 @@
 
     <p>Hier gibt es:</p>
     <ul>
-      <li><a href="user.php">Bearbeiten der Benutzer-Datei</a></li>
+      <li><a href="user.php"    >Bearbeiten der Benutzer-Datei</a></li>
       <li><a href="usagelog.php">Anzeige des Nutzungs-Logs</a></li>
       <li><a href="slack.php"   >Senden einer Testnachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm-2</a></li>
+      <li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li>
     </ul>
 
     <p>Weitere Links:</p>
