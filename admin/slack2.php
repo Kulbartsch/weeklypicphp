@@ -35,7 +35,7 @@
       }
 
       echo '<p>Testnachricht gesendet.<br/>'; 
-      echo 'Ergebnis: ' . slack($message, $to);
+      echo 'Ergebnis: ' . slacku($message, $to);
       echo '</p>';
     ?>
 
