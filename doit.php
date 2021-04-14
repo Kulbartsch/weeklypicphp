@@ -16,7 +16,7 @@
   // validate server upload volume has not been exceeded
   if (isset($_SERVER['CONTENT_LENGTH'])) {
     log_usage('2V', '--', "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
-    if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB
+    if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB // check for: filesize
       cancel_processing('Bildgroesse darf 100MB nicht ueberschreiten.');
     }
   }
@@ -230,9 +230,9 @@
       }
 
       //Überprüfung der Dateigröße
-      $max_size = 100000*1024; //100MB
+      $max_size = 100000*1024; // 100MB // check for: filesize
       if($_FILES['fileToUpload']['size'] > $max_size) {
-        cancel_processing("Bitte keine Dateien größer 32 MB hochladen.");
+        cancel_processing("Bitte keine Dateien größer 100MB hochladen."); // check for: filesize
       }
 
       //Überprüfung dass das Bild keine Fehler enthält
