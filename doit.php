@@ -12,10 +12,10 @@
   log_debug('>>>> START doit.php', '');
 
   // _SERVER handling 
-  
+
   // validate server upload volume has not been exceeded
   if (isset($_SERVER['CONTENT_LENGTH'])) {
-    log_usage('2V', $user, "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
+    log_usage('2V', '--', "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
     if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB
       cancel_processing('Bildgroesse darf 100MB nicht ueberschreiten.');
     }
