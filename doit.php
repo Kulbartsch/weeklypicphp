@@ -11,6 +11,24 @@
 
   log_debug('>>>> START doit.php', '');
 
+  // _SERVER handling 
+  
+  // validate server upload volume has not been exceeded
+  if (isset($_SERVER['CONTENT_LENGTH'])) {
+    log_usage('2V', $user, "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
+    if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB
+      cancel_processing('Bildgroesse darf 100MB nicht ueberschreiten.');
+    }
+  }
+  // check that post_max_size has not been reached
+  // convert_to_bytes is the function turn `5M` to bytes because $_SERVER['CONTENT_LENGTH'] is in bytes.
+  //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) { 
+  // ... with your logic
+  //throw new Exception('File too large!');
+  //}
+
+  //####################################################################
+  
   // _POST Var Handling
   $user         = sanitize_input("user", TRUE);
   $creator      = sanitize_input("creator", FALSE);
@@ -91,23 +109,6 @@
       // REVIEW: Get Slack Name and Channel from config file
       // TODO: Admin view access log
       
-      //####################################################################
-
-      // TODO: implement
-      // validate server upload volume has not been exceeded
-      // check that post_max_size has not been reached
-      // convert_to_bytes is the function turn `5M` to bytes because $_SERVER['CONTENT_LENGTH'] is in bytes.
-      if (isset($_SERVER['CONTENT_LENGTH'])) {
-      	log_usage('2V', $user, "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
-      	if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB
-      		cancel_processing('Bildgroesse darf 100MB nicht ueberschreiten.');
-      	}
-      }
-      //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
-        // ... with your logic
-        //throw new Exception('File too large!');
-      //}
-
       //####################################################################
 
       // validate user name against DB
