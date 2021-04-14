@@ -97,8 +97,11 @@
       // validate server upload volume has not been exceeded
       // check that post_max_size has not been reached
       // convert_to_bytes is the function turn `5M` to bytes because $_SERVER['CONTENT_LENGTH'] is in bytes.
-      if (isset($_SERVER['CONTENT_LENGTH']) {
-      	log_debug("$_SERVER['CONTENT_LENGTH']", $_SERVER['CONTENT_LENGTH']);
+      if (isset($_SERVER['CONTENT_LENGTH'])) {
+      	log_usage('2V', $user, "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
+      	if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB
+      		cancel_processing('Bildgroesse darf 100MB nicht ueberschreiten.');
+      	}
       }
       //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
         // ... with your logic
