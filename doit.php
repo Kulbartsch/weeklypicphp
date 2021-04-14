@@ -80,11 +80,9 @@
       // DONE: Use bot to inform admins about pictures send to check directory
       // CHECK: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
-      // DONE: Gross/Kleinschreibung im Titel/Usernamen ignorieren (gerade Expertenmodus)
       // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
       // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
-      // DONE: check for umlaute in requested picture title
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
       // IDEA: general footer with Authors and link to github for each page
@@ -99,7 +97,9 @@
       // validate server upload volume has not been exceeded
       // check that post_max_size has not been reached
       // convert_to_bytes is the function turn `5M` to bytes because $_SERVER['CONTENT_LENGTH'] is in bytes.
-      //if (isset($_SERVER['CONTENT_LENGTH']) 
+      if (isset($_SERVER['CONTENT_LENGTH']) {
+      	log_debug("$_SERVER['CONTENT_LENGTH']", $_SERVER['CONTENT_LENGTH']);
+      }
       //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
         // ... with your logic
         //throw new Exception('File too large!');
