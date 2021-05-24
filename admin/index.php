@@ -21,9 +21,15 @@
     <p>Hier gibt es:</p>
     <ul>
       <li><a href="user.php"    >Bearbeiten der Benutzer-Datei</a></li>
-      <li><a href="usagelog.php">Anzeige des Nutzungs-Logs</a></li>
+      <li><a href="usagelog.php?lines=300">Anzeige der letzten 300 Zeilen des Nutzungs-Logs</a></li>
+        <ul>
+          <li><a href="usagelog.php?lines=150">... der letzten 150 Zeilen</a></li>
+          <li><a href="usagelog.php?lines=600">... der letzten 600 Zeilen</a></li>
+          <li><a href="usagelog.php?lines=1500">... der letzten 1500 Zeilen</a></li>
+          <li><a href="usagelog.php?lines=3000">... der letzten 3000 Zeilen</a></li>
+        <ul>
       <li><a href="slack.php"   >Senden einer Testnachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm-2</a></li>
-      <li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li>
+      <!-- li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li -->
     </ul>
 
     <p>Weitere Links:</p>

@@ -31,9 +31,19 @@
       if(file_exists($usage_log) == FALSE){
         cancel_processing("Missing usage_log file.");
       }
+      $lines = intval($_GET['lines']);
+      if($lines < 10) { 
+        $lines = 300; 
+        echo '<p>⚠️ Warnung, Es werden nicht weniger als 10 Zeilen angezeigt. Die Ausgabe wurde auf ' . $lines . ' gesetzt.</p>';
+      }
+      if($lines > 10000) { 
+        $lines = 300; 
+        echo '<p>⚠️ Warnung, Es werden nicht mehr als 10.000 Zeilen angezeigt. Die Ausgabe wurde auf ' . $lines . ' gesetzt.</p>';
+
+      }
       // read usage_log  
       exec('tail -n 300 ' . $usage_log, $lines, $result);
-      echo '<p>Es werden die letzten 300 Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
+      echo '<p>Es werden die letzten ' . $lines . ' Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
     ?>
 
 <pre>
