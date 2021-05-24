@@ -27,7 +27,7 @@
           <li><a href="usagelog.php?lines=600">... der letzten 600 Zeilen</a></li>
           <li><a href="usagelog.php?lines=1500">... der letzten 1500 Zeilen</a></li>
           <li><a href="usagelog.php?lines=3000">... der letzten 3000 Zeilen</a></li>
-        <ul>
+        </ul>
       <li><a href="slack.php"   >Senden einer Testnachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm-2</a></li>
       <!-- li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li -->
     </ul>

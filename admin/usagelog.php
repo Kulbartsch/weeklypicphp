@@ -43,7 +43,7 @@
       }
       // read usage_log  
       exec('tail -n ' . $nl . ' ' . $usage_log, $lines, $result);
-      echo '<p>Es werden die letzten ' . $lines . ' Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
+      echo '<p>Es werden die letzten ' . $nl . ' Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
     ?>
 
 <pre>
