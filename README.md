@@ -61,6 +61,7 @@ So, for example, if you want to change the artist, the following tags are affect
 3. In `_log` directory copy `htaccess` file to `.htaccess`.
 3. In `src` directory copy `htaccess` file to `.htaccess`.
 4. Create `src/config.config` file and make customizing. (see src/config.php for more information).
+7. (optional) If you use this Application in an hidden subdirectory and you don't have start-page, you may want to copy the file "UR_wrong.html" as "index.html" into the webservers root directory. 
 
 
 # Known Problem
@@ -72,6 +73,6 @@ Examples of this are:
 
 * Darktable EXIF data probably wrong.
   * It seems, that data exported from Darktable will result in an `Error = Bad format (0) for IFD0 entry 0` when processed with exiftool. In this case the picture can't be processed and the program stops. I'm working on a solution, that in this and similar cases the EXIF data will be rewritten correctly.
-* Rotating a picture with a Linux preview tool corrupts the EXIF data.
+* Rotating a picture with an (unknow to me) Linux preview tool corrupts the EXIF data.
 
-Maybe I'll implement aln optional processing step, that drops the corrupt meta-data and just updates the necessary data.
+Maybe I'll implement an optional processing step, that drops the corrupt meta-data and just updates the necessary data.
