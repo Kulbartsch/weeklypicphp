@@ -17,7 +17,7 @@
   if (isset($_SERVER['CONTENT_LENGTH'])) {
     log_usage('2V', '--', "Upload size (_SERVER-CONTENT_LENGTH): " . $_SERVER['CONTENT_LENGTH']);
     if($_SERVER['CONTENT_LENGTH'] > (1024*1024*110)) {  // 110MB // check for: filesize
-      cancel_processing('Bildgroesse darf 100MB nicht ueberschreiten.');
+      cancel_processing('Bildgröße darf 100MB nicht überschreiten.');
     }
   }
   // check that post_max_size has not been reached
@@ -451,7 +451,10 @@
         } else {
           // exiftool -s = very short output of tag names
           //          -v = verbose output
-          // 
+          // TODO: Rewrite all tags to fix problems (see: https://www.exiftool.org/faq.html#Q20)
+          // Check for errors: "exiftool -v3"
+          // $command =  $exiftool_command . ' -all= -tagsfromfile @ -all:all -unsafe -icc_profile -F ' . bad.jpg
+          // Updating tags
           $command =  $exiftool_command . ' -v2 -s -overwrite_original -charset exif=UTF8 -charset iptc=UTF8 -codedcharacterset=utf8 ' . 
                       $et_param . ' ' . escapeshellarg($new_path) . ' 2>&1';
           exec($command, $data, $result);
@@ -495,7 +498,7 @@
 
       echo '<h2>Das überarbeitete Bild! </h2>';
       echo '<p><img src="' . $new_path . '" alt="Your processed WeeklyPic" width="600" ><br />';
-      echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. (Firefox kann das.) Das ist allerdings kein Problem für WeeklyPic.</small></p>';
+      // echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. (Firefox kann das.) Das ist allerdings kein Problem für WeeklyPic.</small></p>';
       // HINT: Image Orientation (find it in the css style above) is currently only supported by Firefox
       // IDEA: Rotate a portrait image?
 
@@ -520,6 +523,7 @@
       if($pushing_pic > 0) {
         echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. ';
         echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
+        echo '<p>Bild: <b>' . $description . '</b></p>'
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
         echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
@@ -531,6 +535,7 @@
 
     <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun direkt für WeeklyPic bereitstellen und hier löschen.<br>'; } ?>
        Sollte dir das Ergebnis hier nicht gefallen, solltest du das Bild hier löschen. (Sonst wird es auch irgendwann später gelöscht.)</p>
+    <p>Bild: <b><?php echo $description ></b></p>
     <p><form method="post" action="final.php?<?php echo htmlspecialchars(SID); ?>">
       <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen">&nbsp;&nbsp;&nbsp;'; } ?>
       <input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;
