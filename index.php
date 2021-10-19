@@ -17,10 +17,10 @@
   <body>
 
   	<h1>Hallo! ❤️</h1>
-    <h2>Wilkommen zum WeeklyPic One-Stop-Foto!</h2>
+    <h2>Willkommen zum WeeklyPic One-Stop-Foto!</h2>
     <p>Hier kannst du auf einfachem Weg dein Wochen- oder Monatsbild auf
        2000 Pixel (lange Kante) skalieren und deine EXIF Beschreibung als Tag setzen.
-       Nach dem Bearbeiten kannst du das Ergebnis direkt auf WeeklyPic.de hochladen.
+       Nach dem Bearbeiten kannst du das Ergebnis direkt auf WeeklyPic.de hochladen.</p>
     <hr />
     <h3>Dein Bild und Eckdaten</h3>
 

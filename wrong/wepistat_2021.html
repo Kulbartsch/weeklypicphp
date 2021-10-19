@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test CSS bars</title>
+  <style>
+    body {margin: 5px;
+          color: #444;
+          background-color: #eee;
+          font-family: Helvetica,Arial,Verdana,sans-serif; }
+  </style>
+<style>
+/* include css within <head> tags as
+   <link rel="stylesheet" href="<filename>.css">
+ */
+:root {
+    --bars_col_background: #CCC;       /* light grey   */
+    --bars_col_positive:   #FF00FF;    /* magenta      */
+    --bars_col_negative:   #008B8B;    /* cyan         */
+    --bars_col_zero:       #333;       /* dark grey 1  */
+    --bars_col_header:     #444;       /* dark grey 2  */
+    --bars_col_label:      #008;       /* dark blue    */
+    --bars_col_value:      #050;       /* dark green   */
+    --bars_col_footer:     #555;       /* dark grey 3  */
+}
+.bars_chart {
+    display: grid;
+    grid-template-columns: repeat(205, 1fr);
+    grid-row-gap: 5px;
+    font-family: Helvetica,Arial,Verdana,sans-serif;
+    background-color: var(--bars_col_background);
+    border: 2px solid;
+    border-radius: 3px;
+    padding: 4px;
+    white-space: nowrap;
+}
+.bars_header {
+    border-bottom: 2px solid;
+    font-weight: bold;
+    color: var(--bars_col_header);
+}
+.bars_label {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    color: var(--bars_col_label);
+}
+.bars_value {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    color: var(--bars_col_value);
+    text-align: right;
+}
+.bars_neg {
+    border-radius: 5px 0 0 5px;
+    background-color: var(--bars_col_negative);
+}
+.bars_zero {
+    background-color: var(--bars_col_zero);
+}
+.bars_pos {
+    border-radius: 0 5px 5px 0;
+    background-color: var(--bars_col_positive);
+}
+
+.bars_footer1 {
+    border-top: 2px solid;
+}
+.bars_footer_left {
+    font-style: italic;
+    grid-column: 1/2;
+    color: var(--bars_col_footer);
+}
+.bars_footer_mid {
+    font-style: italic;
+    grid-column: 3/4;
+    text-align: right;
+    color: var(--bars_col_footer);
+}
+.bars_footer_right {
+    font-style: italic;
+    grid-column: 5/206;
+    color: var(--bars_col_footer);
+}
+
+</style>
+</head>
+<body>
+<h1>WeeklyPic Statistik für 2021</h1>
+<p>Stand: 2021-10-19 13:28:12 CEST</p>
+<h2>Bilder im Jahr</h2>
+<div class="bars_chart" style="grid-template-rows: repeat(3, 1fr);">
+  <div class="bars_header" style="grid-column: 1/2;">Typ</div>
+  <div class="bars_header" style="grid-column: 3/4;text-align:right">Anzahl</div>
+  <div class="bars_header" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_label">Woche</div>
+    <div class="bars_value">2002</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Monat</div>
+    <div class="bars_value">326</div>
+    <div class="bars_pos" style="grid-column: 6/38;"></div>
+  <div class="bars_zero" style="grid-column:5/6; grid-row:2/4;"></div>
+  <div class="bars_footer_left bars_footer1" style="grid-column: 1/2;">Sum</div>
+  <div class="bars_footer_mid bars_footer1" style="grid-column: 3/4;text-align:right">2328</div>
+  <div class="bars_footer_right bars_footer1" style="grid-column: 5/206; text-align:left"></div>
+</div>
+<h2>Bilder pro Monat</h2>
+<div class="bars_chart" style="grid-template-rows: repeat(10, 1fr);">
+  <div class="bars_header" style="grid-column: 1/2;">Monat</div>
+  <div class="bars_header" style="grid-column: 3/4;text-align:right">Anzahl</div>
+  <div class="bars_header" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_label">01</div>
+    <div class="bars_value">44</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">02</div>
+    <div class="bars_value">41</div>
+    <div class="bars_pos" style="grid-column: 6/192;"></div>
+  <div class="bars_label">03</div>
+    <div class="bars_value">38</div>
+    <div class="bars_pos" style="grid-column: 6/178;"></div>
+  <div class="bars_label">04</div>
+    <div class="bars_value">35</div>
+    <div class="bars_pos" style="grid-column: 6/165;"></div>
+  <div class="bars_label">05</div>
+    <div class="bars_value">35</div>
+    <div class="bars_pos" style="grid-column: 6/165;"></div>
+  <div class="bars_label">06</div>
+    <div class="bars_value">30</div>
+    <div class="bars_pos" style="grid-column: 6/142;"></div>
+  <div class="bars_label">07</div>
+    <div class="bars_value">33</div>
+    <div class="bars_pos" style="grid-column: 6/156;"></div>
+  <div class="bars_label">08</div>
+    <div class="bars_value">37</div>
+    <div class="bars_pos" style="grid-column: 6/174;"></div>
+  <div class="bars_label">09</div>
+    <div class="bars_value">33</div>
+    <div class="bars_pos" style="grid-column: 6/156;"></div>
+  <div class="bars_zero" style="grid-column:5/6; grid-row:2/11;"></div>
+  <div class="bars_footer_left bars_footer1" style="grid-column: 1/2;">Sum</div>
+  <div class="bars_footer_mid bars_footer1" style="grid-column: 3/4;text-align:right">326</div>
+  <div class="bars_footer_right bars_footer1" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_footer_left" style="grid-column: 1/2;">Average</div>
+  <div class="bars_footer_mid" style="grid-column: 3/4;text-align:right">36</div>
+  <div class="bars_footer_right" style="grid-column: 5/206; text-align:left">Durchschnittliche Anzahl Bilder pro Monat</div>
+</div>
+<h2>Bilder pro Woche</h2>
+<div class="bars_chart" style="grid-template-rows: repeat(42, 1fr);">
+  <div class="bars_header" style="grid-column: 1/2;">KW</div>
+  <div class="bars_header" style="grid-column: 3/4;text-align:right">Anzahl</div>
+  <div class="bars_header" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_label">01</div>
+    <div class="bars_value">49</div>
+    <div class="bars_pos" style="grid-column: 6/177;"></div>
+  <div class="bars_label">02</div>
+    <div class="bars_value">54</div>
+    <div class="bars_pos" style="grid-column: 6/195;"></div>
+  <div class="bars_label">03</div>
+    <div class="bars_value">57</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">04</div>
+    <div class="bars_value">52</div>
+    <div class="bars_pos" style="grid-column: 6/188;"></div>
+  <div class="bars_label">05</div>
+    <div class="bars_value">55</div>
+    <div class="bars_pos" style="grid-column: 6/198;"></div>
+  <div class="bars_label">06</div>
+    <div class="bars_value">54</div>
+    <div class="bars_pos" style="grid-column: 6/195;"></div>
+  <div class="bars_label">07</div>
+    <div class="bars_value">53</div>
+    <div class="bars_pos" style="grid-column: 6/191;"></div>
+  <div class="bars_label">08</div>
+    <div class="bars_value">54</div>
+    <div class="bars_pos" style="grid-column: 6/195;"></div>
+  <div class="bars_label">09</div>
+    <div class="bars_value">51</div>
+    <div class="bars_pos" style="grid-column: 6/184;"></div>
+  <div class="bars_label">10</div>
+    <div class="bars_value">52</div>
+    <div class="bars_pos" style="grid-column: 6/188;"></div>
+  <div class="bars_label">11</div>
+    <div class="bars_value">52</div>
+    <div class="bars_pos" style="grid-column: 6/188;"></div>
+  <div class="bars_label">12</div>
+    <div class="bars_value">51</div>
+    <div class="bars_pos" style="grid-column: 6/184;"></div>
+  <div class="bars_label">13</div>
+    <div class="bars_value">55</div>
+    <div class="bars_pos" style="grid-column: 6/198;"></div>
+  <div class="bars_label">14</div>
+    <div class="bars_value">51</div>
+    <div class="bars_pos" style="grid-column: 6/184;"></div>
+  <div class="bars_label">15</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/181;"></div>
+  <div class="bars_label">16</div>
+    <div class="bars_value">52</div>
+    <div class="bars_pos" style="grid-column: 6/188;"></div>
+  <div class="bars_label">17</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/181;"></div>
+  <div class="bars_label">18</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/181;"></div>
+  <div class="bars_label">19</div>
+    <div class="bars_value">49</div>
+    <div class="bars_pos" style="grid-column: 6/177;"></div>
+  <div class="bars_label">20</div>
+    <div class="bars_value">52</div>
+    <div class="bars_pos" style="grid-column: 6/188;"></div>
+  <div class="bars_label">21</div>
+    <div class="bars_value">51</div>
+    <div class="bars_pos" style="grid-column: 6/184;"></div>
+  <div class="bars_label">22</div>
+    <div class="bars_value">49</div>
+    <div class="bars_pos" style="grid-column: 6/177;"></div>
+  <div class="bars_label">23</div>
+    <div class="bars_value">48</div>
+    <div class="bars_pos" style="grid-column: 6/174;"></div>
+  <div class="bars_label">24</div>
+    <div class="bars_value">47</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_label">25</div>
+    <div class="bars_value">46</div>
+    <div class="bars_pos" style="grid-column: 6/167;"></div>
+  <div class="bars_label">26</div>
+    <div class="bars_value">44</div>
+    <div class="bars_pos" style="grid-column: 6/160;"></div>
+  <div class="bars_label">27</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/163;"></div>
+  <div class="bars_label">28</div>
+    <div class="bars_value">41</div>
+    <div class="bars_pos" style="grid-column: 6/149;"></div>
+  <div class="bars_label">29</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/163;"></div>
+  <div class="bars_label">30</div>
+    <div class="bars_value">46</div>
+    <div class="bars_pos" style="grid-column: 6/167;"></div>
+  <div class="bars_label">31</div>
+    <div class="bars_value">43</div>
+    <div class="bars_pos" style="grid-column: 6/156;"></div>
+  <div class="bars_label">32</div>
+    <div class="bars_value">46</div>
+    <div class="bars_pos" style="grid-column: 6/167;"></div>
+  <div class="bars_label">33</div>
+    <div class="bars_value">42</div>
+    <div class="bars_pos" style="grid-column: 6/153;"></div>
+  <div class="bars_label">34</div>
+    <div class="bars_value">43</div>
+    <div class="bars_pos" style="grid-column: 6/156;"></div>
+  <div class="bars_label">35</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/163;"></div>
+  <div class="bars_label">36</div>
+    <div class="bars_value">48</div>
+    <div class="bars_pos" style="grid-column: 6/174;"></div>
+  <div class="bars_label">37</div>
+    <div class="bars_value">47</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_label">38</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/163;"></div>
+  <div class="bars_label">39</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/163;"></div>
+  <div class="bars_label">40</div>
+    <div class="bars_value">46</div>
+    <div class="bars_pos" style="grid-column: 6/167;"></div>
+  <div class="bars_label">41</div>
+    <div class="bars_value">47</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_zero" style="grid-column:5/6; grid-row:2/43;"></div>
+  <div class="bars_footer_left bars_footer1" style="grid-column: 1/2;">Sum</div>
+  <div class="bars_footer_mid bars_footer1" style="grid-column: 3/4;text-align:right">2002</div>
+  <div class="bars_footer_right bars_footer1" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_footer_left" style="grid-column: 1/2;">Average</div>
+  <div class="bars_footer_mid" style="grid-column: 3/4;text-align:right">49</div>
+  <div class="bars_footer_right" style="grid-column: 5/206; text-align:left">Durchschnittliche Anzahl Bilder pro Woche</div>
+</div>
+<h2>Bilder pro Teilnehmer</h2>
+<div class="bars_chart" style="grid-template-rows: repeat(72, 1fr);">
+  <div class="bars_header" style="grid-column: 1/2;">Teilnehmer</div>
+  <div class="bars_header" style="grid-column: 3/4;text-align:right">Anzahl</div>
+  <div class="bars_header" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_label">wombat</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Tristate</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Thorsten</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">remmas90</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">photoauge</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">peter</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">niela86</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Neckepin</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">mb-arts</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Marius</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Lumivers</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Katzenfreund</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">KatrinH</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">JoergSack</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">fotoLise</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">dotmatchbox</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Doctor_U</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Dabu</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Canius</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Babblfisch</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">andreas_huppert</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Alopecosa</div>
+    <div class="bars_value">50</div>
+    <div class="bars_pos" style="grid-column: 6/206;"></div>
+  <div class="bars_label">Stef</div>
+    <div class="bars_value">48</div>
+    <div class="bars_pos" style="grid-column: 6/198;"></div>
+  <div class="bars_label">Ries</div>
+    <div class="bars_value">47</div>
+    <div class="bars_pos" style="grid-column: 6/194;"></div>
+  <div class="bars_label">schneehaesli</div>
+    <div class="bars_value">46</div>
+    <div class="bars_pos" style="grid-column: 6/190;"></div>
+  <div class="bars_label">tschloss</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/186;"></div>
+  <div class="bars_label">frankfiene</div>
+    <div class="bars_value">45</div>
+    <div class="bars_pos" style="grid-column: 6/186;"></div>
+  <div class="bars_label">rosina</div>
+    <div class="bars_value">44</div>
+    <div class="bars_pos" style="grid-column: 6/182;"></div>
+  <div class="bars_label">drummerlass</div>
+    <div class="bars_value">44</div>
+    <div class="bars_pos" style="grid-column: 6/182;"></div>
+  <div class="bars_label">MSPhoto</div>
+    <div class="bars_value">43</div>
+    <div class="bars_pos" style="grid-column: 6/178;"></div>
+  <div class="bars_label">sgberlin</div>
+    <div class="bars_value">42</div>
+    <div class="bars_pos" style="grid-column: 6/174;"></div>
+  <div class="bars_label">renealbarus</div>
+    <div class="bars_value">42</div>
+    <div class="bars_pos" style="grid-column: 6/174;"></div>
+  <div class="bars_label">Canonshooting</div>
+    <div class="bars_value">42</div>
+    <div class="bars_pos" style="grid-column: 6/174;"></div>
+  <div class="bars_label">ylz</div>
+    <div class="bars_value">41</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_label">sonjahwolf</div>
+    <div class="bars_value">41</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_label">kamerakata</div>
+    <div class="bars_value">41</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_label">Cedeku</div>
+    <div class="bars_value">41</div>
+    <div class="bars_pos" style="grid-column: 6/170;"></div>
+  <div class="bars_label">AndreasBong</div>
+    <div class="bars_value">40</div>
+    <div class="bars_pos" style="grid-column: 6/166;"></div>
+  <div class="bars_label">danny</div>
+    <div class="bars_value">39</div>
+    <div class="bars_pos" style="grid-column: 6/162;"></div>
+  <div class="bars_label">Renate</div>
+    <div class="bars_value">38</div>
+    <div class="bars_pos" style="grid-column: 6/158;"></div>
+  <div class="bars_label">Mapache</div>
+    <div class="bars_value">37</div>
+    <div class="bars_pos" style="grid-column: 6/154;"></div>
+  <div class="bars_label">alexander</div>
+    <div class="bars_value">36</div>
+    <div class="bars_pos" style="grid-column: 6/150;"></div>
+  <div class="bars_label">creazyfoto</div>
+    <div class="bars_value">32</div>
+    <div class="bars_pos" style="grid-column: 6/134;"></div>
+  <div class="bars_label">FranzS</div>
+    <div class="bars_value">29</div>
+    <div class="bars_pos" style="grid-column: 6/122;"></div>
+  <div class="bars_label">Massfol</div>
+    <div class="bars_value">28</div>
+    <div class="bars_pos" style="grid-column: 6/118;"></div>
+  <div class="bars_label">Maede</div>
+    <div class="bars_value">28</div>
+    <div class="bars_pos" style="grid-column: 6/118;"></div>
+  <div class="bars_label">SAW</div>
+    <div class="bars_value">27</div>
+    <div class="bars_pos" style="grid-column: 6/114;"></div>
+  <div class="bars_label">calibra</div>
+    <div class="bars_value">22</div>
+    <div class="bars_pos" style="grid-column: 6/94;"></div>
+  <div class="bars_label">Neufi</div>
+    <div class="bars_value">21</div>
+    <div class="bars_pos" style="grid-column: 6/90;"></div>
+  <div class="bars_label">HDVoskamp</div>
+    <div class="bars_value">19</div>
+    <div class="bars_pos" style="grid-column: 6/82;"></div>
+  <div class="bars_label">iessatumat</div>
+    <div class="bars_value">18</div>
+    <div class="bars_pos" style="grid-column: 6/78;"></div>
+  <div class="bars_label">stephanjaeger</div>
+    <div class="bars_value">15</div>
+    <div class="bars_pos" style="grid-column: 6/66;"></div>
+  <div class="bars_label">ruebyi</div>
+    <div class="bars_value">15</div>
+    <div class="bars_pos" style="grid-column: 6/66;"></div>
+  <div class="bars_label">Ollo</div>
+    <div class="bars_value">15</div>
+    <div class="bars_pos" style="grid-column: 6/66;"></div>
+  <div class="bars_label">Markus</div>
+    <div class="bars_value">15</div>
+    <div class="bars_pos" style="grid-column: 6/66;"></div>
+  <div class="bars_label">BilderBuchi</div>
+    <div class="bars_value">13</div>
+    <div class="bars_pos" style="grid-column: 6/58;"></div>
+  <div class="bars_label">Jana</div>
+    <div class="bars_value">12</div>
+    <div class="bars_pos" style="grid-column: 6/54;"></div>
+  <div class="bars_label">asuehlo</div>
+    <div class="bars_value">11</div>
+    <div class="bars_pos" style="grid-column: 6/50;"></div>
+  <div class="bars_label">Ryyer</div>
+    <div class="bars_value">9</div>
+    <div class="bars_pos" style="grid-column: 6/42;"></div>
+  <div class="bars_label">Roger</div>
+    <div class="bars_value">9</div>
+    <div class="bars_pos" style="grid-column: 6/42;"></div>
+  <div class="bars_label">Banky</div>
+    <div class="bars_value">9</div>
+    <div class="bars_pos" style="grid-column: 6/42;"></div>
+  <div class="bars_label">AndreasBiehl</div>
+    <div class="bars_value">9</div>
+    <div class="bars_pos" style="grid-column: 6/42;"></div>
+  <div class="bars_label">HelmutEhlich</div>
+    <div class="bars_value">8</div>
+    <div class="bars_pos" style="grid-column: 6/38;"></div>
+  <div class="bars_label">tom_schulz</div>
+    <div class="bars_value">6</div>
+    <div class="bars_pos" style="grid-column: 6/30;"></div>
+  <div class="bars_label">Pierre_Irmisch</div>
+    <div class="bars_value">4</div>
+    <div class="bars_pos" style="grid-column: 6/22;"></div>
+  <div class="bars_label">janch</div>
+    <div class="bars_value">4</div>
+    <div class="bars_pos" style="grid-column: 6/22;"></div>
+  <div class="bars_label">variegator</div>
+    <div class="bars_value">3</div>
+    <div class="bars_pos" style="grid-column: 6/18;"></div>
+  <div class="bars_label">Deepixt61</div>
+    <div class="bars_value">2</div>
+    <div class="bars_pos" style="grid-column: 6/14;"></div>
+  <div class="bars_label">Tajno</div>
+    <div class="bars_value">1</div>
+    <div class="bars_pos" style="grid-column: 6/10;"></div>
+  <div class="bars_label">Philip_Fr</div>
+    <div class="bars_value">1</div>
+    <div class="bars_pos" style="grid-column: 6/10;"></div>
+  <div class="bars_label">AndreG</div>
+    <div class="bars_value">1</div>
+    <div class="bars_pos" style="grid-column: 6/10;"></div>
+  <div class="bars_zero" style="grid-column:5/6; grid-row:2/73;"></div>
+  <div class="bars_footer_left bars_footer1" style="grid-column: 1/2;">Sum</div>
+  <div class="bars_footer_mid bars_footer1" style="grid-column: 3/4;text-align:right">2328</div>
+  <div class="bars_footer_right bars_footer1" style="grid-column: 5/206; text-align:left"></div>
+  <div class="bars_footer_left" style="grid-column: 1/2;">Average</div>
+  <div class="bars_footer_mid" style="grid-column: 3/4;text-align:right">33</div>
+  <div class="bars_footer_right" style="grid-column: 5/206; text-align:left">Durchschnittliche Anzahl Bilder pro Teilnehmer</div>
+</div>
+</body></html>

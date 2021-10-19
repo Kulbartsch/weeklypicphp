@@ -12,4 +12,5 @@ weeklypicphp.code-workspace
 _destination
 _destination/*
 .vscode/
+.idea/
 user.txt
