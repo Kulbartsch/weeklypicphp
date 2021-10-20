@@ -523,7 +523,7 @@
       if($pushing_pic > 0) {
         echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. ';
         echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
-        echo '<p>Bild: <b>' . $description . '</b></p>'
+        echo '<p>Bild: <b>' . $description . '</b></p>';
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
         echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
