@@ -400,11 +400,14 @@
       // resize picture
 
       $longest_side = get_longest_side($exif_data_orig);
-      if(($longest_side >= 2000) and ($longest_side <= 2048)) {
+      $max_slack_size = 550*1024; // 500KB // check for: filesize
+      if(($longest_side >= 2000) and ($longest_side <= 2048) and ($_FILES['fileToUpload']['size'] < $max_slack_size)) {
         echo '<p>✅ Dein Bild hat schon die passende Größe. Es erfolgt keine Anpassung.</p>' . PHP_EOL;
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
-                    ' -resize 2000x2000 ' . escapeshellarg($tmp_file) .
+                    ' -resize 2000x2000 ' .
+                    ' -define jpeg:extend=500kb ' .    // limit to 500 KB - undocumented option
+                    escapeshellarg($tmp_file) .
                     ' 2>&1';
         exec($command, $data, $result);
         if($debugging) { // debug
@@ -423,7 +426,7 @@
         if(rename($tmp_file, $new_path) == false) {
           cancel_processing('Fehler beim Umbennen der temporärern Datei. (resize)');
         }
-        echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln für die längste Seite angepasst.</p>' . PHP_EOL;
+        echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln und maximal 500KB für die längste Seite angepasst.</p>' . PHP_EOL;
       }
 
       //--------------------------------------------------------------------

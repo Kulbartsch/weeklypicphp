@@ -5,6 +5,7 @@ Ein (einfaches) PHP-Skript, um ein JPG-Bild auf die richtigen Proportionen zu sk
 # Features
 
 * Bild auf 2000px skalieren (längste Seite)
+* Maximale Bildgröße auf 500KB setzen
 * Metadaten-Daten einstellen für
   * *Titel*
   * *Beschreibung* (= weekliy-pic-username / title)

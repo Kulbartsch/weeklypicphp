@@ -10,6 +10,7 @@ Texts in the webapp are in german, internationalization is missing.
 # Features
 
 * Scale picture to 2000px (longest side)
+* Resize picture to max 500KB 
 * Setting meta data for
   * *title*
   * *description* (= weekliy-pic-username / title)
