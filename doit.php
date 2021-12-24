@@ -406,6 +406,8 @@
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
+                    // the following option is not officially documented, but mentioned there
+                    // https://stackoverflow.com/questions/6917219/imagemagick-scale-jpeg-image-with-a-maximum-file-size
                     ' -define jpeg:extend=500kb ' .    // limit to 500 KB - undocumented option
                     escapeshellarg($tmp_file) .
                     ' 2>&1';

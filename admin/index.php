@@ -18,7 +18,7 @@
 
   	<h1>WeeklyPic-One-Stop-Foto Admin-Seite</h1>
 
-    <p>Hier gibt es:</p>
+    <h2>Aktionen</h2>
     <ul>
       <li><a href="user.php"    >Bearbeiten der Benutzer-Datei</a></li>
       <li><a href="usagelog.php?lines=300">Anzeige der letzten 300 Zeilen des Nutzungs-Logs</a></li>
@@ -32,7 +32,12 @@
       <!-- li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li -->
     </ul>
 
-    <p>Weitere Links:</p>
+    <h2>Statistik</h2>
+    <ul>
+      <li><a href="wepistat_2021.html">Statistik 2021</a> <a href="wepi-2021.csv">(als CSV)</a></li>
+    </ul>
+
+    <h2>Weitere Links</h2>
     <ul>
       <li><a href="https://www.weeklypic.de/">WeeklyPic Projektseite</a></li>
       <li><a href="https://wepi.alice-and-bob.de/U9MGw5B4a2pA4tS2h/">WeeklyPic One-Stop-Foto Upload</a></li>
