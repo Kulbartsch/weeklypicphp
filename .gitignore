@@ -14,3 +14,8 @@ _destination/*
 .vscode/
 .idea/
 user.txt
+images/2*
+images/0*
+src/config.config
+_log/*.log
+_log/user.txt

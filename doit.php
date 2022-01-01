@@ -108,6 +108,9 @@
       // TODO: harden against XSS 
       // REVIEW: Get Slack Name and Channel from config file
       // TODO: Admin view access log
+      // TODO: guess year when picture has no date
+      // TODO: add comment when picture should be uploaded to check, log comment and send it to admin slack
+      // TODO: log files size before and after conversion
       
       //####################################################################
 
@@ -518,6 +521,7 @@
       } else { // Month
         $_SESSION['year']         = get_picture_year($exif_data);
       }
+      $_SESSION['description']  = $description;  
 
     echo '<h2>Und nun?</h2>';
 

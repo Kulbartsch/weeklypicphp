@@ -25,6 +25,7 @@
       // more functions
       include 'src/functions.php';
       include 'src/slack.php';
+      include 'src/filestore.php';
 
       log_debug('>>>> START final.php','');
 
@@ -36,6 +37,8 @@
       $per_type     = $_SESSION['per_type'];
       $period       = $_SESSION['period'];
       $year         = $_SESSION['year'];
+      $comment      = $_SESSION['comment'];
+      $description  = $_SESSION['description'];
 
 
       log_usage('3I', $user, '', FALSE, TRUE);
@@ -117,8 +120,13 @@
         } 
 
         if(($pushing_pic & $push_filesystem) > 0) {
-          move_file($pathfilename, $destination_folder); 
-          log_usage('3I', $user, 'File moved');
+          if( store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description) ) {
+            echo '<p>✅ Das Bild wurde für den WeeklyPic-Slack kopiert! 😃</p>';
+            log_usage('3I', $user, 'File moved'); 
+          } else {
+            echo '<p>⚡️ Problem beim kopieren für den WeeklyPic-Slack.</p>';
+            log_usage('3E', $user, 'Error moving file'); 
+          }
         }
 
       } elseif(isset($_POST['delete'])) {  // no upload 
