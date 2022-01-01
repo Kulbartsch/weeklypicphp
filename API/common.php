@@ -60,5 +60,5 @@ function monthInGerman($month)
         default:
           return 'unbekannt';
       }
-    }
-  }
+    
+}
