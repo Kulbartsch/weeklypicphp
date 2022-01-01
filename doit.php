@@ -94,7 +94,7 @@
     <?php
 
       // DONE: reduce primary=usage log to pages 2 and 3, add an access log 
-      // TODO: Better message when problems are deteced, list them before update, in case of uload to check folder send them to the admin slack channel
+      // TODO: Better message when problems are deteced, list them before update, in case of upload to check folder send them to the admin slack channel
       // DONE: Use bot to inform admins about pictures send to check directory
       // CHECK: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
@@ -110,7 +110,9 @@
       // TODO: Admin view access log
       // TODO: guess year when picture has no date
       // TODO: add comment when picture should be uploaded to check, log comment and send it to admin slack
-      // TODO: log files size before and after conversion
+      // IDEA: log files size before and after conversion
+      // TODO: automatic statistic generation 
+      // IDEA: show servers free space on admin page 
       
       //####################################################################
 

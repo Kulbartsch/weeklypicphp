@@ -60,7 +60,7 @@
           return false;
         };
 
-        if( strlen(trim($comment)) === 0) {
+        if( strlen(trim($comment)) <> 0) {
           file_put_contents($destination . "/" . $filebasename . ".txt", $comment);
         }
 
