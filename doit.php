@@ -107,7 +107,7 @@
       // IDEA: Use WeeklyPic Logo on Website
       // TODO: harden against XSS 
       // REVIEW: Get Slack Name and Channel from config file
-      // TODO: Admin view access log
+      // DONE: Admin view access log
       // TODO: guess year when picture has no date
       // TODO: add comment when picture should be uploaded to check, log comment and send it to admin slack
       // IDEA: log files size before and after conversion
