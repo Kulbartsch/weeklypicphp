@@ -103,12 +103,12 @@
 
     <hr />
     <h3>Disclaimer</h3>
-    <p>Die Bilder, die nicht gelöscht wurden, werden periodisch von Hand gelöscht.<br>
-       Zugriffe auf die Seite werden protokolliert.
+    <p>Zugriffe auf die Seite werden protokolliert.
        Wenn bei der Bildbearbeitung Fehler auftreten werden die Fehlermeldungen zu Analyse Zwecken protokolliert.<br />
        Bei Problemen wende dich bitte an die Entwickler im WeeklyPic-Slack-Channel #entwickler-talk.<br />
        Für die Funktionalität und die Verfügbarkeit wird weder Garantie noch Haftung übernommen.</p>
-    <p>Dieses Programm ist unter der GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 lizensiert.
+    <hr />
+    <p>Dieses Programm ist unter der GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 lizenziert.
        Den Quellcode findest du auf <a href="https://github.com/Kulbartsch/weeklypicphp">GitHub</a>.<br />
        Copyright © 2021 <a href="http://kulbartsch.de/">Alexander Kulbartsch.</a></p>
 

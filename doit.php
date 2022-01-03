@@ -94,7 +94,7 @@
     <?php
 
       // DONE: reduce primary=usage log to pages 2 and 3, add an access log 
-      // TODO: Better message when problems are deteced, list them before update, in case of upload to check folder send them to the admin slack channel
+      // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
       // DONE: Use bot to inform admins about pictures send to check directory
       // CHECK: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
@@ -125,7 +125,7 @@
         log_usage('2E', $user, 'User ' . $user . ' unknown');
         // cancel processing when user is unknown
         if($check_user == 'ON') {
-          cancel_processing('Unbekanter Teilnehmer: ' . $user);
+          cancel_processing('Unbekannter Teilnehmer: ' . $user);
         }
         $user_called = $user;
       } else {
@@ -294,7 +294,7 @@
       //Alles okay, verschiebe Datei an neuen Pfad
       move_uploaded_file($fileToUpload['tmp_name'], $new_path);
       echo 'Dein Bild ist erfolgreich hier angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
-      log_usage('2V', $user, 'Picture successfuly received.');
+      log_usage('2V', $user, 'Picture successfully received.');
 
       //####################################################################
       // Get title from picture if not given by form
@@ -320,12 +320,12 @@
     
 
       //####################################################################
-      // generate requestet EXIF values
+      // generate requested EXIF values
 
-      // values might start with a special character wich have the folowwing rules:
+      // values might start with a special character wich have the following rules:
       // . : value is only displayed
       // = : value is calculated (and displayed)
-      // ? : only the existance of this value is displayed as $tag_is_set or $tag_not_set
+      // ? : only the existence of this value is displayed as $tag_is_set or $tag_not_set
       // any other character : value will be set using the exiftool
 
       $requested['.FileName']              = '';
@@ -431,7 +431,7 @@
           cancel_processing('Fehler beim Löschen der alten Datei. (resize)');
         }
         if(rename($tmp_file, $new_path) == false) {
-          cancel_processing('Fehler beim Umbennen der temporärern Datei. (resize)');
+          cancel_processing('Fehler beim Umbenennen der temporären Datei. (resize)');
         }
         echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln und maximal 500KB für die längste Seite angepasst.</p>' . PHP_EOL;
       }
@@ -476,7 +476,7 @@
           }
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
-            echo '<p>⚠️ Problem bei der Änderung der Metadataten aufgetreten.</p>';
+            echo '<p>⚠️ Problem bei der Änderung der Metadaten aufgetreten.</p>';
           }
           echo '<p>✅ Die Metadaten in deinem Bild wurden angepasst.</p>' . PHP_EOL;
         }
@@ -532,7 +532,7 @@
       echo 'Dort markiert ein 🛑 das Problem.';
       echo ' Bitte prüfe das und probiere es noch mal.</em></p>';
       if($pushing_pic > 0) {
-        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für Weeklypic bereitstellen. ';
+        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für WeeklyPic bereitstellen. ';
         echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
         echo '<p>Bild: <b>' . $description . '</b></p>';
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';

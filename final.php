@@ -132,7 +132,7 @@
       } elseif(isset($_POST['delete'])) {  // no upload 
         log_usage('3I', $user, 'only deleting file');
       } else {
-        log_usage('3E', $user, 'Unknow request');
+        log_usage('3E', $user, 'Unknown request');
       }
 
       // delete - always, except is moved by filesystem delivery
