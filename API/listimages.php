@@ -27,7 +27,7 @@ function listDir($type, $year, $number)
             if ($fileinfo->isDot() || !$fileinfo->isFile() ||
             startsWith($fileinfo->getFileName(), $year . "_w_") ||
 			startsWith($fileinfo->getFileName(), $year . "_m_") ||
-            endsWith($fileinfo->getFileName(), "txt")) {
+            !endsWith($fileinfo->getFileName(), ".jpg")) {
                 continue;
             }
             $response[]=$fileinfo->getFileName();
