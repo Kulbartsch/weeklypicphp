@@ -14,7 +14,7 @@ function realPathForParams($type, $year, $number)
 }
 
 function relativPathName($type, $year, $number): string {
-    return "/images/" . $year . "/" . strtoupper(substr($type, 0, 1)) . "/" . $number . "/");
+    return "/images/" . $year . "/" . strtoupper(substr($type, 0, 1)) . "/" . $number . "/";
 }
 
 function monthInGerman($month): string
