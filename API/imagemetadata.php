@@ -1,7 +1,7 @@
 <?php
 include("common.php");
 
-define('PUBLIC_PATH', '/var/www/vhosts/weeklypic.de/httpdocs');
+define('PUBLIC_PATH', '/var/www/html');
 
 class ImageData {
     public $url = '';
