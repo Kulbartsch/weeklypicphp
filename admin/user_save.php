@@ -41,7 +41,7 @@
       }
       // save file
       if(file_put_contents($user_file, implode("\n",$users_data)) == FALSE) {  
-        echo "<p>⚡️ Fehler bei speichern der Benutzer-Daten. </p>";
+        echo "<p>⚡️ Fehler beim Speichern der Benutzer-Daten. </p>";
       } else {
         echo "<p>✅ Benutzer-Daten wurden gespeichert.</p>";
       }

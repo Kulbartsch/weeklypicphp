@@ -1,6 +1,39 @@
 <?PHP
   // configuration constants
-  include 'src/config.php';
+  include './src/config.php';
+    // PHPStorm IDE hints for variables used in including source file
+    /** @var $debugging bool    */
+    /** @var $debugging2  bool    */
+    /** @var $config_dir  string    */
+    /** @var $app_base_dir  string    */
+    /** @var $cookie_name string    */
+    /** @var $cookie_split  string    */
+    /** @var $cookie_expires  string    */
+    /** @var $tag_is_set  string    */
+    /** @var $tag_not_set string    */
+    /** @var $pushing_pic int   */
+    /** @var $push_cloud  int   */
+    /** @var $push_filesystem int   */
+    /** @var $push_ftp  int   */
+
+    /** @var $upload_server string    */
+    /** @var $upload_login  string    */
+    /** @var $usage_logging int   */
+    /** @var $upload_folder string    */
+    /** @var $command_log string    */
+    /** @var $usage_log string    */
+    /** @var $debug_log string    */
+    /** @var $access_log  string    */
+    /** @var $user_file string    */
+    /** @var $convert_command string    */
+    /** @var $exiftool_command  string    */
+    /** @var $curl_command  string    */
+    /** @var $lc_ctype  string    */
+    /** @var $destination_folder  string    */
+    /** @var $ftp_exec  string    */
+    /** @var $check_dir string    */
+    /** @var $check_user  string    */
+    /** @var $slack_api_token string    */
 
   include 'src/functions.php';
   include 'src/exif_parsing.php';
@@ -84,8 +117,9 @@
       #drawer1:not(:target) .hide,
       #drawer1:target .show {display: none;}
       #drawer1:target .hideable {display: block;}
-      .show, .hide { background: #fff; color: #333; border: 1px solid;
-        border-color: #333; border-radius: 4px; padding: 5px;
+      .show, .hide { background: #fff; color: #333;
+          border: 1px solid #333;
+          border-radius: 4px; padding: 5px;
         text-decoration: none;}
     </style>
   </head>
@@ -112,8 +146,8 @@
       // TODO: add comment when picture should be uploaded to check, log comment and send it to admin slack
       // IDEA: log files size before and after conversion
       // TODO: automatic statistic generation 
-      // IDEA: show servers free space on admin page 
-      
+      // DONE: show servers free space on admin page (df -h .)
+
       //####################################################################
 
       // validate user name against DB
@@ -240,7 +274,7 @@
         cancel_processing("Bitte keine Dateien größer 100MB hochladen."); // check for: filesize
       }
 
-      //Überprüfung dass das Bild keine Fehler enthält
+      // Überprüfung, dass das Bild keine Fehler enthält
       if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
         //$allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
         $allowed_types = array(IMAGETYPE_JPEG);
@@ -255,7 +289,7 @@
           foreach ($allowed_types as $x) $allowed_types_txt = $allowed_types_txt . $x . ", ";
           log_usage('2V', $user, "Fehler: PHP exif_imagetype returned: " . $detected_type . ". Allowed is: " . $allowed_types_txt . "See: https://www.php.net/manual/de/function.exif-imagetype.php for more information.");
           echo "<p><em>⚠️ Datei wurde nicht als JPEG-Bild erkannt. ";
-          echo "(Auch wenn die Datei auf 'jpg' oder 'jpeg' endet ist dies technisch nich unbedingt ein JPEG-Bild.)<br />";
+          echo "(Auch wenn die Datei auf 'jpg' oder 'jpeg' endet, ist dies technisch nicht unbedingt ein JPEG-Bild.)<br />";
           echo 'Eventuell liegt ein Fehler beim Upload vor; ';
           echo 'Probiere daher bitte die <b><a href="index.php">Start-Seite</a> neu aufzurufen / neu zu laden</b>, ';
           echo 'und dann das Bild erneut hochzuladen. '; 

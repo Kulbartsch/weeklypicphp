@@ -27,7 +27,7 @@
       <li>Alle anderen Zeilen beschreiben je Zeile einen Benutzer.</li>
       <li>Eine Benutzer-Zeile kann aus mehreren Feldern bestehen, welche durch ein ; getrennt sind.</li>
       <li>Das erste Feld ist der Slack-Name und muss angegeben werden. Die folgenden Felder sind optional.</li>
-      <li>Das zweite Feld ist der Name mit dem der Benuzer in der App angeredet wird. Ist dieser nicht angegeben wird der Slack-Name verwendet.</li>
+      <li>Das zweite Feld ist der Name mit dem der Benutzer in der App angeredet wird. Ist dieser nicht angegeben, wird der Slack-Name verwendet.</li>
       <li>Alle weiteren Felder werden ignoriert.</li>
     </ul>
     <p>Beispiel:<br />

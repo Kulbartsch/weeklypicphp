@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,6 +27,40 @@
     <?PHP
       // configuration constants and define functions
       include 'src/config.php';
+        // PHPStorm IDE hints for variables used in including source file
+        /** @var $debugging bool    */
+        /** @var $debugging2  bool    */
+        /** @var $config_dir  string    */
+        /** @var $app_base_dir  string    */
+        /** @var $cookie_name string    */
+        /** @var $cookie_split  string    */
+        /** @var $cookie_expires  string    */
+        /** @var $tag_is_set  string    */
+        /** @var $tag_not_set string    */
+        /** @var $pushing_pic int   */
+        /** @var $push_cloud  int   */
+        /** @var $push_filesystem int   */
+        /** @var $push_ftp  int   */
+
+        /** @var $upload_server string    */
+        /** @var $upload_login  string    */
+        /** @var $usage_logging int   */
+        /** @var $upload_folder string    */
+        /** @var $command_log string    */
+        /** @var $usage_log string    */
+        /** @var $debug_log string    */
+        /** @var $access_log  string    */
+        /** @var $user_file string    */
+        /** @var $convert_command string    */
+        /** @var $exiftool_command  string    */
+        /** @var $curl_command  string    */
+        /** @var $lc_ctype  string    */
+        /** @var $destination_folder  string    */
+        /** @var $ftp_exec  string    */
+        /** @var $check_dir string    */
+        /** @var $check_user  string    */
+        /** @var $slack_api_token string    */
+
       include 'src/functions.php';
 
       // read cookie storing common values (Weekly-Pic-Name, Creator, license, nogeo)
@@ -63,37 +97,39 @@
     <p>
       <form action="doit.php" method="post" enctype="multipart/form-data">
         <p>
-          Bild-Datei auswählen (max. 100 MB):<br/>
+          <label for="fileToUpload">Bild-Datei auswählen (max. 100 MB):</label><br/>
           <input type="file" name="fileToUpload" id="fileToUpload" max-size="1100000" required>
         </p>
         <p>
-          WeeklyPic-Benutzername 🍪:<br/>
-          <input type="text" id="user" name="user" value="<?= $val_user ?>" required><br/>
-          Bildbeschreibung (wird von WeeklyPic genutzt, optional):<br/>
-          <input type="text" id="description" name="description">
+            <label for="user">WeeklyPic-Benutzername 🍪:<br/></label>
+            <input type="text" id="user" name="user" value="<?= $val_user ?>" required><br/>
+            <label for="description">Bildbeschreibung (wird von WeeklyPic genutzt, optional):<br/></label>
+            <input type="text" id="description" name="description">
         </p>
         <p>
-          Bild-Zeitraum (für den Dateinamen):<br>
-          <input type="radio" id="timeframe" name="timeframe" value="Woche" checked required>
-          Woche <input type="number" name="week_number" min="1" max="53" step="1=" value="<?= $default_week ?>"><br>
-          <input type="radio" id="timeframe" name="timeframe" value="Monat" required>
-          Monat <input type="number" name="month_number" min="1" max="12" step="1=" value="<?= $default_month ?>"><br/>
+            Bild-Zeitraum (für den Dateinamen):<br>
+            <input type="radio" id="timeframe_w" name="timeframe" value="Woche" checked required>
+              <label for="timeframe_w">Woche</label>
+              <input type="number" id="week_number" name="week_number" min="1" max="53" step="1=" value="<?= $default_week ?>"><br/>
+            <input type="radio" id="timeframe_m" name="timeframe" value="Monat" required>
+              <label for="timeframe_m">Monat</label>
+              <input type="number" id="month_number" name="month_number" min="1" max="12" step="1=" value="<?= $default_month ?>"><br/>
         </p>
         <p>
           Urheber 🍪 (optional):<br/>
           <input type="text" id="creator" name="creator" value="<?= $val_creator ?>"><br/>
           Lizenz 🍪 (optional):<br/>
           <input type="text" id="license" name="license" value="<?= $val_license ?>"><br/>
-          Geo-Daten im Bild 🍪:</br>
-          <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br>
+          Geo-Daten im Bild 🍪:<br/>
+          <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br/>
         </p>
         <p>
-          Expertenmodus 🍪:</br>
+          Expertenmodus 🍪:<br/>
           <input type="checkbox" id="expert" name="expert" value="expert" <?= $val_expert ?>> Keine Metadaten ändern, Bild nur prüfen und hochladen.<br>
           Du musst allerdings deinen WeeklyPic-Benutzernamen und den Bild-Zeitraum angeben. Die anderen Felder werden ignoriert.
         </p>
         <p>
-          <input type="checkbox" id="usecookie" name="usecookie" value="usecookie" <?= $val_usecookie ?> > Nutze ein Cookie für deine 🍪-Daten.
+          <input type="checkbox" id="usecookie" name="usecookie" value="usecookie" <?= $val_usecookie ?> ><label for="usecookie"> Nutze ein Cookie für deine 🍪-Daten.</label>
         </p>
         <p>
           <input type="submit" value="Bild hochladen und bearbeiten" name="submit">

@@ -23,7 +23,7 @@ Ein (einfaches) PHP-Skript, um ein JPG-Bild auf die richtigen Proportionen zu sk
 * Teilnehmer prüfen
 * Optional den Titel aus den Metadaten heranziehen
 * Problembehaftete Bilder, in ein "zu prüfen" Verzeichnis hochladen
-* Keine Anpassung der Bildgröße wenn diese schon OK ist
+* Keine Anpassung der Bildgröße, wenn diese schon OK ist
 * Expertenmodus, in dem keine Metadaten geändert werden
 * Anzeige aller Metadaten eines Bildes
 

@@ -3,16 +3,17 @@
 function realPathForParams($type, $year, $number)
 {
     if ($type === "week") {
-        return realpath("./../images/" . $year . "/w/" . $number . "/");
+        return realpath("./../images/" . $year . "/W/" . $number . "/");
     } else if ($type === "month") {
-        return realpath("./../images/" . $year . "/m/" . monthInGerman($number) . "/");
+        //return realpath("./../images/" . $year . "/M/" . monthInGerman($number) . "/");
+        return realpath("./../images/" . $year . "/M/" . $number . "/");
     } else {
         echo($type);
         throw new Exception("Invalid type");
     }
 }
 
-function monthInGerman($month)
+function monthInGerman($month): string
 {
     // $time = strtotime("1-" . $month . "-2000");
     // $format = datefmt_create('de_DE', IntlDateFormatter::NONE, IntlDateFormatter::NONE, NULL, NULL, "MMMM");

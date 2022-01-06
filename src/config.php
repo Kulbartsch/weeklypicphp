@@ -1,5 +1,39 @@
 <?php
 
+  // PHPStorm IDE hints for variables used in including source file
+  /** @var $debugging bool    */
+  /** @var $debugging2  bool    */
+  /** @var $config_dir  string    */
+  /** @var $app_base_dir  string    */
+  /** @var $cookie_name string    */
+  /** @var $cookie_split  string    */
+  /** @var $cookie_expires  string    */
+  /** @var $tag_is_set  string    */
+  /** @var $tag_not_set string    */
+  /** @var $pushing_pic int   */
+  /** @var $push_cloud  int   */
+  /** @var $push_filesystem int   */
+  /** @var $push_ftp  int   */
+
+  /** @var $upload_server string    */
+  /** @var $upload_login  string    */
+  /** @var $usage_logging int   */
+  /** @var $upload_folder string    */
+  /** @var $command_log string    */
+  /** @var $usage_log string    */
+  /** @var $debug_log string    */
+  /** @var $access_log  string    */
+  /** @var $user_file string    */
+  /** @var $convert_command string    */
+  /** @var $exiftool_command  string    */
+  /** @var $curl_command  string    */
+  /** @var $lc_ctype  string    */
+  /** @var $destination_folder  string    */
+  /** @var $ftp_exec  string    */
+  /** @var $check_dir string    */
+  /** @var $check_user  string    */
+  /** @var $slack_api_token string    */
+
   $debugging        = FALSE;  
   $debugging2       = FALSE;   // debug to file  
 
@@ -30,21 +64,21 @@
   // ----
   // server=<URL of the server>         // URL to NextCloud or OwnCloud Server
   // login=<password>                   // Login to NextCloud or OwnCloud Server as URL addition
-  // loglevel=<n>                       // 0=no logging, 1=only pages, 2=and user, 3=and anonymized IP, 4=and full IP 
+  // loglevel=<n>                       // 0=no logging, 1=only pages, 2=and user, 3=and anonymize IP, 4=and full IP
   // upload_folder=<foldername>         // Das Upload-Verzeichnis
   // command_log=<filename>
   // usage_log=<filename>
   // access_log=<filename>
-  // user_file=<filename>               // file with participants, formated <slack-id>[;<call-as>]
+  // user_file=<filename>               // file with participants, formatted <slack-id>[;<call-as>]
   // convert_command=<programname>      // imagemagick convert
   // exiftool_command=<programname>     // EXIFtool
   // curl_command=<programname>         // curl
-  // lc_ctype=<os_locale>               // locale matching OS avaible locale, should be UTF8 
+  // lc_ctype=<os_locale>               // locale matching OS available locale, should be UTF8
   // destination_folder=<foldername>    // Zielverzeichnis für die Ablage des Bildes - if folder is not set it's not used
   // ftp_exec=<full ftp command with parameters> // $file$ , $fqfn$ (full qualified filename) and $dir$ will be replaced
   // check_dir=<check_dir>              // directory to transfer pictures to check to
   // debugging2=<TRUE|FALSE>            // write to debug file
-  // check_user=<ON|OFF>                // hard check username - if switched on and user is uknown processing is cancelled
+  // check_user=<ON|OFF>                // hard check username - if switched on and user is unknown processing is cancelled
   // slack_api_token=<SLACK_API_TOKEN>  // slack API token
   // ----
   // Of course you could set the parameters directly here as well - but that's

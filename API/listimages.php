@@ -3,7 +3,7 @@ include("common.php");
 $request_method=$_SERVER["REQUEST_METHOD"];
 
 $type=$_GET["type"]; // week OR month
-$number=$_GET["number"]; // kw or month
+$number=$_GET["number"]; // number of kw or month
 $year=$_GET["year"];
 switch($request_method)
 {

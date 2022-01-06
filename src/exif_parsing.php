@@ -108,11 +108,7 @@
   function get_longest_side($exif_data) {
     $pic_width  = exif_get_tag_value($exif_data, 'ImageWidth');
     $pic_height = exif_get_tag_value($exif_data, 'ImageHeight');
-    if($pic_width > $pic_height) {
-      return $pic_width;
-    } else {
-      return $pic_height;
-    }
+    return max($pic_width, $pic_height);
   }
 
 

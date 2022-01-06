@@ -12,7 +12,7 @@
  * @param string $channel The name of the channel prefixed with #, example #foobar
  * @return boolean
  */
-function slack($message, $channel) {
+function slack(string $message, string $channel): bool {
 
     global $slack_api_token;
 

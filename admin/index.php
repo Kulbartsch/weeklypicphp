@@ -12,6 +12,7 @@
         font-family:"Helvetica Neue",Helvetica,Arial,Verdana,sans-serif }
       h1,h2,h3 {line-height:1.2}
       input {font-size:18px}
+      pre {border:1px solid; padding:0.5em; border-color:black}
     </style>
   </head>
   <body>
@@ -36,7 +37,17 @@
     <ul>
       <li><a href="wepistat_2021.html">Statistik 2021</a> <a href="wepi-2021.csv">(als CSV)</a></li>
     </ul>
-
+    <p>Freier Speicher auf dem Server:<p>
+    <?php
+      setlocale(LC_CTYPE, 'en_US.UTF-8');
+      exec('df -h .', $lines, $result);
+      echo '<p>Ergebnis von "df": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>';
+      echo '<pre>';
+      foreach ($lines as $line) { echo htmlspecialchars($line) . "\n"; }
+      echo '</pre>';
+    ?>
+    <p></p>
+    
     <h2>Weitere Links</h2>
     <ul>
       <li><a href="https://www.weeklypic.de/">WeeklyPic Projektseite</a></li>

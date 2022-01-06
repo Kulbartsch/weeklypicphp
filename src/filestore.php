@@ -58,7 +58,7 @@
         if( !move_file($pathfilename, $destination) ) {
           log_debug('Error moving file', $pathfilename . '->' . $destination);
           return false;
-        };
+        }
 
         if( strlen(trim($comment)) <> 0) {
           file_put_contents($destination . "/" . $filebasename . ".txt", $comment);

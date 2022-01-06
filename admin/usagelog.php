@@ -34,11 +34,11 @@
       $nl = intval($_GET['lines']);
       if($nl < 10) { 
         $nl = 300; 
-        echo '<p>⚠️ Warnung, Es werden nicht weniger als 10 Zeilen angezeigt. Die Ausgabe wurde auf ' . $nl . ' gesetzt.</p>';
+        echo '<p>⚠️ Warnung, es werden nicht weniger als 10 Zeilen angezeigt. Die Ausgabe wurde auf ' . $nl . ' gesetzt.</p>';
       }
       if($nl > 10000) { 
         $nl = 300; 
-        echo '<p>⚠️ Warnung, Es werden nicht mehr als 10.000 Zeilen angezeigt. Die Ausgabe wurde auf ' . $nl . ' gesetzt.</p>';
+        echo '<p>⚠️ Warnung, es werden nicht mehr als 10.000 Zeilen angezeigt. Die Ausgabe wurde auf ' . $nl . ' gesetzt.</p>';
 
       }
       // read usage_log  
@@ -53,15 +53,15 @@
     <p>Das Format der Log-Datei ist wie folgt:</p>
     <ul>
       <li>Eine Zeile besteht aus mehreren Feldern, welche durch ein ";" getrennt sind.</li>
-      <li>Das erste Feld ist ein Zeitstempel. (In Lokaler Zeit mit der Abweichung zu UTC.)</li>
+      <li>Das erste Feld ist ein Zeitstempel. (In lokaler Zeit mit der Abweichung zu UTC.)</li>
       <li>Das zweite Feld besteht aus zwei Zeichen: 
-          <br/>Das erste Zeichen ist eine Ziffer von 1-3 für die in der Reihenfolge üblicherweise
+          <br/>Das erste Zeichen ist eine Ziffer von 1 bis 3 für die in der Reihenfolge üblicherweise
           aufgerufenen Seiten (1=Startseite=index.php, 2=Bearbeitungsseite=doit.php, 3=Fertig-Seite=final.php). 
           Sollte dort ein "-" stehen kommt der Eintrag aus einer Funktion welche von verschiedenen Seiten aufgerufen werden konnte.
           <br/>Das zweite Zeichen ist entweder eine "E" für einen Fehler (Error), ein "A" für einen Abbruch in der Verarbeitung, ein "W" für eine Warnung, oder eine "I" für eine Information.
           <br/>Warnungen sind die nicht erfolgreichen Bildprüfungen, die nur den Upload in das "check" Verzeichnis erlauben.</li>
       <li>Das dritte Feld ist - sofern gefüllt - der User-Name. (Die Erfassung des Names kann abgeschaltet sein.)</li>
-      <li>Das vierte Feld enthält weitere Infos.</li>
+      <li>Das vierte Feld enthält weitere Informationen.</li>
     </ul>
 
     <br />

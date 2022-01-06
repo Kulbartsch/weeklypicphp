@@ -204,7 +204,7 @@
   * @access public
   * @param string $ip
   */
-  function validate_ip($ip) {
+  function validate_ip(string $ip) {
      if (filter_var($ip, FILTER_VALIDATE_IP, 
                          FILTER_FLAG_IPV4 | 
                          FILTER_FLAG_IPV6 |
@@ -298,9 +298,9 @@
     if( $picdates['result'] != 'ok') {
       return 0;
     } else {
+      log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']);
+      log_debug("get_picture_year_of_week,  ->format(Y)", $picdates['wp_week_end_date']->format('Y'));
       return $picdates['wp_week_year'];
-      log_debug("get_picture_year_of_week, picdates[wp_week_end_date]", $picdates['wp_week_end_date']); 
-      log_debug("get_picture_year_of_week,  ->format(Y)", $picdates['wp_week_end_date']->format('Y'));   
     }
   }
 
