@@ -19,6 +19,7 @@ switch($request_method)
 function listDir($type, $year, $number)
 {
     $dirPath = realPathForParams($type, $year, $number);
+    
     if (is_dir($dirPath)) {
         header('Content-Type: application/json');
         $dir = new DirectoryIterator($dirPath);

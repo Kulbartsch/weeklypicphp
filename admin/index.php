@@ -35,9 +35,11 @@
 
     <h2>Statistik</h2>
     <ul>
-      <li><a href="wepistat_2021.html">Statistik 2021</a> <a href="wepi-2021.csv">(als CSV)</a></li>
+      <li><a href="wepistat_2021.html">Statistik 2021</a> <a href="wepistat_2021.csv">(als CSV)</a></li>
     </ul>
-    <p>Freier Speicher auf dem Server:<p>
+    <p></p>
+
+    <h2>Freier Speicher auf dem Server</h2>
     <?php
       setlocale(LC_CTYPE, 'en_US.UTF-8');
       exec('df -h .', $lines, $result);
@@ -53,7 +55,9 @@
       <li><a href="https://www.weeklypic.de/">WeeklyPic Projektseite</a></li>
       <li><a href="https://wepi.alice-and-bob.de/U9MGw5B4a2pA4tS2h/">WeeklyPic One-Stop-Foto Upload</a></li>
     </ul>
+    <p></p>
 
+    <br><hr><br>
     <p>Sollte etwas nicht wie erwartet funktionieren, informiere bitte den Admin dieses Servers, bzw. im WeeklyPic-Slack-Channel #entwickler-talk.</p>
 
   </body>

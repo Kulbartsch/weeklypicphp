@@ -19,3 +19,10 @@ images/0*
 src/config.config
 _log/*.log
 _log/user.txt
+#admin/wepistat*.html
+#admin/wepistat*.txt
+#admin/wepistat*.csv
+admin/monat.txt
+admin/total.txt
+admin/user.txt
+admin/woche.txt
