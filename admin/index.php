@@ -19,6 +19,7 @@
 
   	<h1>WeeklyPic-One-Stop-Foto Admin-Seite</h1>
 
+    
     <h2>Aktionen</h2>
     <ul>
       <li><a href="user.php"    >Bearbeiten der Benutzer-Datei</a></li>
@@ -33,11 +34,20 @@
       <!-- li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li -->
     </ul>
 
-    <h2>Statistik</h2>
-    <ul>
-      <li><a href="wepistat_2021.html">Statistik 2021</a> <a href="wepistat_2021.csv">(als CSV)</a></li>
-    </ul>
+
+    <!-- h2>Zu Prüfen</h2>
+
+      -->
+
+
+    <h2>Statistik</h2> 
+    <?PHP // TODO: Genertate statistic table dynamically ?>
+    <table>
+      <tr><td><a href="wepistat_2022.html">Statistik 2021</a></td><td><a href="wepistat_2022.csv">(als CSV)</a></td><td><a href="stat_generate.php?year=2022">erstellen</a></td></tr>
+      <tr><td><a href="wepistat_2021.html">Statistik 2021</a></td><td><a href="wepistat_2021.csv">(als CSV)</a></td><td></td></tr>
+    </table>
     <p></p>
+
 
     <h2>Freier Speicher auf dem Server</h2>
     <?php
@@ -50,12 +60,14 @@
     ?>
     <p></p>
     
+
     <h2>Weitere Links</h2>
     <ul>
       <li><a href="https://www.weeklypic.de/">WeeklyPic Projektseite</a></li>
       <li><a href="https://wepi.alice-and-bob.de/U9MGw5B4a2pA4tS2h/">WeeklyPic One-Stop-Foto Upload</a></li>
     </ul>
     <p></p>
+
 
     <br><hr><br>
     <p>Sollte etwas nicht wie erwartet funktionieren, informiere bitte den Admin dieses Servers, bzw. im WeeklyPic-Slack-Channel #entwickler-talk.</p>

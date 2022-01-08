@@ -128,8 +128,13 @@
     <?php
 
       // DONE: reduce primary=usage log to pages 2 and 3, add an access log 
-      // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
       // DONE: Use bot to inform admins about pictures send to check directory
+      // DONE: Admin view access log
+      // DONE: show servers free space on admin page (df -h .)
+      // DONE: statistic generation 
+      // DONE: add comment when picture should be uploaded to check, log comment and send it to admin slack
+
+      // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
       // CHECK: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
       // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
@@ -141,12 +146,8 @@
       // IDEA: Use WeeklyPic Logo on Website
       // TODO: harden against XSS 
       // REVIEW: Get Slack Name and Channel from config file
-      // DONE: Admin view access log
       // TODO: guess year when picture has no date
-      // TODO: add comment when picture should be uploaded to check, log comment and send it to admin slack
       // IDEA: log files size before and after conversion
-      // TODO: automatic statistic generation 
-      // DONE: show servers free space on admin page (df -h .)
 
       //####################################################################
 
@@ -524,6 +525,11 @@
       echo '<h2>Eckdaten des <i>überarbeiteten</i> Bildes</h2>';
       $exif_data = get_exif_data($new_path);
       $all_good = exif_display($exif_data, $requested, $exif_data_orig, TRUE);
+      if( !$all_good ) {
+        $error = 'Fehler in den Metadaten.';
+      } else {
+        $error = '';
+      }
 
       //--------------------------------------------------------------------
       // check picture date
@@ -531,11 +537,12 @@
       $date_info = get_any_picture_date_info($exif_data_orig);
       if( $date_info['prio'] == 99 ) {
         echo '<p>🛑 Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.</p>';
+        $error = 'Kein Datum im Bild gefunden.';
         log_usage('2W', $user, 'No date found in picture.');
         $all_good = false;
       }
 
-      
+  
 
       //####################################################################
       // display picture  and  furhter actions (buttons) to delete (and upload) picture
@@ -558,6 +565,7 @@
         $_SESSION['year']         = get_picture_year($exif_data);
       }
       $_SESSION['description']  = $description;  
+      $_SESSION['error']        = $error;
 
     echo '<h2>Und nun?</h2>';
 
@@ -566,10 +574,12 @@
       echo 'Dort markiert ein 🛑 das Problem.';
       echo ' Bitte prüfe das und probiere es noch mal.</em></p>';
       if($pushing_pic > 0) {
-        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für WeeklyPic bereitstellen. ';
+        echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für WeeklyPic bereitstellen.';
+        echo '<br>Bitte gebe einen Kommentar an, warum das Bild in Ordnung ist.';
         echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
         echo '<p>Bild: <b>' . $description . '</b></p>';
         echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
+        echo 'Kommentar: <input type="text" id="comment" name="comment" ><br/>';
         echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
         echo '</form></p>';

@@ -37,9 +37,9 @@
       $per_type     = $_SESSION['per_type'];
       $period       = $_SESSION['period'];
       $year         = $_SESSION['year'];
-      $comment      = $_SESSION['comment'];
       $description  = $_SESSION['description'];
-
+      $error        = $_SESSION['error'];
+      $comment      = $_POST['comment'];
 
       log_usage('3I', $user, '', FALSE, TRUE);
 
@@ -120,11 +120,11 @@
         } 
 
         if(($pushing_pic & $push_filesystem) > 0) {
-          if( store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description) ) {
+          if( store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description, $error) ) {
             echo '<p>✅ Das Bild wurde für den WeeklyPic-Slack kopiert! 😃</p>';
             log_usage('3I', $user, 'File moved'); 
           } else {
-            echo '<p>⚡️ Problem beim kopieren für den WeeklyPic-Slack.</p>';
+            echo '<p>⚡️ Problem beim kopieren in lokales Verzeichnis.</p>';
             log_usage('3E', $user, 'Error moving file'); 
           }
         }

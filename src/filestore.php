@@ -32,7 +32,7 @@
 
     // store folder in directory hirarcchy, add sub-folder if necessary. create file with metainformation as well 
     // Structure is: $destination/[year]/[period type]/[period m or w]/[w|m]_[period]_[username].jpg
-      function store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description) {
+      function store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description, $error) {
 
         $destination = $destination_folder . '/' . $year;
         clearstatcache();
@@ -60,8 +60,8 @@
           return false;
         }
 
-        if( strlen(trim($comment)) <> 0) {
-          file_put_contents($destination . "/" . $filebasename . ".txt", $comment);
+        if( strlen(trim($comment)) <> 0  || strlen(trim($error)) <> 0 ) {
+          file_put_contents($destination . "/" . $filebasename . ".txt", $comment . PHP_EOL . '[' . $error . ']' . PHP_EOL);
         }
 
         $metadata = array( '@year:' . $year . PHP_EOL,
@@ -71,7 +71,9 @@
                            '@user:' . $user . PHP_EOL,
                            '@description:' . $description . PHP_EOL,
                            '@filename:' . $filebasename . '.jpg' . PHP_EOL,
-                           '@comment:' . $comment . PHP_EOL );
+                           '@error:' . $error . PHP_EOL,
+                           '@comment:' . $comment . PHP_EOL,
+                           '+one_picture.in' . PHP_EOL );
         file_put_contents($destination . "/" . $filebasename . ".meta", $metadata);
         
         return TRUE;

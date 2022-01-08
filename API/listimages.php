@@ -25,13 +25,16 @@ function listDir($type, $year, $number)
         $dir = new DirectoryIterator($dirPath);
         $response=array();
         foreach ($dir as $fileinfo) {
-            if ($fileinfo->isDot() || !$fileinfo->isFile() ||
-            startsWith($fileinfo->getFileName(), $year . "_w_") ||
-			startsWith($fileinfo->getFileName(), $year . "_m_") ||
-            !endsWith($fileinfo->getFileName(), ".jpg")) {
+            $fn = $fileinfo->getFileName();
+            if($fileinfo->isDot() || 
+               !$fileinfo->isFile() ||
+               startsWith($fn, $year . "_w_") ||
+			   startsWith($fn, $year . "_m_") ||
+               !endsWith($fn, ".jpg") || 
+               is_file(substr($fn, 0, -3) . 'txt')) {
                 continue;
             }
-            $response[]=$fileinfo->getFileName();
+            $response[]=$fn;
         }
 		echo json_encode($response);
     } else {

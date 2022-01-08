@@ -27,8 +27,8 @@ echo generiere Text-Ausgabe ...
 ./textoutput.sh ${jahr} > wepistat_${jahr}.txt
 
 # generate textoutput with ASCII charts
-echo generiere HTML-Ausgabe ...
-./htmloutput.sh ${jahr} > wepistat_${jahr}.html
+#echo generiere HTML-Ausgabe ...
+#./htmloutput.sh ${jahr} > wepistat_${jahr}.html
 
 echo Fertig.
 # EOF
