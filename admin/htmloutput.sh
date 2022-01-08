@@ -128,4 +128,5 @@ sort -nr user.txt | bars -mode=snippet \
      -sum -average \
      -count -count-text="Anzahl Teilnehmer"
      
+echo "<p>Hier geht es <a href="index.php">zurück</a>.</p>"
 echo "</body></html>"

@@ -19,7 +19,7 @@
 
   	<h1>WeeklyPic-One-Stop-Foto Admin-Seite</h1>
 
-    
+
     <h2>Aktionen</h2>
     <ul>
       <li><a href="user.php"    >Bearbeiten der Benutzer-Datei</a></li>
@@ -43,7 +43,7 @@
     <h2>Statistik</h2> 
     <?PHP // TODO: Genertate statistic table dynamically ?>
     <table>
-      <tr><td><a href="wepistat_2022.html">Statistik 2021</a></td><td><a href="wepistat_2022.csv">(als CSV)</a></td><td><a href="stat_generate.php?year=2022">erstellen</a></td></tr>
+      <tr><td><a href="wepistat_2022.html">Statistik 2022</a></td><td><a href="wepistat_2022.csv">(als CSV)</a></td><td><a href="stat_generate.php?year=2022">erstellen</a></td></tr>
       <tr><td><a href="wepistat_2021.html">Statistik 2021</a></td><td><a href="wepistat_2021.csv">(als CSV)</a></td><td></td></tr>
     </table>
     <p></p>
