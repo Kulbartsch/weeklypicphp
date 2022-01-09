@@ -31,7 +31,7 @@ function listDir($type, $year, $number)
                startsWith($fn, $year . "_w_") ||
 			   startsWith($fn, $year . "_m_") ||
                !endsWith($fn, ".jpg") || 
-               is_file(substr($fn, 0, -3) . 'txt')) {
+               is_file(substr($dirPath . '/' . $fn, 0, -3) . 'txt')) {
                 continue;
             }
             $response[]=$fn;

@@ -64,7 +64,7 @@ So, for example, if you want to change the artist, the following tags are affect
     * For API
         * PHP module mbstring (`apt install php-mbstring` and `service apache2 restart`)
 1. Copy this repo to your http folder.
-2. Check File ownership and access rights
+2. Check file and directory anownership and access rights for webserver user (i.e. www-data)
 2. Check src/config.php and adapt to your needs.
 3. In `_log` directory copy `htaccess` file to `.htaccess`.
 3. In `src` directory copy `htaccess` file to `.htaccess`.
