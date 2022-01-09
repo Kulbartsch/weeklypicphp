@@ -31,7 +31,7 @@
             echo '<tr><td><a href="file_accept.php?file=' . $jpgfile . '">' . $jpgfile . '</a></td>'; 
             echo '<td>' . $ftc[1] . '</td>';
             echo '<td><a href="file_accept.php?file=' . $ftc[0] . '">akzeptieren</a>';
-            echo '&bsp;&bsp; Verschieben, etc, folgt &bsp;&bsp;';
+            echo '&nbsp;&nbsp; Verschieben, etc, folgt';
 //            echo '&bsp;&bsp;<a href="files_delete.php?file=' . $ftc[0] . '">akzeptieren</a>';
             echo '</td></tr>' . PHP_EOL;
         } 
