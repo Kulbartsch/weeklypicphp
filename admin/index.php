@@ -18,7 +18,7 @@
   <body>
 
   	<h1>WeeklyPic-One-Stop-Foto Admin-Seite</h1>
-
+    <?PHP  include '../src/filestore.php';  ?>
 
     <h2>Aktionen</h2>
     <ul>
