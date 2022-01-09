@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WeeklyPic-One-Stop-Foto Admin - Bilder prüfen</title>
+    <title>WeeklyPic-One-Stop-Foto Admin - Bild löschen</title>
     <style type="text/css">
       body {margin:5% auto; line-height:1.6; font-size:18px;
         color:#444; padding:0 10px;
@@ -19,23 +19,17 @@
   </head>
   <body>
 
-  	<h1>Bilder prüfen</h1>
+  	<h1>Bild löschen</h1>
 
     <?php
         include '../src/functions.php';
         include '../src/filestore.php';
-        echo '<table><tr><th>Bild-Datei</th><th>Kommentar</th><th span=3>Aktion</th></tr>' . PHP_EOL;
-        $fstc = find_files_to_check();
-        foreach($fstc as $ftc) {
-            $jpgfile = substr($ftc[0], 0, -3) . 'jpg';
-            echo '<tr><td><a href="file_accept.php?file=' . $jpgfile . '">' . $jpgfile . '</a></td>'; 
-            echo '<td>' . $ftc[1] . '</td>';
-            echo '<td><a href="file_accept.php?file=' . $ftc[0] . '">akzeptieren</a>';
-            echo '&bsp;&bsp; Verschieben, etc, folgt &bsp;&bsp;';
-//            echo '&bsp;&bsp;<a href="files_delete.php?file=' . $ftc[0] . '">akzeptieren</a>';
-            echo '</td></tr>' . PHP_EOL;
-        } 
-        echo '</table>';
+
+        if( delete_comment($_GET['file'])) {
+          echo '<p>Akzeptiert ....</p>';
+      } else {
+          echo '<p>Ups, da ist was schief gelaufen. (Entwickler informieren.)<p>';
+      }
     ?>
 
     <br />

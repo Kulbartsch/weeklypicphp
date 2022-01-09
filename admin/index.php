@@ -22,7 +22,8 @@
 
     <h2>Aktionen</h2>
     <ul>
-      <li><a href="user.php"    >Bearbeiten der Benutzer-Datei</a></li>
+      <li><a href="user.php"        >Bearbeiten der Benutzer-Datei</a></li>
+      <li><a href="files_check.php" >Bilder prüfen ( <?PHP echo number_of_files_to_check(); ?>)</a><li>
       <li><a href="usagelog.php?lines=300">Anzeige der letzten 300 Zeilen des Nutzungs-Logs</a></li>
         <ul>
           <li><a href="usagelog.php?lines=150">... der letzten 150 Zeilen</a></li>

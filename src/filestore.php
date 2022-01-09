@@ -113,4 +113,9 @@
         clearstatcache();
       }
 
+      // delete comment file 
+      function delete_comment($pathfilename) {
+        return unlink(substr($pathfilename, 0, -3).'txt');
+      }
+
 ?>
