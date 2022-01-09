@@ -446,6 +446,10 @@
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
+                    ' -sampling-factor 4:2:0 ' .
+                    ' -quality 85 ' . 
+                    ' -interlace JPEG ' . 
+                    ' -colorspace RGB ' .
                     // the following option is not officially documented, but mentioned there
                     // https://stackoverflow.com/questions/6917219/imagemagick-scale-jpeg-image-with-a-maximum-file-size
                     ' -define jpeg:extend=500kb ' .    // limit to 500 KB - undocumented option

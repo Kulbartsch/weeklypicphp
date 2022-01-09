@@ -13,6 +13,8 @@
       h1,h2,h3 {line-height:1.2}
       input {font-size:18px}
       pre {border:1px solid; padding:0.5em; border-color:black}
+      table {border: 1px;}
+      th {text-align: left;}
     </style>
   </head>
   <body>
@@ -25,7 +27,10 @@
         echo '<table><tr><th>Bild-Datei</th><th>Kommentar</th><th span=3>Aktion</th></tr>' . PHP_EOL;
         $fstc = find_files_to_check();
         foreach($fstc as $ftc) {
-            echo '<tr><td>' . $ftc . '</td></tr>' . PHP_EOL;
+            $jpgfile = substr($ftc[0], 0, -3) . 'jpg';
+            echo '<tr><td><a href="' . $jpgfile . '">' . $jpgfile . '</td>'; 
+            echo '<td>' . $ftc[1] . '</td>';
+            echo '</tr>' . PHP_EOL;
         } 
         echo '</table>';
     ?>

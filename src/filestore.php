@@ -79,8 +79,12 @@
       function find_files_to_check() {
         $files_to_check = array();
         exec('find ../images -name  "[wm]_*.txt"', $lines, $result);
-        echo '<p>FEHELR! find images gab einen Fehler zurück.</p>';
-        foreach ($lines as $line) { $files_to_check[] = $line; }
+        if( $result <> 0) {
+          echo '<p>FEHELR! find images gab einen Fehler zurück.</p>';
+        }
+        foreach ($lines as $line) { 
+          $files_to_check[] = array($line, file_get_contents($line)); 
+        }
         return $files_to_check;
       }
 
