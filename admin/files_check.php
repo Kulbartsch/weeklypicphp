@@ -28,7 +28,7 @@
         $fstc = find_files_to_check();
         foreach($fstc as $ftc) {
             $jpgfile = substr($ftc[0], 0, -3) . 'jpg';
-            echo '<tr><td><a href="file_accept.php?file=' . $jpgfile . '">' . $jpgfile . '</a></td>'; 
+            echo '<tr><td><a href="' . $jpgfile . '">' . $jpgfile . '</a></td>'; 
             echo '<td>' . $ftc[1] . '</td>';
             echo '<td><a href="file_accept.php?file=' . $ftc[0] . '">akzeptieren</a>';
             echo '&nbsp;&nbsp; Verschieben, etc, folgt';
