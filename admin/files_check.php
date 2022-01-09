@@ -24,6 +24,8 @@
     <?php
         include '../src/functions.php';
         include '../src/filestore.php';
+
+        // TODO: add horizontal lines within the table
         echo '<table><tr><th>Bild-Datei</th><th>Kommentar</th><th span=3>Aktion</th></tr>' . PHP_EOL;
         $fstc = find_files_to_check();
         foreach($fstc as $ftc) {

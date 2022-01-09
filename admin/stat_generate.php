@@ -28,6 +28,7 @@
       if($year < 2022 || $year > 2030) { 
         echo '<p>⚠️ Fehler, es wurde ein ungültiges Jahr ausgewählt!</p>';
       } else {
+        // BUG: Seems script does not work
         exec('./wepistat_fs.sh ' . $year, $lines, $result);
         echo '<p>Fertig.</p>';
         echo '<p>Protokoll:</p>';

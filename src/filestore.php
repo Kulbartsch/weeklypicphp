@@ -100,8 +100,8 @@
       function move_picture_set($pathfilename, $year, $per_type, $period) {
         $destination = '../images/' . $year . '/' . $per_type . '/' . $period;
         create_folder($destination);
-        $dir = new DirectoryIterator(substr($pathfilename, 0, -3) . '*');
 
+        $dir = new DirectoryIterator(substr($pathfilename, 0, -3) . '*');
         foreach ($dir as $fileinfo) {
             $fn = $fileinfo->getFileName();
             if( !move_file($fn, $destination) ) {
