@@ -53,9 +53,9 @@
     <?php // TODO: replace with PHP functions disk_free_space() and disk_total_space() ?>
     <?php
       $one_mb = 1024 * 1024;
-      $disk_total_space  = disk_total_space('.') / $one_mb;
-      $disk_free_space   = disk_free_space('.') / $one_mb;
-      $disk_used_percent = ( $disk_total_space * 100 ) / ($disk_total_space - $disk_free_space);
+      $disk_total_space  = intval( disk_total_space('.') / $one_mb );
+      $disk_free_space   = intval( disk_free_space('.') / $one_mb );
+      $disk_used_percent = intval( ( $disk_total_space * 100 ) / ($disk_total_space - $disk_free_space) );
     ?>
     <table border="0">
       <tr><td>Gesamte Speicherkapazität:</td><td align="right"><?=  $disk_total_space ?></td><td>MB</td></tr>
