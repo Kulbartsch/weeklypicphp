@@ -97,14 +97,14 @@ echo "<h1>WeeklyPic Statistik für ${1}</h1>"
 echo "<p>Stand: ${datum}</p>"
 
 
-/root/go/bin/bars -mode=snippet \
+./bars -mode=snippet \
      -title="Bilder im Jahr" \
      -label-header=Typ \
      -value-header=Anzahl \
      -sum \
      total.txt
      
-/root/go/bin/bars -mode=snippet \
+./bars -mode=snippet \
      -title="Bilder pro Monat" \
      -label-header=Monat \
      -value-header=Anzahl \
@@ -112,7 +112,7 @@ echo "<p>Stand: ${datum}</p>"
      -sum -average \
      monat.txt
      
-/root/go/bin/bars -mode=snippet \
+./bars -mode=snippet \
      -title="Bilder pro Woche" \
      -label-header=KW \
      -value-header=Anzahl \
@@ -120,7 +120,7 @@ echo "<p>Stand: ${datum}</p>"
      -sum -average \
      woche.txt
      
-sort -nr user.txt | /root/go/bin/bars -mode=snippet \
+sort -nr user.txt | ./bars -mode=snippet \
      -title="Bilder pro Teilnehmer" \
      -label-header=Teilnehmer \
      -value-header=Anzahl \
