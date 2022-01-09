@@ -1,8 +1,5 @@
 <?PHP 
 
-  // $destination_folder <> 'na') {
-  // $pushing_pic = $pushing_pic | $push_filesystem;
-
     // check and create a folder
     function create_folder($destination) {
       global $user;
@@ -77,6 +74,39 @@
         file_put_contents($destination . "/" . $filebasename . ".meta", $metadata);
         
         return TRUE;
+      }
+
+      function find_files_to_check() {
+        $files_to_check = array();
+        exec('find ../images -name  "[wm]_*.txt"', $lines, $result);
+        echo '<p>FEHELR! find images gab einen Fehler zurück.</p>';
+        foreach ($lines as $line) { $files_to_check[] = $line; }
+        return $files_to_check;
+      }
+
+      function number_of_files_to_check() {
+        return count(find_files_to_check());
+      }
+
+      // function moves a set of files for one picture to nanother period
+      // $pathfilname - .jpg picture name viewed from admin view like ../images/2022/W/01/w_01_alexander.xxx
+      // $year - move to year
+      // $per_type - 'M' for month or 'W' for week
+      // $period - 1..12 for Month or 1..52 for week
+      function move_picture_set($pathfilename, $year, $per_type, $period) {
+        $destination = '../images/' . $year . '/' . $per_type . '/' . $period;
+        create_folder($destination);
+        $dir = new DirectoryIterator(substr($pathfilename, 0, -3) . '*');
+
+        foreach ($dir as $fileinfo) {
+            $fn = $fileinfo->getFileName();
+            if( !move_file($fn, $destination) ) {
+                log_debug('Error moving file', $pathfilename . '->' . $destination);
+                //return false;
+            }
+            //return TRUE;
+        }
+        clearstatcache();
       }
 
 ?>

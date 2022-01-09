@@ -50,13 +50,25 @@
 
 
     <h2>Freier Speicher auf dem Server</h2>
+    <?php // TODO: replace with PHP functions disk_free_space() and disk_total_space() ?>
     <?php
-      setlocale(LC_CTYPE, 'en_US.UTF-8');
-      exec('df -h .', $lines, $result);
-      echo '<p>Ergebnis von "df": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>';
-      echo '<pre>';
-      foreach ($lines as $line) { echo htmlspecialchars($line) . "\n"; }
-      echo '</pre>';
+      $one_mb = 1024 * 1024;
+      $disk_total_space  = disk_total_space('.') / $one_mb;
+      $disk_free_space   = disk_free_space('.') / $one_mb;
+      $disk_used_percent = ( $disk_total_space * 100 ) / ($disk_total_space - $disk_free_space);
+    ?>
+    <table border="0">
+      <tr><td>Gesamte Speicherkapazität:</td><td align="right"><?=  $disk_total_space ?></td><td>MB</td></tr>
+      <tr><td>Freie Speicherkapazität:</td><td align="right"><?=  $disk_free_space ?></td><td>MB</td></tr>
+      <tr><td>Speicherbelegung:</td><td align="right"><?=  $disk_used_percent ?></td><td>%</td></tr>
+    </table>
+    <?php
+      // setlocale(LC_CTYPE, 'en_US.UTF-8');
+      // exec('df -h .', $lines, $result);
+      // echo '<p>Ergebnis von "df": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>';
+      // echo '<pre>';
+      // foreach ($lines as $line) { echo htmlspecialchars($line) . "\n"; }
+      // echo '</pre>';
     ?>
     <p></p>
     
