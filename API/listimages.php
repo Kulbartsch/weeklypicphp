@@ -15,7 +15,12 @@ switch($request_method)
 		header("HTTP/1.0 405 Method Not Allowed");
 		break;
 }
-    
+
+// change the file type (extension) of filename
+function file_change_extension(string $file, string $new_ext) {
+    return substr($file, 0, strrpos($file, '.')+1) . $new_ext;
+}
+
 function listDir($type, $year, $number)
 {
     $dirPath = realPathForParams($type, $year, $number);
