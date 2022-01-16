@@ -95,12 +95,17 @@
         echo '<p>Ein Bild mit diesem Namen existiert schon WeeklyPic Eingangs-Verzeichnis. Das vorhandene Bild wird gelöscht und durch das neue ersetzt. </p>';
         delete_file($moveto);
       } 
-      if(rename($filename, $moveto) == false) {
+      log_debug('Moving file (2)', $filename . ' to ' . $moveto);
+      exec('pwd', $out, $rc);
+      log_debug('pwd', $out[0]);
+    if(rename($filename, $moveto) == false) {
         echo '<p>⚡️ Fehler beim Verschieben der Bild-Datei (1). Das sollte nicht passieren. </p>';
         echo '<p>Bitte informiere einen Admin über das Problem.</p>';
+        log_debug('Error moving file (2)', $filename . ' to ' . $moveto);
         return FALSE;
       } else {
         if(file_exists($filename)) {
+          log_debug('Error moving file (3)', $filename . ' to ' . $moveto);
           echo '<p>⚠️ Fehler beim Verscheiben der Bild-Datei. (2) Das sollte nicht passieren. </p>';
           echo '<p>Bitte informiere einen Admin über das Problem.</p>';
           return FALSE;

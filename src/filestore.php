@@ -57,6 +57,18 @@
 
         $destination = create_period_folder($destination_folder, $year, $per_type, $period);
 
+        log_debug('store_file - pathfilename', $pathfilename);
+        log_debug('store_file - destination_folder', $destination_folder);
+        log_debug('store_file - year', $year);
+        log_debug('store_file - per_type', $per_type);
+        log_debug('store_file - period', $period);
+        log_debug('store_file - filebasename', $filebasename);
+        log_debug('store_file - comment', $comment);
+        log_debug('store_file - user', $user);
+        log_debug('store_file - description', $description);
+        log_debug('store_file - error', $error);
+        log_debug('store_file - destination', $destination);
+
         if( is_file($destination . $filebasename . '.jpg') ) { // deleting existing files
           if( !unlink($destination . $filebasename . '.jpg') ) {
             log_usage('I3', $user, 'Error deleting existing file ' . $destination . $filebasename . '.jpg');
@@ -68,9 +80,11 @@
           unlink($destination . $filebasename . '.txt');
         } 
 
-        log_debug('Moving file', $pathfilename . ' to ' . $destination);
-        if( !move_file($pathfilename, $destination) ) {
-          log_debug('Error moving file', $pathfilename . '->' . $destination);
+        log_debug('Moving file', $pathfilename . ' to ' . $destination . $filebasename . '.jpg' );
+        exec('pwd', $out, $rc);
+        log_debug('pwd', $out[0]);
+        if( !move_file($pathfilename, $destination . $filebasename . '.jpg') ) {
+          log_debug('Error moving file', $pathfilename . '->' . $destination . $filebasename . '.jpg');
           return false;
         }
 

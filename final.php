@@ -42,6 +42,7 @@
       $comment      = $_POST['comment'];
 
       log_usage('3I', $user, '', FALSE, TRUE);
+      log_debug('Final Pathfilename', $pathfilename);
 
       // upload
       if (isset($_POST['upload']) or isset($_POST['upload2'])) { // upload button was klicked
@@ -120,6 +121,7 @@
         } 
 
         if(($pushing_pic & $push_filesystem) > 0) {
+          log_debug('Final calling', 'store file');
           if( store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description, $error) ) {
             echo '<p>✅ Das Bild wurde für den WeeklyPic-Slack kopiert! 😃</p>';
             log_usage('3I', $user, 'File moved'); 
