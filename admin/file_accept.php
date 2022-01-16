@@ -25,10 +25,11 @@
         include '../src/functions.php';
         include '../src/filestore.php';
 
+        echo '<p> Datei ' . reduce_path(file_change_extension($_REQUEST['file'], 'jpg'));
         if( delete_comment($_GET['file'])) {
-            echo '<p>Ok.</p>';
+            echo ' - akzeptiert.</p>';
         } else {
-            echo '<p>Ups, da ist was schief gelaufen. (Entwickler informieren.)<p>';
+            echo '<br>Ups, da ist was schief gelaufen. (Entwickler informieren.)<p>';
         }
     ?>
 

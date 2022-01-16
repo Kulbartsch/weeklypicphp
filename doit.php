@@ -133,21 +133,21 @@
       // DONE: show servers free space on admin page (df -h .)
       // DONE: statistic generation 
       // DONE: add comment when picture should be uploaded to check, log comment and send it to admin slack
+      // DONE: log files size before and after conversion
 
-      // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
-      // CHECK: not all critical messages are logged
       // BUG: Don't upload to too old timeranges
-      // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
-      // BUG: check all variable output if it's converted with htmlspecialchars() 
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
+      // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
+      // TODO: harden against XSS 
+      // TODO: guess year when picture has no date
+      // CHECK: check all variable output if it's converted with htmlspecialchars() 
+      // CHECK: not all critical messages are logged
+      // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
+      // REVIEW: Get Slack Name and Channel from config file
       // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
       // IDEA: general footer with Authors and link to github for each page
       // IDEA: Use WeeklyPic Logo on Website
-      // TODO: harden against XSS 
-      // REVIEW: Get Slack Name and Channel from config file
-      // TODO: guess year when picture has no date
-      // IDEA: log files size before and after conversion
 
       //####################################################################
 
@@ -462,6 +462,7 @@
           echo "<br>result: "; print_r($result);
           echo "</p>";
         }
+        log_usage('2I',$user, 'File size: uploaded:' . filesize($tmp_file) . ', resized: ' . filesize($new_path) );
         if($result !== 0) {
           log_command_result($command, $result, $data, $user);
           cancel_processing('Fehler bei der Größenänderung.');

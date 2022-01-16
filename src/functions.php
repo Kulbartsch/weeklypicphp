@@ -43,6 +43,19 @@
   }
 
 
+  function string_starts_with($haystack, $needle) {
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+  }
+
+
+  function leading_zeros($string, $len) {
+    return str_pad($string, $len, '0', STR_PAD_LEFT);
+  }
+
+
+  // --------------------------- // 
+
   function delete_file($filename) {
     if(file_exists($filename)) {
       if(unlink($filename) == false) {
@@ -67,12 +80,16 @@
   }
 
 
-  function move_file($filename, $destination) {
+  function move_file($filename, $destination, $use_basename=FALSE) {
     if(file_exists($filename)) {
-      if(substr($destination,-1) == '/') { 
-        $moveto = $destination . basename($filename); 
+      if($use_basename) {
+        if(substr($destination,-1) == '/') { 
+          $moveto = $destination . basename($filename); 
+        } else {
+          $moveto = $destination . '/' . basename($filename); 
+        }
       } else {
-        $moveto = $destination . '/' . basename($filename); 
+        $moveto = $destination;
       }
       if(file_exists($moveto)) {
         echo '<p>Ein Bild mit diesem Namen existiert schon WeeklyPic Eingangs-Verzeichnis. Das vorhandene Bild wird gelöscht und durch das neue ersetzt. </p>';
@@ -88,7 +105,7 @@
           echo '<p>Bitte informiere einen Admin über das Problem.</p>';
           return FALSE;
         } else {
-          echo '<p>✅ Das Bild wurde ins WeeklyPic Eingangs-Verzeichnis verschoben.</p>';
+          // echo '<p>✅ Das Bild wurde ins WeeklyPic Eingangs-Verzeichnis verschoben.</p>';
           return TRUE;
         }
       }
@@ -100,6 +117,9 @@
   }
 
 
+  // ---------------------- // 
+  // Logging
+  
   function log_command_result($cmd, $result, $output, $user) {
     global $command_log;
     $log_msg = PHP_EOL . 'time:' . date("c") . ';' . $user . PHP_EOL .

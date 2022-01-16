@@ -23,7 +23,7 @@
     <h2>Aktionen</h2>
     <ul>
       <li><a href="user.php"        >Bearbeiten der Benutzer-Datei</a></li>
-      <li><a href="files_check.php" >Bilder prüfen ( <?PHP echo number_of_files_to_check(); ?>)</a></li>
+      <li><a href="files_check.php" >Bilder prüfen (<?PHP echo number_of_files_to_check(); ?>)</a></li>
       <li><a href="usagelog.php?lines=300">Anzeige der letzten 300 Zeilen des Nutzungs-Logs</a></li>
         <ul>
           <li><a href="usagelog.php?lines=150">... der letzten 150 Zeilen</a></li>
@@ -44,9 +44,21 @@
     <h2>Statistik</h2> 
     <?PHP // TODO: Genertate statistic table dynamically ?>
     <table>
-      <tr><td><a href="wepistat_2022.html">Statistik 2022</a></td><td><a href="wepistat_2022.csv">(als CSV)</a></td><td><a href="stat_generate.php?year=2022">erstellen</a></td></tr>
+      <tr><td><a href="wepistat_2022.html">Statistik 2022</a></td><td><a href="wepistat_2022.csv">(als CSV)</a></td><td><a href="stat_generate.php?year=2022">aktualisieren</a></td></tr>
       <tr><td><a href="wepistat_2021.html">Statistik 2021</a></td><td><a href="wepistat_2021.csv">(als CSV)</a></td><td></td></tr>
     </table>
+    <p>
+      Hinweis! Sollten nach dem "Aktualisieren" der Statistik noch alte Werte angezeigt werden,
+      solltest du, auf der Statistik Seite(!), den Cache aktualisieren; auch "Hard Refresh" gennant. 
+      Das geht wie folgt:
+    </p>
+    <ul>
+      <li>Chrome, Firefox, der Edge unter Windows: Drücke STRG+F5 (Wenn das nicht funktiertversuchte Shift+F5 or STRG+Shift+R).</li>
+      <li>Chrome or Firefox unter macOS: Drücke Shift+Command+R.</li>
+      <li>Safari unter macOS: Hier gibt es keine einfache Tastenkombination für einen Hard Refresh. 
+        Drücke Command+Option+E um den Cache zu leern, 
+        dann halte die Shift Taste gedrückt und klicke auf "Neu Laden" in der Symbolleiste.</li>
+    </ul>
     <p></p>
 
 
@@ -56,7 +68,7 @@
       $one_mb = 1024 * 1024;
       $disk_total_space  = intval( disk_total_space('.') / $one_mb );
       $disk_free_space   = intval( disk_free_space('.') / $one_mb );
-      $disk_used_percent = intval( ( $disk_total_space * 100 ) / ($disk_total_space - $disk_free_space) );
+      $disk_used_percent = intval( ($disk_total_space - $disk_free_space) / ( $disk_total_space / 100 ) );
     ?>
     <table border="0">
       <tr><td>Gesamte Speicherkapazität:</td><td align="right"><?=  $disk_total_space ?></td><td>MB</td></tr>
