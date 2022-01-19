@@ -88,6 +88,7 @@ if ($filter1 == '' && $filter2 <> '') {
     $filter2 = '';
 }
 // TODO: implement search from beginning of log (does not work because stripos() results in this case with 0, what also is FALSE)
+// WORKAROUND: remove
 if (string_starts_with($filter1, '202')) {
     $filter1 = substr($filter1, 1);
 }
