@@ -77,7 +77,7 @@
           if(isset($_POST['upload2'])) {
             $upload_dir = $check_dir;
             log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload2)');
-            slack('Hallo Admins! ' . $user . ' lädt das Bild ' . $filename . ' in den Prüfordner ' . $upload_dir . ' hoch.',  '#weeklypic-adm-2' );
+            slack('Hallo Admins! ' . $user . ' lädt das Bild ' . $filename . ' in den Prüfordner ' . $upload_dir . ' hoch.',  '#weeklypic-adm' );
           } else {
             $upload_dir = uploadWPdir($per_type, $period, $year);
             log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload)');
@@ -123,10 +123,10 @@
         if(($pushing_pic & $push_filesystem) > 0) {
           log_debug('Final calling', 'store file');
           if( store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description, $error) ) {
-            echo '<p>✅ Das Bild wurde für den WeeklyPic-Slack kopiert! 😃</p>';
+            // echo '<p>✅ Das Bild wurde für den WeeklyPic-Slack kopiert! 😃</p>';
             log_usage('3I', $user, 'File moved'); 
           } else {
-            echo '<p>⚡️ Problem beim kopieren in lokales Verzeichnis.</p>';
+            // echo '<p>⚡️ Problem beim kopieren in lokales Verzeichnis.</p>';
             log_usage('3E', $user, 'Error moving file'); 
           }
         }

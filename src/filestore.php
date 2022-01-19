@@ -73,7 +73,7 @@
           if( !unlink($destination . $filebasename . '.jpg') ) {
             log_usage('I3', $user, 'Error deleting existing file ' . $destination . $filebasename . '.jpg');
           } else {
-            echo "<p>Bereits vorhandenes Bild wird gelöscht.</p>";
+            // echo "<p>Bereits vorhandenes Bild wird gelöscht.</p>";
             log_debug('OK, removed existing file', $destination . $filebasename . '.jpg');
           }
           unlink($destination . $filebasename . '.meta');

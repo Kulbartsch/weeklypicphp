@@ -30,29 +30,27 @@
     </ul>
 
 
-    <!-- h2>Zu Prüfen</h2>
-
-      -->
-
-
     <h2>Statistik</h2> 
     <?PHP // TODO: Genertate statistic table dynamically ?>
     <table>
       <tr><td><a href="wepistat_2022.html">Statistik 2022</a></td><td><a href="wepistat_2022.csv">(als CSV)</a></td><td><a href="stat_generate.php?year=2022">aktualisieren</a></td></tr>
       <tr><td><a href="wepistat_2021.html">Statistik 2021</a></td><td><a href="wepistat_2021.csv">(als CSV)</a></td><td></td></tr>
     </table>
-    <p>
-      Hinweis! Sollten nach dem "Aktualisieren" der Statistik noch alte Werte angezeigt werden,
-      solltest du, auf der Statistik Seite(!), den Cache aktualisieren; auch "Hard Refresh" gennant. 
-      Das geht wie folgt:
-    </p>
-    <ul>
-      <li>Chrome, Firefox, der Edge unter Windows: Drücke STRG+F5 (Wenn das nicht funktiertversuchte Shift+F5 or STRG+Shift+R).</li>
-      <li>Chrome or Firefox unter macOS: Drücke Shift+Command+R.</li>
-      <li>Safari unter macOS: Hier gibt es keine einfache Tastenkombination für einen Hard Refresh. 
-        Drücke Command+Option+E um den Cache zu leern, 
-        dann halte die Shift Taste gedrückt und klicke auf "Neu Laden" in der Symbolleiste.</li>
-    </ul>
+    <details>
+        <summary>Hinweis! Sollten nach dem "Aktualisieren" der Statistik noch alte Werte angezeigt werden ...</summary>
+        <p>
+            ... solltest du, auf der Statistik Seite(!), den Cache aktualisieren; auch "Hard Refresh" genannt.
+            Das geht wie folgt:
+        </p>
+        <ul>
+            <li>Chrome, Firefox, der Edge unter Windows: Drücke STRG+F5 (Wenn das nicht funktiert versuchte Shift+F5 or STRG+Shift+R).</li>
+            <li>Chrome or Firefox unter macOS: Drücke Shift+Command+R.</li>
+            <li>Safari unter macOS: Hier gibt es keine einfache Tastenkombination für einen Hard Refresh.
+                Drücke Command+Option+E um den Cache zu leern,
+                dann halte die Shift Taste gedrückt und klicke auf "Neu Laden" in der Symbolleiste.</li>
+        </ul>
+
+    </details>
     <p></p>
 
 
