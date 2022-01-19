@@ -441,6 +441,7 @@
 
       $longest_side = get_longest_side($exif_data_orig);
       $max_slack_size = 550*1024; // 500KB // check for: filesize
+      // TODO: And check for size 
       if(($longest_side >= 2000) and ($longest_side <= 2048) and ($_FILES['fileToUpload']['size'] < $max_slack_size)) {
         echo '<p>✅ Dein Bild hat schon die passende Größe. Es erfolgt keine Anpassung.</p>' . PHP_EOL;
       } else {

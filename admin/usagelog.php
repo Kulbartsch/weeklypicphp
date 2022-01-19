@@ -27,27 +27,95 @@
       setlocale(LC_CTYPE, 'en_US.UTF-8');
       // more functions
       include '../src/functions.php';
+
       // check for file
       if(file_exists($usage_log) == FALSE){
         cancel_processing("Missing usage_log file.");
       }
-      $nl = intval($_GET['lines']);
-      if($nl < 10) { 
-        $nl = 300; 
-        echo '<p>⚠️ Warnung, es werden nicht weniger als 10 Zeilen angezeigt. Die Ausgabe wurde auf ' . $nl . ' gesetzt.</p>';
+      
+      $nl = intval($_REQUEST['lines']);
+      $sel0150 = $sel0300 = $sel0600 = $sel1500 = $sel3000 = '';
+      switch($nl) {
+        case 150:
+          $sel0150 = ' selected';
+          break;
+        case 600:
+          $sel0600 = ' selected';
+          break;
+        case 1500:
+          $sel1500 = ' selected';
+          break;
+        case 3000:
+          $sel3000 = ' selected';
+          break;
+        default:
+          $sel0300 = ' selected';
+          $nl = 300;
+          break;
       }
-      if($nl > 10000) { 
-        $nl = 300; 
-        echo '<p>⚠️ Warnung, es werden nicht mehr als 10.000 Zeilen angezeigt. Die Ausgabe wurde auf ' . $nl . ' gesetzt.</p>';
-
+      $logic = $_REQUEST['logic'];
+      if ($logic ==  'or') {
+        $logic_and = '';
+        $logic_or  = ' checked';
+      } else {
+        $logic     = 'and';
+        $logic_and = ' checked';
+        $logic_or  = '';
       }
-      // read usage_log  
-      exec('tail -n ' . $nl . ' ' . $usage_log, $lines, $result);
-      echo '<p>Es werden die letzten ' . $nl . ' Zeilen angezeigt. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
+      $filter1 = $_REQUEST['filter1'];
+      $filter2 = $_REQUEST['filter2'];
+      if($filter1 == '' && $filter2 <> '') {
+        $filter1  =  $filter2;
+        $filter2  = '';
+      }
     ?>
 
-<pre>
-<?PHP foreach ($lines as $line) { echo htmlspecialchars($line) . "\n"; } ?>
+      <form action="usagelog.php" method="post" enctype="multipart/form-data">
+        <table>
+          <tr><td>Anzahl Zeilen: &nbsp;</td><td>
+            <select name="lines">
+              <option value="150"  <?= $sel0150 ?>>150</option>
+              <option value="300"  <?= $sel0300 ?>>300</option>
+              <option value="600"  <?= $sel0600 ?>>600</option>
+              <option value="1500" <?= $sel1500 ?>>1500</option>
+              <option value="3000" <?= $sel3000 ?>>3000</option>
+            </select>
+            vom Ende des Protokolls
+          </td></tr>
+          <tr><td>Filter:</td><td><input type="text" id="filter1" name="filter1" value="<?= $filter1 ?>"></td></tr>
+          <tr><td></td><td>
+            <input type="radio" name="logic" id="logic_and" value="and" <?= $logic_and ?> ><label for="logic_and"> und </label>
+            &nbsp;&nbsp;&nbsp;
+            <input type="radio" name="logic" id="logic_or" value="or" <?= $logic_or ?> ><label for="logic_or"> oder </label>
+          </td><tr>
+          <tr><td></td><td><input type="text" id="filter2" name="filter2" value="<?= $filter2 ?>"></td></tr>
+          <tr><td><input type="submit" value="aktualisieren"></td><td></td></tr>
+        </table>
+      </form>
+
+    <?PHP 
+      // read usage_log  
+      exec('tail -n ' . $nl . ' ' . $usage_log, $lines, $result);
+      //echo '<p>Es werden die letzten ' . $nl . ' Zeilen gefiltert. (Ergebnis von "tail": ' . $result . ' &nbsp; - &nbsp; 0=OK)</p>'
+    ?>
+
+<pre><?PHP 
+  foreach ($lines as $line) { 
+    if( $filter1 <> '') {
+      if($logic == 'and') {
+        if( (stripos($line, $filter1) <> FALSE)   and  ( ($filter2 == '') or (stripos($line, $filter2) <> FALSE)) ) {
+          echo htmlspecialchars($line) . "\n";     
+        }
+      } else {
+        if( (stripos($line, $filter1) <> FALSE)  or  (stripos($line, $filter2) <> FALSE) ) {
+          echo htmlspecialchars($line) . "\n";     
+        }
+      }
+    } else {
+      echo htmlspecialchars($line) . "\n"; 
+    }
+  } 
+?>
 </pre>
 
     <p>Das Format der Log-Datei ist wie folgt:</p>
