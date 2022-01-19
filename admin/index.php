@@ -25,7 +25,7 @@
       <li><a href="user.php"        >Bearbeiten der Benutzer-Datei</a></li>
       <li><a href="files_check.php" >Bilder prüfen (<?PHP echo number_of_files_to_check(); ?>)</a></li>
       <li><a href="usagelog.php?lines=300">Anzeige des Nutzungs-Logs</a></li>
-      <li><a href="slack.php"   >Senden einer Testnachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm-2</a></li>
+      <li><a href="slack.php"   >Senden einer Testnachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm</a></li>
       <!-- li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li -->
     </ul>
 

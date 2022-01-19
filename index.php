@@ -123,11 +123,12 @@
           Geo-Daten im Bild 🍪:<br/>
           <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br/>
         </p>
-        <p>
+        <!-- p>
           Expertenmodus 🍪:<br/>
           <input type="checkbox" id="expert" name="expert" value="expert" <?= $val_expert ?>> Keine Metadaten ändern, Bild nur prüfen und hochladen.<br>
           Du musst allerdings deinen WeeklyPic-Benutzernamen und den Bild-Zeitraum angeben. Die anderen Felder werden ignoriert.
-        </p>
+        </p -->
+        <input type="checkbox" id="expert" name="expert" value="expert" hidden>
         <p>
           <input type="checkbox" id="usecookie" name="usecookie" value="usecookie" <?= $val_usecookie ?> ><label for="usecookie"> Nutze ein Cookie für deine 🍪-Daten.</label>
         </p>

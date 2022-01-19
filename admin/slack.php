@@ -17,14 +17,14 @@
   </head>
   <body>
 
-  	<h1>Senden einer TestNachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm-2</h1>
+  	<h1>Senden einer Test-Nachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm-2</h1>
 
     <?php
       include '../src/config.php';
       include '../src/slack.php';
       
       echo '<p>Testnachricht gesendet.<br/>'; 
-      echo 'Ergebnis: ' . slack('Das ist eine Testnachricht des WeeklyPic Bots.', '#weeklypic-adm-2');
+      echo 'Ergebnis: ' . slack('Das ist eine Testnachricht des WeeklyPic Bots.', '#weeklypic-adm');
       echo '</p>';
     ?>
 

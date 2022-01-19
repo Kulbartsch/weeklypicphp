@@ -314,13 +314,13 @@
 
       // delete existing file(s)
       if(file_exists($new_path)) {
-        echo "<p>Bereits vorhandenes Bild wird gelöscht.</p>";
+        // echo "<p>Bereits vorhandenes Bild wird gelöscht.</p>";
         if(!delete_file($new_path)) {
           cancel_processing("Fehler! Konnte vorhandene Datei nicht löschen. Bitte Admins informieren!");
         }
       }
       if(file_exists($tmp_file)) {
-        echo "<p>Bereits vorhandenes Bild (tmp) wird gelöscht.</p>";
+        // echo "<p>Bereits vorhandenes Bild (tmp) wird gelöscht.</p>";
         if(!delete_file($tmp_file)) {
           cancel_processing("Fehler! Konnte vorhandene Datei nicht löschen. Bitte Admins informieren!");
         }
@@ -328,7 +328,8 @@
 
       //Alles okay, verschiebe Datei an neuen Pfad
       move_uploaded_file($fileToUpload['tmp_name'], $new_path);
-      echo 'Dein Bild ist erfolgreich hier angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
+      echo 'Dein Bild ist erfolgreich hier im One-Stop-Foto angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
+      echo '<br>☝ Aber vergiss nicht das Bild ️am Ende der Seite noch an den Weekly-Pic Server zu übertragen!';
       log_usage('2V', $user, 'Picture successfully received.');
 
       //####################################################################
@@ -440,8 +441,7 @@
       // resize picture
 
       $longest_side = get_longest_side($exif_data_orig);
-      $max_slack_size = 550*1024; // 500KB // check for: filesize
-      // TODO: And check for size 
+      $max_slack_size = 800*1024; // 800KB // check for: filesize
       if(($longest_side >= 2000) and ($longest_side <= 2048) and ($_FILES['fileToUpload']['size'] < $max_slack_size)) {
         echo '<p>✅ Dein Bild hat schon die passende Größe. Es erfolgt keine Anpassung.</p>' . PHP_EOL;
       } else {
@@ -594,12 +594,12 @@
 
     ?>
 
-    <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun direkt für WeeklyPic bereitstellen und hier löschen.<br>'; } ?>
-       Sollte dir das Ergebnis hier nicht gefallen, solltest du das Bild hier löschen. (Sonst wird es auch irgendwann später gelöscht.)</p>
+    <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun direkt für WeeklyPic bereitstellen.<br>'; } ?>
+       Sollte dir das Ergebnis hier nicht gefallen, kannst du das Bild hier verwerfen.</p>
     <p>Bild: <b><?php echo $description ?></b></p>
     <p><form method="post" action="final.php?<?php echo htmlspecialchars(SID); ?>">
       <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen">&nbsp;&nbsp;&nbsp;'; } ?>
-      <input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;
+      <input type="submit" name="delete" value="verwerfen" >&nbsp;&nbsp;&nbsp;
     </form></p>
 
     <?PHP } ?>
