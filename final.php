@@ -77,7 +77,12 @@
           if(isset($_POST['upload2'])) {
             $upload_dir = $check_dir;
             log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload2)');
-            slack('Hallo Admins! ' . $user . ' lädt das Bild ' . $filename . ' in den Prüfordner ' . $upload_dir . ' hoch.',  '#weeklypic-adm' );
+            $message2 = 'System-Fehlermeldung: ' . $error;
+            if( strlen($comment) > 0) {
+              $message2 = ' Benutzer Kommentar: «' . $comment . '»  ' . $message2;
+            }
+            log_usage('3I', $user, $message2);
+            slack('Hallo Admins! ' . $user . ' lädt das Bild ' . $filename . ' in den Prüfordner ' . $upload_dir . ' hoch. ' . $message2, '#weeklypic-adm' );
           } else {
             $upload_dir = uploadWPdir($per_type, $period, $year);
             log_usage('3I', $user, 'Requested upload to ' . $upload_dir . ' (upload)');
