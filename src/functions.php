@@ -68,7 +68,7 @@
           echo '<p>Bitte informiere einen Admin über das Problem.</p>';
           return FALSE;
         } else {
-          echo '<p>♻️ Das Bild wurde von diesem Server gelöscht.</p>';
+          // echo '<p>♻️ Das Bild wurde von diesem Server gelöscht.</p>';
           return TRUE;
         }
       }
@@ -92,7 +92,7 @@
         $moveto = $destination;
       }
       if(file_exists($moveto)) {
-        echo '<p>Ein Bild mit diesem Namen existiert schon WeeklyPic Eingangs-Verzeichnis. Das vorhandene Bild wird gelöscht und durch das neue ersetzt. </p>';
+        // echo '<p>Ein Bild mit diesem Namen existiert schon WeeklyPic Eingangs-Verzeichnis. Das vorhandene Bild wird gelöscht und durch das neue ersetzt. </p>';
         delete_file($moveto);
       } 
       log_debug('Moving file (2)', $filename . ' to ' . $moveto);
@@ -106,7 +106,7 @@
       } else {
         if(file_exists($filename)) {
           log_debug('Error moving file (3)', $filename . ' to ' . $moveto);
-          echo '<p>⚠️ Fehler beim Verscheiben der Bild-Datei. (2) Das sollte nicht passieren. </p>';
+          echo '<p>⚠️ Fehler beim Verschieben der Bild-Datei. (2) Das sollte nicht passieren. </p>';
           echo '<p>Bitte informiere einen Admin über das Problem.</p>';
           return FALSE;
         } else {
@@ -115,8 +115,9 @@
         }
       }
     } else {
-      echo '<p>⚠️ Die Bild-Datei existiert nicht (mehr). 🤔 Das sollte nicht passieren. </p>';
-      echo '<p>Bitte informiere einen Admin über das Problem.</p>';
+      echo '<p>⚠️ Die Bild-Datei existiert nicht (mehr). 🤔 Das sollte nicht passieren.';
+      echo 'Oder hast du diese Seite neu geladen? Dann passiert das.</p>';
+      echo '<p>Ansonsten informiere bitte einen Admin über das Problem.</p>';
       return FALSE;
     }
   }

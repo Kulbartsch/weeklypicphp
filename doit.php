@@ -329,7 +329,7 @@
       //Alles okay, verschiebe Datei an neuen Pfad
       move_uploaded_file($fileToUpload['tmp_name'], $new_path);
       echo 'Dein Bild ist erfolgreich hier im One-Stop-Foto angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
-      echo '<br>☝ Aber vergiss nicht das Bild ️am Ende der Seite noch an den Weekly-Pic Server zu übertragen!';
+      echo '<br>☝ Aber vergiss nicht das Bild am Ende der Seite noch an den Weekly-Pic Server zu übertragen!';
       log_usage('2V', $user, 'Picture successfully received.');
 
       //####################################################################
