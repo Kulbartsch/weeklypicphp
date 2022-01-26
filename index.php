@@ -120,8 +120,15 @@
           <input type="text" id="creator" name="creator" value="<?= $val_creator ?>"><br/>
           Lizenz 🍪 (optional):<br/>
           <input type="text" id="license" name="license" value="<?= $val_license ?>"><br/>
-          Geo-Daten im Bild 🍪:<br/>
-          <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br/>
+        </p>
+        <p>
+            Geo-Daten im Bild 🍪:<br/>
+            <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>><label for="nogeo">GPS-Daten löschen</label><br/>
+        </p>
+        <p>
+            Einfacher One-Stop-Foto Upload 🍪:<br/>
+            <input type="checkbox" id="onestop" name="onestop" value="onestop" <?= $val_onestop ?>><label for="onestop">Nach dem Hochladen des Bildes ohne Rückfrage, sofort für WeeklyPic bereitstellen.</label><br/>
+            Das funktioniert nur, wenn bei der Anpassung und Prüfung des Bildes keine Probleme aufgetreten sind.<br/>
         </p>
         <!-- p>
           Expertenmodus 🍪:<br/>
