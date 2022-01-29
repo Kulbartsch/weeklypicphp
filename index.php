@@ -123,12 +123,16 @@
         </p>
         <p>
             Geo-Daten im Bild 🍪:<br/>
-            <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>><label for="nogeo">GPS-Daten löschen</label><br/>
+            <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>><label for="nogeo"> GPS-Daten löschen</label><br/>
         </p>
         <p>
             Einfacher One-Stop-Foto Upload 🍪:<br/>
-            <input type="checkbox" id="onestop" name="onestop" value="onestop" <?= $val_onestop ?>><label for="onestop">Nach dem Hochladen des Bildes ohne Rückfrage, sofort für WeeklyPic bereitstellen.</label><br/>
-            Das funktioniert nur, wenn bei der Anpassung und Prüfung des Bildes keine Probleme aufgetreten sind.<br/>
+            <input type="checkbox" id="onestop" name="onestop" value="onestop" <?= $val_onestop ?>><label for="onestop"> Nach der Anpassung des Bildes, dieses ohne Rückfrage, sofort für WeeklyPic bereitstellen.
+            Das funktioniert nur, wenn bei der Anpassung und Prüfung des Bildes keine Probleme aufgetreten sind.</label><br/>
+        </p>
+        <p>
+            Manuelle Prüfung des Bildes vor Bereitstellung für WeeklyPic 🍪:<br/>
+            <input type="checkbox" id="checkpic" name="checkpic" value="checkpic" <?= $val_checkpic ?>><label for="onestop"> Bild nach der Anpassung kontrollieren.</label><br/>
         </p>
         <!-- p>
           Expertenmodus 🍪:<br/>

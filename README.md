@@ -13,7 +13,7 @@ Texts in the webapp are in german, internationalization is missing.
 * Resize picture to max 500KB 
 * Setting meta data for
   * *title*
-  * *description* (= weekliy-pic-username / title)
+  * *description* (= weekly-pic-username / title)
   * *creator*
   * *license*
 * Show table of existing/required/new EXIF parameters
@@ -64,23 +64,30 @@ So, for example, if you want to change the artist, the following tags are affect
     * For API
         * PHP module mbstring (`apt install php-mbstring` and `service apache2 restart`)
 1. Copy this repo to your http folder.
-2. Check file and directory anownership and access rights for webserver user (i.e. www-data)
+2. Check file and directory ownership and access rights for webserver user (i.e. www-data)
 2. Check src/config.php and adapt to your needs.
 3. In `_log` directory copy `htaccess` file to `.htaccess`.
 3. In `src` directory copy `htaccess` file to `.htaccess`.
 4. Create `src/config.config` file and make customizing. (see src/config.php for more information).
-7. (optional) If you use this Application in an hidden subdirectory and you don't have start-page, you may want to copy the file "UR_wrong.html" as "index.html" into the webservers root directory. 
+7. (optional) If you use this Application in a hidden subdirectory, and you don't have start-page, you may want to copy the file "UR_wrong.html" as "index.html" into the webservers root directory. 
 
+# Testing
+
+1. Go to the project folder root.
+2. Run `php -S localhost:8765` and 
+3. start your browser with [http://localhost:8765](http://localhost:8765)
+
+Of course, you can change the port to your liking.
 
 # Known Problem
 
 There are graphic tools which manipulate the EXIF Tags, but do this wrong so the EXIF data is corrupt or at least not consitent.
-This results in warnings or errors when this is processed with with exiftool. 
-Warings can mostly ignored. When errors occur, the picture is not processed and the change of the meta data will fail.
+This results in warnings or errors when this is processed with exiftool. 
+Warnings can mostly be ignored. When errors occur, the picture is not processed and the change of the meta data will fail.
 Examples of this are:
 
 * Darktable EXIF data probably wrong.
   * It seems, that data exported from Darktable will result in an `Error = Bad format (0) for IFD0 entry 0` when processed with exiftool. In this case the picture can't be processed and the program stops. I'm working on a solution, that in this and similar cases the EXIF data will be rewritten correctly.
-* Rotating a picture with an (unknow to me) Linux preview tool corrupts the EXIF data.
+* Rotating a picture with an (unknown to me) Linux preview tool corrupts the EXIF data.
 
 Maybe I'll implement an optional processing step, that drops the corrupt meta-data and just updates the necessary data.
