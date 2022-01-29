@@ -120,6 +120,8 @@
           <input type="text" id="creator" name="creator" value="<?= $val_creator ?>"><br/>
           Lizenz 🍪 (optional):<br/>
           <input type="text" id="license" name="license" value="<?= $val_license ?>"><br/>
+        </p>
+        <p>
           Geo-Daten im Bild 🍪:<br/>
           <input type="checkbox" id="nogeo" name="nogeo" value="nogeo" <?= $val_nogeo ?>> GPS-Daten löschen<br/>
         </p>

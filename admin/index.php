@@ -13,6 +13,10 @@
       h1,h2,h3 {line-height:1.2}
       input {font-size:18px}
       pre {border:1px solid; padding:0.5em; border-color:black}
+      details { border:1px solid; border-radius: 0.5em; background-color: #DDD; padding-left: 0.5em; padding-right: 0.5em; }
+      details summary {
+          cursor: pointer; font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -37,7 +41,7 @@
       <tr><td><a href="wepistat_2021.html">Statistik 2021</a></td><td><a href="wepistat_2021.csv">(als CSV)</a></td><td></td></tr>
     </table>
     <details>
-        <summary>Hinweis! Sollten nach dem "Aktualisieren" der Statistik noch alte Werte angezeigt werden ...</summary>
+        <summary>Wenn die Statistik noch alte Werte anzeigt ...</summary>
         <p>
             ... solltest du, auf der Statistik Seite(!), den Cache aktualisieren; auch "Hard Refresh" genannt.
             Das geht wie folgt:
