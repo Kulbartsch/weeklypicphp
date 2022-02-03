@@ -220,7 +220,6 @@
         cancel_processing("Fehler! Kein Weekly-Pic-Benutzernamen angegeben.");
       }
 
-      // TODO: also calculate year
       $default_month = date('n');
       $default_week  = date('W');
       $requested_month = validate_number_and_return_string(sanitize_input("month_number", TRUE), 1, 12);
@@ -234,7 +233,9 @@
         $requested_period_type = 'W';
         $requested_period      = $requested_week;
       }
-      log_usage('2V', $user, 'Period from form: ' . $requested_period_type . $requested_period);
+      $requested_year = guess_picture_year($requested_period_type, $requested_period);
+      log_usage('2V', $user, 'Period from form: ' . $requested_period_type . $requested_period . ', year (calculated): ' . $requested_year);
+
 
       //####################################################################
       // File validation and upload handling
@@ -405,6 +406,7 @@
       $requested['.GPSPosition']           = '';
 
       $requested['.CreateDate']            = '';                                // EXIF
+      $requested['=Year']                  = $requested_year;
       if($requested_period_type == 'M') {
         $requested['=Month']               = $requested_month;
       } else {
@@ -447,13 +449,14 @@
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
+                    // recommended optimization
                     ' -sampling-factor 4:2:0 ' .
                     ' -quality 85 ' . 
                     ' -interlace JPEG ' . 
                     ' -colorspace RGB ' .
                     // the following option is not officially documented, but mentioned there
                     // https://stackoverflow.com/questions/6917219/imagemagick-scale-jpeg-image-with-a-maximum-file-size
-                    ' -define jpeg:extend=500kb ' .    // limit to 500 KB - undocumented option
+                    // ' -define jpeg:extend=500kb ' .    // limit to 500 KB - undocumented option - does have no effect
                     escapeshellarg($tmp_file) .
                     ' 2>&1';
         exec($command, $data, $result);
@@ -474,7 +477,7 @@
         if(rename($tmp_file, $new_path) == false) {
           cancel_processing('Fehler beim Umbenennen der temporären Datei. (resize)');
         }
-        echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln und maximal 500KB für die längste Seite angepasst.</p>' . PHP_EOL;
+        echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln für die längste Seite und ca. 500 KB angepasst.</p>' . PHP_EOL;
       }
 
       //--------------------------------------------------------------------
@@ -551,13 +554,12 @@
   
 
       //####################################################################
-      // display picture  and  furhter actions (buttons) to delete (and upload) picture
+      // display picture  and  further actions (buttons) to delete (and upload) picture
 
       echo '<h2>Das überarbeitete Bild! </h2>';
       echo '<p><img src="' . $new_path . '" alt="Your processed WeeklyPic" width="600" ><br />';
       // echo '<small>Falls dein Bild gedreht dargestellt wird, berücksichtigt dein Browser den Style "image-orientation: from-image;" nicht. (Firefox kann das.) Das ist allerdings kein Problem für WeeklyPic.</small></p>';
       // HINT: Image Orientation (find it in the css style above) is currently only supported by Firefox
-      // IDEA: Rotate a portrait image?
 
       $_SESSION['pathfilename'] = $new_path;
       $_SESSION['filebasename'] = $filename;
@@ -570,6 +572,7 @@
       } else { // Month
         $_SESSION['year']         = get_picture_year($exif_data);
       }
+      if($_SESSION['year'] == 0) { $_SESSION['year'] = $requested_year; }
       $_SESSION['description']  = $description;  
       $_SESSION['error']        = $error;
 

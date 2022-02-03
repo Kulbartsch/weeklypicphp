@@ -25,9 +25,8 @@
         }
 
         pre {
-            border: 1px solid;
             padding: 0.5em;
-            border-color: black
+            border: 1px solid black;
         }
     </style>
 </head>

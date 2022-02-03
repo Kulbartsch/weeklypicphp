@@ -62,7 +62,7 @@ function create_period_folder($destination_folder, $year, $per_type, $period)
 
 // store folder in directory hierarchy, add sub-folder if necessary. create file with metainformation as well
 // Structure is: $destination/[year]/[period type]/[period m or w]/[w|m]_[period]_[username].jpg
-function store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description, $error)
+function store_file($pathfilename, $destination_folder, $year, $per_type, $period, $filebasename, $comment, $user, $description, $error): bool
 {
 
     $destination = create_period_folder($destination_folder, $year, $per_type, $period);
