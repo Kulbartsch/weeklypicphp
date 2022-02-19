@@ -73,6 +73,7 @@
         <td></td>
     </tr>
 </table>
+
 <details>
     <summary>Wenn die Statistik noch alte Werte anzeigt ...</summary>
     <p>
@@ -80,14 +81,11 @@
         Das geht wie folgt:
     </p>
     <ul>
-        <li>Chrome, Firefox, der Edge unter Windows: Drücke STRG+F5 (Wenn das nicht funktiert versuchte Shift+F5 or
-            STRG+Shift+R).
-        </li>
+        <li>Chrome, Firefox, der Edge unter Windows: Drücke STRG+F5 (Wenn das nicht funktiert versuchte Shift+F5 or STRG+Shift+R).</li>
         <li>Chrome or Firefox unter macOS: Drücke Shift+Command+R.</li>
         <li>Safari unter macOS: Hier gibt es keine einfache Tastenkombination für einen Hard Refresh.
             Drücke Command+Option+E um den Cache zu leern,
-            dann halte die Shift Taste gedrückt und klicke auf "Neu Laden" in der Symbolleiste.
-        </li>
+            dann halte die Shift Taste gedrückt und klicke auf "Neu Laden" in der Symbolleiste.</li>
     </ul>
 
 </details>
@@ -95,7 +93,6 @@
 
 
 <h2>Freier Speicher auf dem Server</h2>
-<?php // TODO: replace with PHP functions disk_free_space() and disk_total_space() ?>
 <?php
 $one_mb = 1024 * 1024;
 $disk_total_space = intval(disk_total_space('.') / $one_mb);
