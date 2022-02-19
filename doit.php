@@ -134,12 +134,13 @@
       // DONE: statistic generation 
       // DONE: add comment when picture should be uploaded to check, log comment and send it to admin slack
       // DONE: log files size before and after conversion
+      // DONE: guess year when picture has no date
 
       // BUG: Don't upload to too old timeranges
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
       // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
       // TODO: harden against XSS 
-      // TODO: guess year when picture has no date
+      // TODO: remove to many EXIF attributes (because that let's the wordpress album fail). In an failure case a lot of processing information about processing is stored in the [XMP] group. maybe remove all tags in this group?
       // CHECK: check all variable output if it's converted with htmlspecialchars() 
       // CHECK: not all critical messages are logged
       // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
@@ -148,6 +149,7 @@
       // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
       // IDEA: general footer with Authors and link to github for each page
       // IDEA: Use WeeklyPic Logo on Website
+      // TODO: Change config.php to a function returning a hash and beeing independent from directory, use SERVER_ROOT(?))
 
       //####################################################################
 
