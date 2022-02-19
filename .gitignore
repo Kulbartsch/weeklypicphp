@@ -26,6 +26,6 @@ admin/monat.txt
 admin/total.txt
 admin/user.txt
 admin/woche.txt
-test_mbp.sh
+test*.sh
 weeklypicphp.geany
 test/
