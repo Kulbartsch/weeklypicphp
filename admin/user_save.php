@@ -38,7 +38,7 @@
 <?php
 // configuration constants
 // include '../src/config.php';
-// BUG: use config file
+// TODO: use config file
 
 $user_file = "../_log/user.txt";
 setlocale(LC_CTYPE, 'en_US.UTF-8');

@@ -60,7 +60,7 @@
 <h1>Bilder prüfen</h1>
 
 <?php
-// TODO: From the "0000" or "0" directory files must be moved (not just accepted)
+// BUG: From the "0000" or "0" directory files must be moved (not just accepted)
 include '../src/functions.php';
 include '../src/filestore.php';
 
@@ -70,7 +70,8 @@ foreach ($fstc as $ftc) {
     $jpgfile = file_change_extension($ftc[0], 'jpg');
     echo '<tr><td><a href="' . $jpgfile . '">' . substr($jpgfile, 10) . '</a></td>';
     echo '<td>' . $ftc[1] . '</td>';
-    echo '<td><a href="file_accept.php?file=' . $ftc[0] . '" class="btn">akzeptieren</a>';
+    echo '<td>'; 
+    echo '<a href="file_accept.php?file=' . $ftc[0] . '" class="btn">akzeptieren</a>';
     echo '&nbsp;&nbsp;<a href="file_move1.php?accept=TRUE&file=' . $ftc[0] . '" class="btn">...&nbsp;und&nbsp;verschieben</a>';
     echo '&nbsp;&nbsp;<a href="files_delete.php?file=' . $ftc[0] . '" class="btn">löschen</a>';
     echo '</td></tr>' . PHP_EOL;

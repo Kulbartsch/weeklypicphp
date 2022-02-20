@@ -153,6 +153,9 @@ function move_picture_set($pathfilename, $year, $per_type, $period)
     $destination = '../images/';
     $destination = create_period_folder($destination, $year, $per_type, $period);
     $dir = new DirectoryIterator(pathinfo($pathfilename, PATHINFO_DIRNAME));
+    // BUG: Don't move file if it is already in the correct (destination) directory
+    debug('move file from', $pathfilename);
+    debug('move file to  ', $year . ' / ' . $per_type . ' / ' . $period );
     foreach ($dir as $fileinfo) {
         // $fn = $fileinfo->getFileName();
         $fn = $fileinfo->getPathName();

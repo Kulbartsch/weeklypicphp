@@ -66,6 +66,8 @@ if ($_REQUEST['accept'] == 'TRUE') {
     echo '<h1>Bild verschieben</h1>';
 }
 
+// BUG: Don't move picture into the same directory!!
+
 $file = file_change_extension($file, 'jpg');
 echo '<p> Datei ' . reduce_path($file);
 
