@@ -4,45 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>WeeklyPic-One-Stop-Foto Admin</title>
-    <style type="text/css">
-        body {
-            margin: 30px auto;
-            max-width: 650px;
-            line-height: 1.6;
-            font-size: 18px;
-            color: #444;
-            padding: 0 10px;
-            background: #eee;
-            -webkit-font-smoothing: antialiased;
-            font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif
-        }
-
-        h1, h2, h3 {
-            line-height: 1.2
-        }
-
-        input {
-            font-size: 18px
-        }
-
-        pre {
-            padding: 0.5em;
-            border: 1px solid black;
-        }
-
-        details {
-            border: 1px solid;
-            border-radius: 0.5em;
-            background-color: #DDD;
-            padding-left: 0.5em;
-            padding-right: 0.5em;
-        }
-
-        details summary {
-            cursor: pointer;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
@@ -53,7 +15,7 @@
 <ul>
     <li><a href="user.php">Bearbeiten der Benutzer-Datei</a></li>
     <li><a href="files_check.php">Bilder prüfen (<?PHP echo number_of_files_to_check(); ?>)</a></li>
-    <li><a href="usagelog.php?lines=300">Anzeige des Nutzungs-Logs</a></li>
+    <li><a href="usagelog.php?lines=300&filter1=&filter2=&logic=and">Anzeige des Nutzungs-Logs</a></li>
     <li><a href="slack.php">Senden einer Testnachricht des WeeklyPic Bots in den Slack Channel #weeklypic-adm</a></li>
     <!-- li><a href="slack1.php"  >Senden einer Nachricht des WeeklyPic Bots an einen Channel</a></li -->
 </ul>
@@ -65,7 +27,7 @@
     <tr>
         <td><a href="wepistat_2022.html">Statistik 2022</a></td>
         <td><a href="wepistat_2022.csv">(als CSV)</a></td>
-        <td><a href="stat_generate.php?year=2022">aktualisieren</a></td>
+        <td><a href="stat_generate.php?year=2022" class="btn">aktualisieren</a></td>
     </tr>
     <tr>
         <td><a href="wepistat_2021.html">Statistik 2021</a></td>
@@ -73,7 +35,7 @@
         <td></td>
     </tr>
 </table>
-
+<br />
 <details>
     <summary>Wenn die Statistik noch alte Werte anzeigt ...</summary>
     <p>
@@ -87,8 +49,8 @@
             Drücke Command+Option+E um den Cache zu leern,
             dann halte die Shift Taste gedrückt und klicke auf "Neu Laden" in der Symbolleiste.</li>
     </ul>
-
 </details>
+<br />
 <p></p>
 
 
@@ -102,20 +64,21 @@ $disk_used_percent = intval(($disk_total_space - $disk_free_space) / ($disk_tota
 <table border="0">
     <tr>
         <td>Gesamte Speicherkapazität:</td>
-        <td align="right"><?= $disk_total_space ?></td>
+        <td align="right"><?= number_format($disk_total_space,0,',','.') ?></td>
         <td>MB</td>
     </tr>
     <tr>
         <td>Freie Speicherkapazität:</td>
-        <td align="right"><?= $disk_free_space ?></td>
+        <td align="right"><?= number_format($disk_free_space,0,',','.') ?></td>
         <td>MB</td>
     </tr>
     <tr>
         <td>Speicherbelegung:</td>
-        <td align="right"><?= $disk_used_percent ?></td>
+        <td align="right"><?= number_format($disk_used_percent,0,',','.') ?></td>
         <td>%</td>
     </tr>
 </table>
+<br />
 <?php
 // setlocale(LC_CTYPE, 'en_US.UTF-8');
 // exec('df -h .', $lines, $result);

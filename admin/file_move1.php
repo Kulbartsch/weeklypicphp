@@ -63,6 +63,7 @@ echo '<p> Datei ' . reduce_path($file);
 
 <form action="file_move2.php" method="post" enctype="multipart/form-data">
 
+    <p>Zu verschiebende Datei: <?= $file ?></p>
     <input type="text" id="file" name="file" value="<?= $file ?>" required hidden>
     <input type="text" id="accept" name="accept" value="<?= $accept ?>" hidden>
     <!-- TODO: dynamic year range -->

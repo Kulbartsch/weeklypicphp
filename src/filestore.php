@@ -6,7 +6,7 @@
 function debug($log_msg, $log_var)
 {
     if (TRUE == FALSE) {
-        echo PHP_EOL . '<p>DBG: ' . $log_msg . ': ' . var_export($log_var, TRUE) . '</p>';
+        echo PHP_EOL . '<p>INFO: ' . $log_msg . ': ' . var_export($log_var, TRUE) . '</p>';
         //echo PHP_EOL . '<p>DBG: ' . $log_msg . ': ' . print_r($log_var, TRUE) . '</p>';
     }
 }
@@ -150,10 +150,18 @@ function move_picture_set($pathfilename, $year, $per_type, $period)
     }
     $rc = TRUE;
     $fnp = filenameparts($pathfilename);
+    if( $fnp === FALSE ) {
+        debug('move file, error parsing pathfilename:', $pathfilename);
+        return false;
+    }
+    // check date - not to overwrite itself
+    if( ($fnp['year'] == $year) and ($fnp['pertype'] == $per_type) and  ($fnp['period'] == $period) ) {
+        debug('move file, would overwrite itself:', $pathfilename, ' to ', $year, '/', $per_type, '/', $period);
+        return FALSE;
+    }
     $destination = '../images/';
     $destination = create_period_folder($destination, $year, $per_type, $period);
     $dir = new DirectoryIterator(pathinfo($pathfilename, PATHINFO_DIRNAME));
-    // BUG: Don't move file if it is already in the correct (destination) directory
     debug('move file from', $pathfilename);
     debug('move file to  ', $year . ' / ' . $per_type . ' / ' . $period );
     foreach ($dir as $fileinfo) {
@@ -236,6 +244,8 @@ function reduce_path($pathfilename)
 }
 
 // deconstruct a WeeklyPic filename
+// returns FALSE or a map with the following keys: path, filename, extension, basename, pertype, period, username, year, pathstate
+// pathstate is TRUE if path matches the year, periode type, periode conventions, otherwise FALSE
 function filenameparts($pathfilename)
 {
     $parts = array();
@@ -244,7 +254,8 @@ function filenameparts($pathfilename)
         $parts['path'] = ''; // no path
         $parts['filename'] = $pathfilename;
     } else {
-        $parts['path'] = substr($pathfilename, 0, $n);
+        $p = substr($pathfilename, 0, $n);
+        $parts['path'] = $p;
         $parts['filename'] = substr($pathfilename, $n + 1);
     }
     // check validity
@@ -267,14 +278,55 @@ function filenameparts($pathfilename)
         $parts['extension'] = substr($fn, $n + 1);
         $parts['basename'] = substr($fn, 0, $n);
     }
-    $parts['pertype'] = substr($fn, 0, 1);
-    $parts['period'] = substr($fn, 2, 4);
+    $parts['pertype'] = strtoupper(substr($fn, 0, 1));
+    $parts['period'] = substr($fn, 2, 2);
     $parts['username'] = substr($parts['basename'], 5);
     // debug('parts b', $parts);
+    if( ! $n === FALSE ) { // we have a path
+        $m = strrpos($p, '/');
+        if($m === FALSE) {
+            $parts['pathstate'] = FALSE;
+            goto endfnparts;
+        }
+        $y = substr($p, $m + 1); // check if last part part matches period
+        // $parts['yp'] = $y;
+        if( $y != $parts['period'] )
+        {
+            $parts['pathstate'] = FALSE;
+            goto endfnparts;
+        } 
+        $x = substr($p, 0, $m); // reduced path
+        // $parts['x2'] = $x;
+        $m = strrpos($x, '/');
+          if($m === FALSE) {
+            $parts['pathstate'] = FALSE;
+            goto endfnparts;
+        } 
+        $y = substr($x, $m + 1); // check if last part part matches pertype
+        // $parts['ypt'] = $y;
+        if( $y != $parts['pertype'] )
+        {
+            $parts['pathstate'] = FALSE;
+            goto endfnparts;
+        } 
+        $x = substr($x, 0, $m); // reduced path
+        // $parts['x3'] = $x;
+        $m = strrpos($x, '/'); 
+        if($m === FALSE) {
+            $parts['pathstate'] = FALSE;
+            goto endfnparts;
+        } 
+        $parts['year'] = substr($x, $m + 1);
+        $parts['pathstate'] = TRUE;
+    }
+    endfnparts:
     return $parts;
 }
 
 // return a hash with the existing image directories
+// returns a hash of [year][M|W][period]="directory"
+function image_dirs( ) {
 
+}
 
 ?>

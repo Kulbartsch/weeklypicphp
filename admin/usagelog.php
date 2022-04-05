@@ -4,31 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>WeeklyPic-One-Stop-Foto Admin - Usage-Log</title>
-    <style type="text/css">
-        body {
-            margin: 5% auto;
-            line-height: 1.6;
-            font-size: 18px;
-            color: #444;
-            padding: 0 10px;
-            background: #eee;
-            -webkit-font-smoothing: antialiased;
-            font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif
-        }
-
-        h1, h2, h3 {
-            line-height: 1.2
-        }
-
-        input {
-            font-size: 18px
-        }
-
-        pre {
-            padding: 0.5em;
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
@@ -131,8 +107,8 @@ if (string_starts_with($filter2, '202')) {
             <td><input type="text" id="filter2" name="filter2" value="<?= $filter2 ?>"></td>
         </tr>
         <tr>
-            <td><input type="submit" value="aktualisieren"></td>
-            <td></td>
+            <td><a class="btn" href="index.php">zurück</a></td>
+            <td style="float: right;"><input type="submit" value="aktualisieren"></td>
         </tr>
     </table>
 </form>
@@ -163,7 +139,8 @@ exec('tail -n ' . $nl . ' ' . $usage_log, $lines, $result);
     ?>
 </pre>
 
-<p>Das Format der Log-Datei ist wie folgt:</p>
+<details>
+<summary>Format der Log-Datei:</summary>
 <ul>
     <li>Eine Zeile besteht aus mehreren Feldern, welche durch ein ";" getrennt sind.</li>
     <li>Das erste Feld ist ein Zeitstempel. (In lokaler Zeit mit der Abweichung zu UTC.)</li>
@@ -180,9 +157,11 @@ exec('tail -n ' . $nl . ' ' . $usage_log, $lines, $result);
     <li>Das dritte Feld ist - sofern gefüllt - der User-Name. (Die Erfassung des Names kann abgeschaltet sein.)</li>
     <li>Das vierte Feld enthält weitere Informationen.</li>
 </ul>
+</details>
 
 <br/>
-<p>Hier geht es <a href="index.php">zurück</a>.</p>
+<p><a class="btn" href="index.php">zurück</a></p>
+
 <p>Sollte etwas nicht wie erwartet funktionieren, informiere bitte den Admin dieses Servers, bzw. im
     WeeklyPic-Slack-Channel #entwickler-talk.</p>
 
