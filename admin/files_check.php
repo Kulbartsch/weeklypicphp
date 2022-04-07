@@ -19,11 +19,16 @@ echo '<table><tr class="list"><th>Bild-Datei</th><th>Kommentar</th><th span=3>Ak
 $fstc = find_files_to_check();
 foreach ($fstc as $ftc) {
     $jpgfile = file_change_extension($ftc[0], 'jpg');
+    $year_null = ( substr($jpgfile, 10, 1) == '0' );
     echo '<tr class="list"><td><a href="' . $jpgfile . '">' . substr($jpgfile, 10) . '</a></td>';
     echo '<td>' . $ftc[1] . '</td>';
     echo '<td>'; 
-    echo '<a href="file_accept.php?file=' . $ftc[0] . '" class="btn">akzeptieren</a>';
-    echo '&nbsp;&nbsp;<a href="file_move1.php?accept=TRUE&file=' . $ftc[0] . '" class="btn">...&nbsp;und&nbsp;verschieben</a>';
+    if( $year_null ) {
+        echo '<a href="file_move1.php?accept=TRUE&file=' . $ftc[0] . '" class="btn">akzeptieren&nbsp;und&nbsp;verschieben</a>';
+    } else {
+        echo '<a href="file_accept.php?file=' . $ftc[0] . '" class="btn">akzeptieren</a>';
+        echo '&nbsp;&nbsp;<a href="file_move1.php?accept=TRUE&file=' . $ftc[0] . '" class="btn">...&nbsp;und&nbsp;verschieben</a>';
+    }
     echo '&nbsp;&nbsp;<a href="files_delete.php?file=' . $ftc[0] . '" class="btn">löschen</a>';
     echo '</td></tr>' . PHP_EOL;
 }

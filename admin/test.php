@@ -4,33 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WeeklyPic-One-Stop-Foto Admin - Dev Tests</title>
-    <style type="text/css">
-        body {
-            margin: 5% auto;
-            line-height: 1.6;
-            font-size: 18px;
-            color: #444;
-            padding: 0 10px;
-            background: #eee;
-            -webkit-font-smoothing: antialiased;
-            font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif
-        }
-
-        h1,
-        h2,
-        h3 {
-            line-height: 1.2
-        }
-
-        input {
-            font-size: 18px
-        }
-
-        pre {
-            padding: 0.5em;
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <h1>Entwicklungs-Testseite</h1>
