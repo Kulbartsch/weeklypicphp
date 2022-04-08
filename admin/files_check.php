@@ -11,7 +11,6 @@
 <h1>Bilder prüfen</h1>
 
 <?php
-// BUG: From the "0000" or "0" directory files must be moved (not just accepted)
 include '../src/functions.php';
 include '../src/filestore.php';
 

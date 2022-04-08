@@ -403,14 +403,14 @@ function guess_picture_year($period_type, $period)
     $this_month = date('n');
     $this_year = date('Y');
     if ($this_month == 12 && $period_type == 'W' && $period == 1) {
-        return ($this_year + 1);
+        return strval($this_year + 1);
     }
     if ($this_month == 1) {
         if ($period_type == 'W' && $period > 50) {
-            return ($this_year - 1);
+            return strval($this_year - 1);
         }
         if ($period_type == 'M' && $period == 12) {
-            return ($this_year - 1);
+            return strval($this_year - 1);
         }
     }
     return $this_year;

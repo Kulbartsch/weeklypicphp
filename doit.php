@@ -451,14 +451,19 @@
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
-                    // recommended optimization
-                    ' -sampling-factor 4:2:0 ' .
-                    ' -quality 85 ' . 
+                    // < recommended optimization (Source? something from google)
+                    ' -sampling-factor 4:2:0 ' . 
+                    ' -quality 82 ' . 
                     ' -interlace JPEG ' . 
                     ' -colorspace RGB ' .
-                    // the following option is not officially documented, but mentioned there
+                    // >
+                    // < Alternative: https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
+                    //   TODO: Check above parameters and the alternative
+                    // >
+                    // < the following option is not officially documented, but mentioned there
                     // https://stackoverflow.com/questions/6917219/imagemagick-scale-jpeg-image-with-a-maximum-file-size
                     // ' -define jpeg:extend=500kb ' .    // limit to 500 KB - undocumented option - does have no effect
+                    // >
                     escapeshellarg($tmp_file) .
                     ' 2>&1';
         exec($command, $data, $result);
@@ -468,7 +473,7 @@
           echo "<br>result: "; print_r($result);
           echo "</p>";
         }
-        log_usage('2I',$user, 'File size: uploaded:' . filesize($tmp_file) . ', resized: ' . filesize($new_path) );
+        log_usage('2I',$user, 'File size: uploaded:' . number_format(filesize($new_path),0,',','.') . ', resized: ' . number_format(filesize($tmp_file),0,',','.') );
         if($result !== 0) {
           log_command_result($command, $result, $data, $user);
           cancel_processing('Fehler bei der Größenänderung.');

@@ -32,11 +32,14 @@
       }
     } elseif(substr($tag,0,1) == '=') {  // will be calculated
       switch ($tag) {
+        case '=Year':
+          return date('Y', strtotime(get_any_picture_date($list))); 
+          break;
         case '=Month':
-          return date('n', strtotime(get_any_picture_date($list))); // REVIEW: is this secure/stable?
-           break;
+          return date('n', strtotime(get_any_picture_date($list))); 
+          break;
         case '=Week':
-          // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
+          // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); 
           return get_picture_wp_week($list);
           break;
         case '=GPS';
