@@ -32,11 +32,14 @@
       }
     } elseif(substr($tag,0,1) == '=') {  // will be calculated
       switch ($tag) {
+        case '=Year':
+          return date('Y', strtotime(get_any_picture_date($list))); 
+          break;
         case '=Month':
-          return date('n', strtotime(get_any_picture_date($list))); // REVIEW: is this secure/stable?
-           break;
+          return date('n', strtotime(get_any_picture_date($list))); 
+          break;
         case '=Week':
-          // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); // REVIEW: is this secure/stable?
+          // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); 
           return get_picture_wp_week($list);
           break;
         case '=GPS';
@@ -120,8 +123,8 @@
     global $user;
 
     // Important Tags
-    $must_be_ok = array( 'ImageDescription', '=Week', '=Month', '=LongestSide' );
-    // Display comparisom table
+    $must_be_ok = array( 'ImageDescription', '=Year', '=Week', '=Month', '=LongestSide' );
+    // Display comparison table
     echo PHP_EOL . '<p><div class="hideable"><table style="border:1">' . PHP_EOL;
     echo "<tr><th>Meta Daten</th><th>des hochgeladenen Bildes</th><th>des bearbeiteten Bildes</th><th>wie diese sein sollten</th>"; 
     if($complain) { echo '<th>?</th>'; } 
@@ -161,7 +164,7 @@
           echo '✅'; 
         } else {  
           log_debug('exif_display,tag ' . $exif_tag . ' in must_be_ok, result', array_search( $exif_tag, $must_be_ok ));
-          if(array_search( $exif_tag, $must_be_ok ) === FALSE){
+          if(!in_array($exif_tag, $must_be_ok)){
             echo '⚠️';
           } else {
             $all_good = false;

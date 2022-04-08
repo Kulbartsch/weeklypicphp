@@ -44,11 +44,20 @@
       log_usage('3I', $user, '', FALSE, TRUE);
       log_debug('Final Pathfilename', $pathfilename);
 
+      // check if file exists
+      if( ! file_exists($pathfilename) ) {
+          echo '<p>Dein Bild ist nicht mehr da. Hast du diese Web-Seite vielleicht neu geladen? Dann kann das passieren.';
+          echo 'Ob dein Bild erfolgreich verarbeiet wurde, konntest du der Seite vor dem neuen laden entnehmen.</p><br>';
+          log_usage('3E', $user, 'File missing');
+          cancel_processing('Datei fehlt.');
+      }
+
       // upload
       if (isset($_POST['upload']) or isset($_POST['upload2'])) { // upload button was klicked
 
         if($pushing_pic == 0) {
-          echo '<p>⚡️ Fehler: WeeklyPic Bereitstellung angefordert, aber keine Ziel Konfiguration gefunden.</p>';
+          cancel_processing("⚡️ Fehler: WeeklyPic Bereitstellung angefordert, aber keine Ziel Konfiguration gefunden.");
+          // echo '<p>⚡️ Fehler: WeeklyPic Bereitstellung angefordert, aber keine Ziel Konfiguration gefunden.</p>';
         }
         
         if((($pushing_pic & $push_cloud) > 0) and isset($_POST['upload'])) {
@@ -63,8 +72,10 @@
           }
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
-            echo '<p>⚡️ Problem beim Cloud-Upload aufgetreten.</p>';
+            // echo '<p>⚡️ Problem beim Cloud-Upload aufgetreten.</p>';
             log_usage('3E', $user, 'Error uploading to Cloud');
+            cancel_processing('⚡️ Problem beim Cloud-Upload aufgetreten.');
+
           } else {
             echo '<p>✅ Das Bild wurde hochgeladen! 😃</p>';
             log_usage('3I', $user, 'Uploaded to Cloud');
@@ -110,6 +121,7 @@
             echo '<p>⚡️ Problem beim FTP-Upload aufgetreten.</p>';
             log_debug('Upload Error','');
             log_usage('3E', $user, 'FTP upload error. ' . $upload_dir . ' ' . $filename);
+            cancel_processing('Problem beim FTP-Upload aufgetreten.');
           } else {
             echo '<p>✅ Das Bild wurde für WeeklyPic hochgeladen! 😃</p>';
             log_debug('Upload OK','');
@@ -133,6 +145,7 @@
           } else {
             // echo '<p>⚡️ Problem beim kopieren in lokales Verzeichnis.</p>';
             log_usage('3E', $user, 'Error moving file'); 
+            cancel_processing('Error moving file');
           }
         }
 
