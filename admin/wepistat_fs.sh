@@ -16,7 +16,7 @@ echo Verarbeite Jahr ${jahr}
 
 echo "Jahr;MW;P;Name" > wepistat_${jahr}.csv
 
-find ../images/${jahr} -name "*.jpg" -printf "%f\n" | awk -v year=${jahr} 'BEGIN{ FS="_"; OFS=";"} { print year, $1, $2, substr($3,0,length($3)-4); }' >> wepistat_${jahr}.csv
+find ../images/${jahr} -name "*.jpg" -printf "%f\n" | awk -v year=${jahr} 'BEGIN{ FS="_"; OFS=";"} { print year, $1, $2, substr($0,6,length($0)-9); }' >> wepistat_${jahr}.csv
 
 # generate statistics -> total.txt, monat.txt, woche.txt, user.txt
 echo generiere einzelne Statistiken ...
