@@ -183,9 +183,9 @@
     if($geocoordinates <> '') {
       $geocoordinates = str_ireplace ( ' deg' , '°' , $geocoordinates );
       $urlgeocoordinates = urlencode($geocoordinates);
-      echo 'Die Geokoordinaten des Bildes ' .
+      echo '🌐 Die Geokoordinaten des Bildes ' .
          '<a href="https://www.openstreetmap.org/search?query=' . $urlgeocoordinates .
-         '" target="_blank">' . $geocoordinates . '</a> (Link in neuem Fenster zu Openstreetmap.org)';
+         '" target="_blank">' . $geocoordinates . '</a> (Link in neuem Fenster zu Openstreetmap.org)<br>';
     }
     
     return $all_good;

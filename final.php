@@ -46,8 +46,9 @@
 
       // check if file exists
       if( ! file_exists($pathfilename) ) {
-          echo '<p>Dein Bild ist nicht mehr da. Hast du diese Web-Seite vielleicht neu geladen? Dann kann das passieren.';
-          echo 'Ob dein Bild erfolgreich verarbeiet wurde, konntest du der Seite vor dem neuen laden entnehmen.</p><br>';
+          echo '<p>Dein Bild ist nicht mehr da. Hast du diese Web-Seite vielleicht neu geladen? '
+          echo 'Oder bist hier hin zurück navigiert? Dann kann das passieren, aber das ist dann kein Problem. ';
+          echo 'Ob dein Bild erfolgreich verarbeiet wurde, konntest du der Seite vor dem neuen laden entnehmen.</p>';
           log_usage('3E', $user, 'File missing');
           cancel_processing('Datei fehlt.');
       }
