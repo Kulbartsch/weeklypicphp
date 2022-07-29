@@ -127,29 +127,11 @@
 
     <?php
 
-      // DONE: reduce primary=usage log to pages 2 and 3, add an access log 
-      // DONE: Use bot to inform admins about pictures send to check directory
-      // DONE: Admin view access log
-      // DONE: show servers free space on admin page (df -h .)
-      // DONE: statistic generation 
-      // DONE: add comment when picture should be uploaded to check, log comment and send it to admin slack
-      // DONE: log files size before and after conversion
-      // DONE: guess year when picture has no date
-
       // BUG: Don't upload to too old timeranges
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
-      // TODO: Better message when problems are detected, list them before update, in case of upload to check folder send them to the admin slack channel
-      // TODO: harden against XSS 
-      // TODO: remove to many EXIF attributes (because that let's the wordpress album fail). In an failure case a lot of processing information about processing is stored in the [XMP] group. maybe remove all tags in this group?
       // CHECK: check all variable output if it's converted with htmlspecialchars() 
       // CHECK: not all critical messages are logged
       // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
-      // REVIEW: Get Slack Name and Channel from config file
-      // IDEA: validate if picture is for the *current* week/month (and year) - warn if not
-      // IDEA: "Lustige" Nachrichten an die Teilnehmer (im Web oder in den Slack).
-      // IDEA: general footer with Authors and link to github for each page
-      // IDEA: Use WeeklyPic Logo on Website
-      // TODO: Change config.php to a function returning a hash and beeing independent from directory, use SERVER_ROOT(?))
 
       //####################################################################
 
@@ -158,7 +140,7 @@
       log_debug('user_db', $user_db);
       $user_info = get_user($user, $user_db);
       if($user_info == 'not_found'){
-        echo "<p>Ich kenne dich nicht. 🤨</p>";
+        echo "<p>🛑 Ich kenne dich nicht. 🤨</p>";
         log_usage('2E', $user, 'User ' . $user . ' unknown');
         // cancel processing when user is unknown
         if($check_user == 'ON') {
@@ -172,6 +154,9 @@
         $user = $user_info["userid"];  // to bring the case of the name to its default 
         log_debug("Username from user_db", $user);
         log_usage('2V', $user, '<- username from user_db');
+        if($user_called == '') {
+          $user_called = $user;
+        }
       }
 
       log_usage('2I', $user, 'Browser: ' . $_SERVER['HTTP_USER_AGENT'], TRUE, TRUE);
@@ -185,12 +170,11 @@
 
       //####################################################################
 
-      echo "<h1>Hallo! ❤️</h1>";
-      echo "<p>Grüezi " . htmlspecialchars($user_called) . ".</p>";
+      echo "<h1>Grüezi, " . htmlspecialchars($user_called) . "! ❤️</h1>" . PHP_EOL;
 
       if (!empty($description))
       {
-        echo "<p>Dein Bild soll also <i>" . htmlspecialchars($description) . "</i> heissen?!</p>";
+        echo "Dein Bild soll also <i>" . htmlspecialchars($description) . "</i> heissen.<br />" . PHP_EOL;
         $description_isset = true;
         log_usage('2V', $user, 'Picture titel from startpage: ' . $description);
       } else {
@@ -331,8 +315,8 @@
 
       //Alles okay, verschiebe Datei an neuen Pfad
       move_uploaded_file($fileToUpload['tmp_name'], $new_path);
-      echo 'Dein Bild ist erfolgreich hier im One-Stop-Foto angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
-      echo '<br>☝️ Aber vergiss nicht das Bild am Ende der Seite noch an den Weekly-Pic Server zu übertragen!';
+      // echo 'Dein Bild ist erfolgreich hier im One-Stop-Foto angekommen.'; // : <a href="'.$new_path.'">'.$new_path.'</a>';
+      echo '☝️ Vergiss nicht das Bild am Ende der Seite noch an den Weekly-Pic Server zu übertragen!<br/>';
       log_usage('2V', $user, 'Picture successfully received.');
 
       //####################################################################
@@ -344,14 +328,14 @@
         if($description != '') {
           $description_isset = TRUE;
           if(!$expertmode) {
-            echo '<p>Du hast keinen Titel für das Bild auf der Startseite angegeben aber ich habe einen Titel im Bild gefunden, der verwendet wird. (Siehe die Tabelle.)</p>';
+            echo 'ℹ Du hast keinen Titel für das Bild auf der Startseite angegeben aber ich habe einen Titel im Bild gefunden, der verwendet wird. (Siehe die Tabelle.)<br>';
           }
           log_usage('2I', $user, 'Got picture titel from picture itself: ' . $description);
         } else {
           if(!$expertmode) {
-            echo '<p>❗️❓ Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.</p>';
+            echo '❗️ Du hast keinen Titel für das Bild auf der Startseite angegeben und ich habe auch keinen Titel im Bild gefunden. Das Bild bekommt also keinen Titel.<br>';
           } else {
-            echo '<p>❗️❓ Im Expertenmodus wird der Titel aus dem Bild gelesen. Ich habe allerdings keinen Titel im Bild gefunden. Das Bild hat also keinen Titel.</p>';
+            echo '❗️ Im Expertenmodus wird der Titel aus dem Bild gelesen. Ich habe allerdings keinen Titel im Bild gefunden. Das Bild hat also keinen Titel.<br>';
           }
           log_usage('2I', $user, 'No picture titel found in picture itself. Picture is without title.');
         }
@@ -448,6 +432,7 @@
       $max_slack_size = 800*1024; // 800KB // check for: filesize
       if(($longest_side >= 2000) and ($longest_side <= 2048) and ($_FILES['fileToUpload']['size'] < $max_slack_size)) {
         echo '<p>✅ Dein Bild hat schon die passende Größe. Es erfolgt keine Anpassung.</p>' . PHP_EOL;
+        log_usage('2I',$user,'File size is already OK. (' . $_FILES['fileToUpload']['size'] . ' Bytes.) No conversion.');
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
@@ -484,7 +469,7 @@
         if(rename($tmp_file, $new_path) == false) {
           cancel_processing('Fehler beim Umbenennen der temporären Datei. (resize)');
         }
-        echo '<p>✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln für die längste Seite und ca. 500 KB angepasst.</p>' . PHP_EOL;
+        echo '✅ Dein Bild wurde auf die passende Größe von 2000 Pixeln für die längste Seite angepasst.<br>' . PHP_EOL;
       }
 
       //--------------------------------------------------------------------
@@ -508,7 +493,7 @@
         }
         // run command
         if(strlen(trim($et_param))==0) {
-          echo '<p>Keine Metadaten-Anpassung notwendig.<p>';
+          echo '✅ Keine Metadaten-Anpassung notwendig.';
         } else {
           // exiftool -s = very short output of tag names
           //          -v = verbose output
@@ -527,9 +512,9 @@
           }
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
-            echo '<p>⚠️ Problem bei der Änderung der Metadaten aufgetreten.</p>';
+            echo '⚠️ Problem bei der Änderung der Metadaten aufgetreten.<br>';
           }
-          echo '<p>✅ Die Metadaten in deinem Bild wurden angepasst.</p>' . PHP_EOL;
+          echo '✅ Die Metadaten in deinem Bild wurden angepasst.<br>' . PHP_EOL;
         }
 
       }
@@ -552,7 +537,7 @@
 
       $date_info = get_any_picture_date_info($exif_data_orig);
       if( $date_info['prio'] == 99 ) {
-        echo '<p>🛑 Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.</p>';
+        echo '🛑 Achtung, in deinem Bild habe ich keine Datumsangaben gefunden.<br>';
         $error = 'Kein Datum im Bild gefunden.';
         log_usage('2W', $user, 'No date found in picture.');
         $all_good = false;
@@ -585,17 +570,29 @@
 
     echo '<h2>Und nun?</h2>';
 
+    if( $description == '' ) {
+      echo '<p>Das Bild hat keinen Titel.<br>';
+    } else {
+      echo '<p>Bildtitel: <b>' . $description . '</b><br>';
+    }
+    echo 'Zeitraum: <b>' . $_SESSION['year'];
+    if($requested_period_type == 'M') {
+      echo ' Monat '; 
+    } else {
+      echo ' Woche ';
+    }
+    echo $requested_period . '</b></p>' . PHP_EOL;
+
     if($all_good == false) {
-      echo '<p><em>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue bitte oben im Abschnitt "Eckdaten des überarbeiteten Bildes". ';
+      echo '<em>⚠️ Es scheint ein Problem mit deinem Bild zu geben. Schaue bitte oben im Abschnitt "Eckdaten des überarbeiteten Bildes". ';
       echo 'Dort markiert ein 🛑 das Problem.';
-      echo ' Bitte prüfe das und probiere es noch mal.</em></p>';
+      echo ' Bitte prüfe das und probiere es noch mal.</em><br>';
       if($pushing_pic > 0) {
         echo '<p>Solltest du meinen, dass alles in Ordnung ist, kannst du das Bild dennoch für WeeklyPic bereitstellen.';
-        echo '<br>Bitte gebe einen Kommentar an, warum das Bild in Ordnung ist.';
-        echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em></p>'; 
-        echo '<p>Bild: <b>' . $description . '</b></p>';
-        echo '<p><form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
-        echo 'Kommentar: <input type="text" id="comment" name="comment" ><br/>';
+        echo '<br /><em>Die Admins prüfen das Bild und müssen es manuell in die Galerie verschieben.</em>' . PHP_EOL;
+        echo '<form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
+        echo 'Bitte gebe einen Kommentar an, warum das Bild in Ordnung ist:<br>';
+        echo '<input type="text" id="comment" name="comment" ><br/>';
         echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;'; 
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
         echo '</form></p>';
@@ -606,7 +603,6 @@
 
     <p><?php if($pushing_pic > 0) { echo 'Hier kannst du das Bild nun direkt für WeeklyPic bereitstellen.<br>'; } ?>
        Sollte dir das Ergebnis hier nicht gefallen, kannst du das Bild hier verwerfen.</p>
-    <p>Bild: <b><?php echo $description ?></b></p>
     <p><form method="post" action="final.php?<?php echo htmlspecialchars(SID); ?>">
       <?php if($pushing_pic > 0) { echo '<input type="submit" name="upload" value="für WeeklyPic bereitstellen">&nbsp;&nbsp;&nbsp;'; } ?>
       <input type="submit" name="delete" value="verwerfen" >&nbsp;&nbsp;&nbsp;
