@@ -451,7 +451,7 @@
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
-                    // < recommended optimization (Source? something from google)
+                    // < recommended optimization from https://developers.google.com/speed/docs/insights/OptimizeImages
                     ' -sampling-factor 4:2:0 ' . 
                     ' -quality 82 ' . 
                     ' -interlace JPEG ' . 
