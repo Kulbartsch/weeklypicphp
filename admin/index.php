@@ -24,6 +24,11 @@
 <h2>Statistik</h2>
 <?PHP // TODO: Generate statistic table dynamically ?>
 <table>
+<tr>
+        <td><a href="wepistat_2024.html">Statistik 2024</a></td>
+        <td><a href="wepistat_2024.csv">(als CSV)</a></td>
+        <td><a href="stat_generate.php?year=2024" class="btn">aktualisieren</a></td>
+    </tr>
     <tr>
         <td><a href="wepistat_2023.html">Statistik 2023</a></td>
         <td><a href="wepistat_2023.csv">(als CSV)</a></td>
