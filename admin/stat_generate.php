@@ -39,7 +39,7 @@ $year = $_GET['year'];
 $stat_csv = 'wepistat_' . $year . '.csv';
 setlocale(LC_CTYPE, 'en_US.UTF-8');
 
-// TODO: Use last year as low value and current year as high value instaed of fixed values
+// TODO: Use last year as low value and current year as high value instead of fixed values
 if ($year < 2022 || $year > 2030) {
     echo '<p>⚠️ Fehler, es wurde ein ungültiges Jahr ausgewählt!</p>';
 } else {

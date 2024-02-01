@@ -436,11 +436,11 @@
       } else {
         $command =  $convert_command . ' ' . escapeshellarg($new_path) .
                     ' -resize 2000x2000 ' .
-                    // < recommended optimization (Source? something from google)
-                    ' -sampling-factor 4:2:0 ' . 
-                    ' -quality 82 ' . 
-                    ' -interlace JPEG ' . 
-                    ' -colorspace RGB ' .
+                    // < recommended optimization from https://developers.google.com/speed/docs/insights/OptimizeImages
+                    ' -sampling-factor 4:2:0 ' .
+                    ' -quality 82 ' .
+                    ' -interlace JPEG ' .
+                    ' -colorspace sRGB ' .
                     // >
                     // < Alternative: https://www.smashingmagazine.com/2015/06/efficient-image-resizing-with-imagemagick/
                     //   TODO: Check above parameters and the alternative
