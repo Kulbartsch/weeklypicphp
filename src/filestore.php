@@ -326,6 +326,16 @@ function filenameparts($pathfilename)
 // return a hash with the existing image directories
 // returns a hash of [year][M|W][period]="directory"
 function image_dirs( ) {
+    // read directorys in image directories
+    $dir = new DirectoryIterator('../images');
+    $dirs = array();
+    foreach ($dir as $fileinfo) {
+        // if it is directory loop it 
+        if ($fileinfo->isDir()) {
+            $d = $fileinfo->getBasename();
+        }
+    }
+
 
 }
 
