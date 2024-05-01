@@ -32,3 +32,5 @@ admin/wepi*.csv
 weeklypicphp.geany
 test*.sh
 test/
+local/
+

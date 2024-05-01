@@ -1,0 +1,24 @@
+
+= Implementation of Description and tags=labels=keywords
+
+== general Information
+
+=> https://archimedespalimpsest.net/Documents/External/XMP/XMPSpecificationPart3.pdf
+
+== The Tags
+
+=> https://stackoverflow.com/questions/936937/which-exif-tag-to-store-keyword-tag-for-a-photo
+
+For keywords:
+* XPKeywords (EXIF)
+* Keywords (IPTC #25)
+* Keywords (XMP acdsee)
+
+== The Description
+
+Some fields are used to encode "user / title" information.
+
+maybe "caption"
+* XPComment (EXIF)
+* Caption-Abstract (IPTC #120)
+* ArtworkContentDescription (XMP iptcExt)
