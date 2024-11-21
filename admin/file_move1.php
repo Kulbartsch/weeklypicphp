@@ -67,7 +67,7 @@ echo '<p> Datei ' . reduce_path($file);
     <input type="text" id="file" name="file" value="<?= $file ?>" required hidden>
     <input type="text" id="accept" name="accept" value="<?= $accept ?>" hidden>
     <!-- TODO: dynamic year range -->
-    <p><label for="year">Jahr: </label><input type="number" id="year" name="year" min="2022" max="2023" step="1="
+    <p><label for="year">Jahr: </label><input type="number" id="year" name="year" min="2022" max="2025" step="1="
                                               value="2022"><br/></p>
     <p>Bild-Zeitraum:
     <table>
