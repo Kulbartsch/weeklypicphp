@@ -294,28 +294,28 @@ function filenameparts($pathfilename)
         {
             $parts['pathstate'] = FALSE;
             goto endfnparts;
-        } 
+        }
         $x = substr($p, 0, $m); // reduced path
         // $parts['x2'] = $x;
         $m = strrpos($x, '/');
           if($m === FALSE) {
             $parts['pathstate'] = FALSE;
             goto endfnparts;
-        } 
+        }
         $y = substr($x, $m + 1); // check if last part part matches pertype
         // $parts['ypt'] = $y;
         if( $y != $parts['pertype'] )
         {
             $parts['pathstate'] = FALSE;
             goto endfnparts;
-        } 
+        }
         $x = substr($x, 0, $m); // reduced path
         // $parts['x3'] = $x;
-        $m = strrpos($x, '/'); 
+        $m = strrpos($x, '/');
         if($m === FALSE) {
             $parts['pathstate'] = FALSE;
             goto endfnparts;
-        } 
+        }
         $parts['year'] = substr($x, $m + 1);
         $parts['pathstate'] = TRUE;
     }
@@ -330,7 +330,7 @@ function image_dirs( ) {
     $dir = new DirectoryIterator('../images');
     $dirs = array();
     foreach ($dir as $fileinfo) {
-        // if it is directory loop it 
+        // if it is directory loop it
         if ($fileinfo->isDir()) {
             $d = $fileinfo->getBasename();
         }

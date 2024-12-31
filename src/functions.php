@@ -316,6 +316,7 @@ function get_picture_wp_week($tags)
     if ($picdate == 'nodate') {
         return 0;
     } else {
+        //                        Period od 2 days
         return $picdate->add(new DateInterval('P2D'))->format('W');
     }
 }
@@ -429,7 +430,7 @@ function uploadWPdir($per_type, $period, $year)
     }
     if ($per_type == 'w' or $per_type == 'W') {
         return $year . '-woche-' . strip_leading_zero($period);
-    } else {  // assuming $per_type == 'm' -> month 
+    } else {  // assuming $per_type == 'm' -> month
         switch ($period) {
             case 1:
                 return 'januar-' . $year;

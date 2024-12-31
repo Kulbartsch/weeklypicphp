@@ -2,7 +2,7 @@
 
 [German Version of this README.](README_DE.md)
 
-A PHP web application to scale a JPG image to the right proportions and set EXIF data for our Weeklypic.de community. 
+A PHP web application to scale a JPG image to the right proportions and set EXIF data for our Weeklypic.de community.
 
 Many things are configurable, so might be generally useful.
 Texts in the webapp are in german, internationalization is missing.
@@ -10,7 +10,7 @@ Texts in the webapp are in german, internationalization is missing.
 # Features
 
 * Scale picture to 2000px (longest side)
-* Resize picture to max 500KB 
+* Resize picture to max 500KB
 * Setting meta data for
   * *title*
   * *description* (= weekly-pic-username / title)
@@ -31,7 +31,7 @@ Texts in the webapp are in german, internationalization is missing.
 * No adjustment of the image size if it is already OK
 * Expert mode in which no metadata is changed
 * Display of all metadata of an uploaded image
-  
+
 # User documentation
 
 See ["how to use.pdf"](how to use.pdf) (german).
@@ -68,26 +68,35 @@ So, for example, if you want to change the artist, the following tags are affect
 2. Check src/config.php and adapt to your needs.
 3. In `_log` directory copy `htaccess` file to `.htaccess`.
 3. In `src` directory copy `htaccess` file to `.htaccess`.
-4. Create `src/config.config` file and make customizing. (see src/config.php for more information).
-7. (optional) If you use this Application in a hidden subdirectory, and you don't have start-page, you may want to copy the file "UR_wrong.html" as "index.html" into the webservers root directory. 
+4. Create `src/config.config` file and make customizing.
+   (see src/config.php for more information).
+7. (optional) If you use this Application in a hidden subdirectory, and
+   you don't have start-page, you may want to copy the file "UR_wrong.html"
+   as "index.html" into the webservers root directory.
 
 # Testing
 
 1. Go to the project folder root.
-2. Run `php -S localhost:8765` and 
+2. Run `php -S localhost:8765` and
 3. start your browser with [http://localhost:8765](http://localhost:8765)
 
 Of course, you can change the port to your liking.
 
 # Known Problem
 
-There are graphic tools which manipulate the EXIF Tags, but do this wrong so the EXIF data is corrupt or at least not consitent.
-This results in warnings or errors when this is processed with exiftool. 
-Warnings can mostly be ignored. When errors occur, the picture is not processed and the change of the meta data will fail.
+There are graphic tools which manipulate the EXIF Tags, but do this wrong so
+the EXIF data is corrupt or at least not consitent.
+This results in warnings or errors when this is processed with exiftool.
+Warnings can mostly be ignored. When errors occur, the picture is not processed
+and the change of the meta data will fail.
 Examples of this are:
 
 * Darktable EXIF data probably wrong.
-  * It seems, that data exported from Darktable will result in an `Error = Bad format (0) for IFD0 entry 0` when processed with exiftool. In this case the picture can't be processed and the program stops. I'm working on a solution, that in this and similar cases the EXIF data will be rewritten correctly.
+  * It seems, that data exported from Darktable will result in an
+  `Error = Bad format (0) for IFD0 entry 0` when processed with exiftool.
+  In this case the picture can't be processed and the program stops.
+  I'm working on a solution, that in this and similar cases the EXIF data
+  will be rewritten correctly.
 * Rotating a picture with an (unknown to me) Linux preview tool corrupts the EXIF data.
 
 Maybe I'll implement an optional processing step, that drops the corrupt meta-data and just updates the necessary data.

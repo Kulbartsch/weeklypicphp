@@ -4,22 +4,22 @@
 
   // ['timeframe'] = 'W' = week
   // ['period'] = XX = week numer
-  //              Fr Sa So Mo Di Mi Do Fr Sa So Mo Di 
+  //              Fr Sa So Mo Di Mi Do Fr Sa So Mo Di
   // WePi Week      |        xx          |               ['picdatestart'] ... ['picdateend']
-  // Real Week            |        xx          |         
+  // Real Week            |        xx          |
   // Upload Range   |              xx          |         ['upldatestart'] ... ['uploaddateend']
   // Deadline                                07          ['deadline']
   // Nachzügler                              07   |      ['latesend']
   //
   // ['timeframe'] = 'M' = month
   // ['period'] = XX = month numer
-  //              30 01 02 ... 30 31 01 01
+  //              30 01 02 ... 30 31 01 02
   // WePi Month     |      xx       |                    ['picdatestart'] ... ['picdateend']
-  // Real Month     |      xx       |     
+  // Real Month     |      xx       |
   // Upload Range   |      xx       |                    ['upldatestart'] ... ['uploaddateend']
   // Deadline                     07                     ['deadline']
-  // Nachzügler                   07   |                 ['latesend']  
-  
+  // Nachzügler                   07   |                 ['latesend']
+
 
   function requested_timerange($timeframe, $period) {
 
