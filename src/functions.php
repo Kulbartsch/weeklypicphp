@@ -418,6 +418,29 @@ function guess_picture_year($period_type, $period)
 }
 
 
+// fix year when period is around new year
+// $period_type ('W' or 'M') and $period (1-53 or 1-12) are the original values,
+// $period_year is the year to check, all against $date
+// returns the corrected year
+function fix_year($period_type, $period, $period_year, $date)
+{
+    $this_month = $date->format('n');
+    $this_year = $date->format('Y');
+    if ($this_month == 12 && $period_type == 'W' && $period == 1) {
+        return strval($this_year + 1);
+    }
+    if ($this_month == 1) {
+        if ($period_type == 'W' && $period > 50) {
+            return strval($this_year - 1);
+        }
+        if ($period_type == 'M' && $period == 12) {
+            return strval($this_year - 1);
+        }
+    }
+    return $period_year;
+}
+
+
 // ----
 
 
