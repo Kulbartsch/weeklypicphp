@@ -422,21 +422,40 @@ function guess_picture_year($period_type, $period)
 // $period_type ('W' or 'M') and $period (1-53 or 1-12) are the original values,
 // $period_year is the year to check, all against $date
 // returns the corrected year
-function fix_year($period_type, $period, $period_year, $date)
+function fix_year($period_type, $period, $period_year, $date = new DateTime())
 {
+    // get reference month and year
     $this_month = $date->format('n');
     $this_year = $date->format('Y');
+    $this_date = $date->format('Y-m-d (W)');
+    log_debug("fix_year - checking   ", $period_type . " " . $period . " " . $period_year .
+        " against " . $this_date);
+    // log_debug("fix_year -     against M ", $this_month . " " . $this_year);
+
+    // validate $period_year is plausible
+    if ($period_year < $this_year - 1 or $period_year > $this_year + 1) {
+        log_debug("fix_year -     Error, Year is not plausible:", $period_year);
+        return "0000";
+    }
+
+    // check if year needs to be corrected
     if ($this_month == 12 && $period_type == 'W' && $period == 1) {
+        log_debug("fix_year -     Corrected (1) to", $this_year + 1);
         return strval($this_year + 1);
     }
     if ($this_month == 1) {
+        log_debug("fix_year -     January, checking", "");
         if ($period_type == 'W' && $period > 50) {
+            log_debug("fix_year -     Corrected (2) to", $this_year - 1);
             return strval($this_year - 1);
         }
         if ($period_type == 'M' && $period == 12) {
+            log_debug("fix_year -     Corrected (3) to", $this_year - 1);
             return strval($this_year - 1);
         }
     }
+
+    log_debug("fix_year -     No correction needed, returning", $period_year);
     return $period_year;
 }
 
