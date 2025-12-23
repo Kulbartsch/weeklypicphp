@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # wepistat_fs.sh: read data from filesystem and genertate a statistc.
-# Copyright © 2022 Alexander Kulbartsch 
+# Copyright © 2022 Alexander Kulbartsch
 # License: AGPL-3.0-or-later (GNU Affero General Public License 3 or later)
 
 if test $# -eq 1; then
@@ -12,6 +12,11 @@ fi
 
 echo Verarbeite Jahr ${jahr}
 
+# check if image folder exists
+if [ ! -d ../images/${jahr} ]; then
+  echo "Abbruch: Verzeichnis ../images/${jahr} existiert (noch) nicht"
+  exit 1
+fi
 # fetch data and insert in CSV
 
 echo "Jahr;MW;P;Name" > wepistat_${jahr}.csv
@@ -26,7 +31,7 @@ awk -f wepistat.awk wepistat_${jahr}.csv
 #echo generiere Text-Ausgabe ...
 #./textoutput.sh ${jahr} > wepistat_${jahr}.txt
 
-# generate HTML-output 
+# generate HTML-output
 echo generiere HTML-Ausgabe ...
 ./htmloutput.sh ${jahr} > wepistat_${jahr}.html
 
