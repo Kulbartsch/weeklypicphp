@@ -44,7 +44,7 @@
 
   log_debug('>>>> START doit.php', '');
 
-  // _SERVER handling 
+  // _SERVER handling
 
   // validate server upload volume has not been exceeded
   if (isset($_SERVER['CONTENT_LENGTH'])) {
@@ -55,13 +55,13 @@
   }
   // check that post_max_size has not been reached
   // convert_to_bytes is the function turn `5M` to bytes because $_SERVER['CONTENT_LENGTH'] is in bytes.
-  //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) { 
+  //    && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
   // ... with your logic
   //throw new Exception('File too large!');
   //}
 
   //####################################################################
-  
+
   // _POST Var Handling
   $user         = sanitize_input("user", TRUE);
   $creator      = sanitize_input("creator", FALSE);
@@ -129,7 +129,7 @@
 
       // BUG: Don't upload to too old timeranges
       // BUG: a not processed upload - i.e. picture is to big - is not detected = no filename
-      // CHECK: check all variable output if it's converted with htmlspecialchars() 
+      // CHECK: check all variable output if it's converted with htmlspecialchars()
       // CHECK: not all critical messages are logged
       // CHECK: HTML special chars are converted before they are stored as metadata. That's not ok (check with < and &)
 
@@ -151,7 +151,7 @@
         $user_called = $user_info["called"];
         log_debug("Username from form", $user);
         log_usage('2V', $user, '<- username from form');
-        $user = $user_info["userid"];  // to bring the case of the name to its default 
+        $user = $user_info["userid"];  // to bring the case of the name to its default
         log_debug("Username from user_db", $user);
         log_usage('2V', $user, '<- username from user_db');
         if($user_called == '') {
@@ -163,7 +163,7 @@
       // Info about cookie
       if(array_key_exists("usecookie", $_POST)) {
         log_usage('2V', $user, 'Setting/updating cookie.');
-      } elseif(isset($_COOKIE[$cookie_name])) { 
+      } elseif(isset($_COOKIE[$cookie_name])) {
         log_usage('2V', $user, 'Deleting cookie.');
       }
 
@@ -280,7 +280,7 @@
           echo "(Auch wenn die Datei auf 'jpg' oder 'jpeg' endet, ist dies technisch nicht unbedingt ein JPEG-Bild.)<br />";
           echo 'Eventuell liegt ein Fehler beim Upload vor; ';
           echo 'Probiere daher bitte die <b><a href="index.php">Start-Seite</a> neu aufzurufen / neu zu laden</b>, ';
-          echo 'und dann das Bild erneut hochzuladen. '; 
+          echo 'und dann das Bild erneut hochzuladen. ';
           echo '(Nicht über den "Zurück"-Button des Browsers.)</em></p>';
           cancel_processing("Nur der Upload von JPEG-Bilddateien ist gestattet!" );
         }
@@ -340,7 +340,7 @@
           log_usage('2I', $user, 'No picture titel found in picture itself. Picture is without title.');
         }
       }
-    
+
 
       //####################################################################
       // generate requested EXIF values
@@ -366,10 +366,10 @@
 
       $requested['.ImageWidth']            = '';                                // FILE
       $requested['.ImageHeight']           = '';                                // FILE
-      $requested['=LongestSide']           = '2000-2048';                       
+      $requested['=LongestSide']           = '2000-2048';
       // $requested['.ImageWidth']            = '2000';                            // FILE
       // $requested['.ImageHeight']           = '2000';                            // FILE
-      // $requested['.ExifImageWidth']        = $requested['.ImageWidth'];      // 
+      // $requested['.ExifImageWidth']        = $requested['.ImageWidth'];      //
       // $requested['.ExifImageHeight']       = $requested['.ImageHeight'];
       $requested['.Orientation']           = '';
 
@@ -497,13 +497,27 @@
         } else {
           // exiftool -s = very short output of tag names
           //          -v = verbose output
-          // TODO: Rewrite all tags to fix problems (see: https://www.exiftool.org/faq.html#Q20)
-          // Check for errors: "exiftool -v3"
-          // $command =  $exiftool_command . ' -all= -tagsfromfile @ -all:all -unsafe -icc_profile -F ' . bad.jpg
-          // Updating tags
-          $command =  $exiftool_command . ' -v2 -s -overwrite_original -charset exif=UTF8 -charset iptc=UTF8 -codedcharacterset=utf8 ' . 
+          // Strategy: First try normal update, if that fails, use the "rewrite all tags" method
+          // to fix corrupted EXIF data (see: https://www.exiftool.org/faq.html#Q20)
+
+          // Attempt 1: Normal update
+          $command =  $exiftool_command . ' -v2 -s -overwrite_original -charset exif=UTF8 -charset iptc=UTF8 -codedcharacterset=utf8 ' .
                       $et_param . ' ' . escapeshellarg($new_path) . ' 2>&1';
           exec($command, $data, $result);
+
+          // If normal update fails, try the "clean and rewrite" method
+          if($result !== 0) {
+            log_usage('2W', $user, 'Normal EXIF update failed, trying clean method...');
+            echo 'ℹ️ Normale Metadaten-Aktualisierung fehlgeschlagen, versuche Reparatur-Methode...<br>';
+
+            // Clean method: Remove all tags, copy them back, then apply new tags
+            // This fixes corrupted EXIF data
+            $command =  $exiftool_command . ' -overwrite_original -charset exif=UTF8 -charset iptc=UTF8 -codedcharacterset=utf8 ' .
+                        '-all= -tagsfromfile @ -all:all -unsafe -icc_profile ' .
+                        $et_param . ' ' . escapeshellarg($new_path) . ' 2>&1';
+            exec($command, $data, $result);
+          }
+
           if($debugging) { // debug
             echo "<p>command: "; print_r($command);
             echo "<br>data: <br><pre>"; print_r($data); echo "</pre>";
@@ -513,13 +527,14 @@
           if($result !== 0) {
             log_command_result($command, $result, $data, $user);
             echo '⚠️ Problem bei der Änderung der Metadaten aufgetreten.<br>';
+          } else {
+            echo '✅ Die Metadaten in deinem Bild wurden angepasst.<br>' . PHP_EOL;
           }
-          echo '✅ Die Metadaten in deinem Bild wurden angepasst.<br>' . PHP_EOL;
         }
 
       }
 
-      
+
       //####################################################################
       // display picture attributes (EXIF) existing compared to requested
 
@@ -543,7 +558,7 @@
         $all_good = false;
       }
 
-  
+
 
       //####################################################################
       // display picture  and  further actions (buttons) to delete (and upload) picture
@@ -556,7 +571,7 @@
       $_SESSION['pathfilename'] = $new_path;
       $_SESSION['filebasename'] = $filename;
       $_SESSION['user']         = $user;
-      $_SESSION['filename']     = $filename.'.'.$extension;    
+      $_SESSION['filename']     = $filename.'.'.$extension;
       $_SESSION['per_type']     = $requested_period_type;
       $_SESSION['period']       = $requested_period;
       if($requested_period_type == 'W') {
@@ -565,7 +580,7 @@
         $_SESSION['year']         = get_picture_year($exif_data);
       }
       if($_SESSION['year'] == 0) { $_SESSION['year'] = $requested_year; }
-      $_SESSION['description']  = $description;  
+      $_SESSION['description']  = $description;
       $_SESSION['error']        = $error;
 
     echo '<h2>Und nun?</h2>';
@@ -577,7 +592,7 @@
     }
     echo 'Zeitraum: <b>' . $_SESSION['year'];
     if($requested_period_type == 'M') {
-      echo ' Monat '; 
+      echo ' Monat ';
     } else {
       echo ' Woche ';
     }
@@ -593,7 +608,7 @@
         echo '<form method="post" action="final.php?' . htmlspecialchars(SID) . '">';
         echo 'Bitte gebe einen Kommentar an, warum das Bild in Ordnung ist:<br>';
         echo '<input type="text" id="comment" name="comment" ><br/>';
-        echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;'; 
+        echo '<input type="submit" name="upload2" value="für WeeklyPic zum prüfen bereitstellen">&nbsp;&nbsp;&nbsp;';
         echo '<input type="submit" name="delete" value="jetzt löschen" >&nbsp;&nbsp;&nbsp;';
         echo '</form></p>';
       }
