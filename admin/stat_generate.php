@@ -39,8 +39,10 @@ $year = $_GET['year'];
 $stat_csv = 'wepistat_' . $year . '.csv';
 setlocale(LC_CTYPE, 'en_US.UTF-8');
 
-// TODO: Use last year as low value and current year as high value instead of fixed values
-if ($year < 2022 || $year > 2030) {
+$current_year = intval(date('Y'));
+$min_year = $current_year - 1; // Last year
+$max_year = $current_year + 1; // Allow next year
+if ($year < $min_year || $year > $max_year) {
     echo '<p>⚠️ Fehler, es wurde ein ungültiges Jahr ausgewählt!</p>';
 } else {
     exec('./wepistat_fs.sh 2>&1 ' . $year, $lines, $result);

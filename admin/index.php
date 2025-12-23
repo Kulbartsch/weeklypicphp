@@ -22,33 +22,31 @@
 
 
 <h2>Statistik</h2>
-<?PHP // TODO: Generate statistic table dynamically ?>
+<?PHP
+$current_year = intval(date('Y'));
+$current_month = intval(date('n')); // 1-12
+$start_year = 2021;
+
+// If it's December or later, include next year
+$end_year = ($current_month >= 12) ? $current_year + 1 : $current_year;
+?>
 <table>
-    <tr>
-        <td><a href="wepistat_2025.html">Statistik 2025</a></td>
-        <td><a href="wepistat_2025.csv">(als CSV)</a></td>
-        <td><a href="stat_generate.php?year=2025" class="btn">aktualisieren</a></td>
-    </tr>
-    <tr>
-        <td><a href="wepistat_2024.html">Statistik 2024</a></td>
-        <td><a href="wepistat_2024.csv">(als CSV)</a></td>
-        <td><a href="stat_generate.php?year=2024" class="btn">aktualisieren</a></td>
-    </tr>
-    <tr>
-        <td><a href="wepistat_2023.html">Statistik 2023</a></td>
-        <td><a href="wepistat_2023.csv">(als CSV)</a></td>
-        <td><a href="stat_generate.php?year=2023" class="btn">aktualisieren</a></td>
-    </tr>
-    <tr>
-        <td><a href="wepistat_2022.html">Statistik 2022</a></td>
-        <td><a href="wepistat_2022.csv">(als CSV)</a></td>
-        <!-- td><a href="stat_generate.php?year=2022" class="btn">aktualisieren</a></td -->
-    </tr>
-    <tr>
-        <td><a href="wepistat_2021.html">Statistik 2021</a></td>
-        <td><a href="wepistat_2021.csv">(als CSV)</a></td>
-        <td></td>
-    </tr>
+<?PHP
+for ($year = $end_year; $year >= $start_year; $year--) {
+    echo '<tr>' . "\n";
+    echo '        <td><a href="wepistat_' . $year . '.html">Statistik ' . $year . '</a></td>' . "\n";
+    echo '        <td><a href="wepistat_' . $year . '.csv">(als CSV)</a></td>' . "\n";
+
+    // Show update button for recent years (last year, current year, next year)
+    if ($year >= $current_year - 1) {
+        echo '        <td><a href="stat_generate.php?year=' . $year . '" class="btn">aktualisieren</a></td>' . "\n";
+    } else {
+        echo '        <td></td>' . "\n";
+    }
+
+    echo '    </tr>' . "\n";
+}
+?>
 </table>
 <br />
 <details>
