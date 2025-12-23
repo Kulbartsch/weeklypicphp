@@ -422,8 +422,13 @@ function guess_picture_year($period_type, $period)
 // $period_type ('W' or 'M') and $period (1-53 or 1-12) are the original values,
 // $period_year is the year to check, all against $date
 // returns the corrected year
-function fix_year($period_type, $period, $period_year, $date = new DateTime())
+function fix_year($period_type, $period, $period_year, $date = null)
 {
+    // Use current date if no date provided
+    if ($date === null) {
+        $date = new DateTime();
+    }
+    
     // get reference month and year
     $this_month = $date->format('n');
     $this_year = $date->format('Y');
