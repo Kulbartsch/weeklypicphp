@@ -282,7 +282,7 @@ function filenameparts($pathfilename)
     $parts['period'] = substr($fn, 2, 2);
     $parts['username'] = substr($parts['basename'], 5);
     // debug('parts b', $parts);
-    if( ! $n === FALSE ) { // we have a path
+    if( $parts['path'] !== '' ) { // we have a path
         $m = strrpos($p, '/');
         if($m === FALSE) {
             $parts['pathstate'] = FALSE;

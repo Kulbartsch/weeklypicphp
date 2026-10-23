@@ -141,11 +141,11 @@
             ( ( ( $exif_tag    == '?GPS' ) || ( $exif_tag   == '=GPS' ) ) &&
                 ( $exif_tag_is == 'nein'   &&   $exif_value == 'ja'   ) )    ) { 
           echo '-'; 
-        } elseif($exif_tag == '=Week' && $exif_tag_is == 0) { 
+        } elseif($exif_tag == '=Week' && ($exif_tag_is === '' || (int)$exif_tag_is === 0)) { 
           // REVIEW: in case there is no CreateDate there is no week - let's accept this for now
           echo '-'; 
         } elseif($exif_tag == '=LongestSide') {
-          if($exif_tag_is >= 2000 and $exif_tag_is <=2048 ) {
+          if(is_numeric($exif_tag_is) && $exif_tag_is >= 2000 and $exif_tag_is <=2048 ) {
             echo '✅'; 
           } else {
             $all_good = false;

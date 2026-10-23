@@ -164,9 +164,9 @@ function log_usage($page, $user, $info = '', $loguse = TRUE, $logacs = FALSE)
             $log_msg = date("c") . ';' . $page . ';' . $user . ';' . $info . PHP_EOL;
             $log_acs = $log_msg;
             break;
-        case 3;
+        case 3:
             // TODO: implement anonymized IP logging
-        case 4;
+        case 4:
             $log_msg = date("c") . ';' . $page . ';' . $user . ';' . $info . PHP_EOL; // like 2
             $log_acs = date("c") . ';' . $page . ';' . $user . ',' . get_ip_address() . ';' . $info . PHP_EOL;
             break;

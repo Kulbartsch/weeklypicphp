@@ -24,7 +24,7 @@ if (file_exists($usage_log) == FALSE) {
     cancel_processing("Missing usage_log file.");
 }
 
-$nl = intval($_REQUEST['lines']);
+$nl = intval($_REQUEST['lines'] ?? 0);
 $sel0150 = $sel0300 = $sel0600 = $sel1500 = $sel3000 = $sel010K = '';
 switch ($nl) {
     case 150:

@@ -35,7 +35,7 @@
 <h1>Generieren der Statistik</h1>
 
 <?php
-$year = $_GET['year'];
+$year = intval($_GET['year'] ?? 0);
 $stat_csv = 'wepistat_' . $year . '.csv';
 setlocale(LC_CTYPE, 'en_US.UTF-8');
 

@@ -11,10 +11,10 @@ class ImageData {
 
 $request_method=$_SERVER["REQUEST_METHOD"];
 
-$type=$_GET["type"]; // week OR month
-$number=$_GET["number"]; // kw or month
-$year=$_GET["year"];
-$filename=$_GET["filename"];
+$type=$_GET["type"] ?? ""; // week OR month
+$number=$_GET["number"] ?? ""; // kw or month
+$year=$_GET["year"] ?? "";
+$filename=$_GET["filename"] ?? "";
 
 switch($request_method)
 {
@@ -34,7 +34,7 @@ function getMetaData($type, $year, $number, $filename)
         header('Content-Type: application/json');
         $exif = exif_read_data($filePath);
         $arrSize = getimagesize($filePath, $arrInfo);
-        $arrIPTC = iptcparse($arrInfo['APP13']);
+        $arrIPTC = isset($arrInfo['APP13']) ? iptcparse($arrInfo['APP13']) : false;
         $imgData = new ImageData();
         $imgData->url = path2url($filePath);
         if (isset($exif['ImageDescription'])) {

@@ -39,7 +39,7 @@
       $year         = $_SESSION['year'];
       $description  = $_SESSION['description'];
       $error        = $_SESSION['error'];
-      $comment      = $_POST['comment'];
+      $comment      = $_POST['comment'] ?? '';
 
       log_usage('3I', $user, '', FALSE, TRUE);
       log_debug('Final Pathfilename', $pathfilename);
