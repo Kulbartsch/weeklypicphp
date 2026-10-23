@@ -47,7 +47,7 @@ switch ($nl) {
         $nl = 300;
         break;
 }
-$logic = $_REQUEST['logic'];
+$logic = $_REQUEST['logic'] ?? '';
 if ($logic == 'or') {
     $logic_and = '';
     $logic_or = ' checked';
@@ -56,8 +56,8 @@ if ($logic == 'or') {
     $logic_and = ' checked';
     $logic_or = '';
 }
-$filter1 = $_REQUEST['filter1'];
-$filter2 = $_REQUEST['filter2'];
+$filter1 = $_REQUEST['filter1'] ?? '';
+$filter2 = $_REQUEST['filter2'] ?? '';
 if ($filter1 == '' && $filter2 <> '') {
     $filter1 = $filter2;
     $filter2 = '';

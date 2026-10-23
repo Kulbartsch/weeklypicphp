@@ -42,7 +42,7 @@
           // return date('W', strtotime(exif_get_tag_value($list, 'CreateDate'))); 
           return get_picture_wp_week($list);
           break;
-        case '=GPS';
+        case '=GPS':
           $gpstagnum = exif_get_count_tagstart($list, 'GPS');
           if($gpstagnum == 0) {
             return $tag_not_set;
