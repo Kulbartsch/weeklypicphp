@@ -245,6 +245,11 @@
 
       // Check if file exists. There are still situations when it's not detected.
       if(!file_exists($fileToUpload['tmp_name'])) {
+        $upload_err = $fileToUpload['error'] ?? -1;
+        log_usage('-A', '--', 'PHP upload error code: ' . $upload_err . ', upload_max_filesize=' . ini_get('upload_max_filesize') . ', post_max_size=' . ini_get('post_max_size'));
+        if($upload_err == UPLOAD_ERR_INI_SIZE || $upload_err == UPLOAD_ERR_FORM_SIZE) {
+          cancel_processing("Fehler: Die Datei ist größer als das Server-Limit (" . ini_get('upload_max_filesize') . ") für Uploads!");
+        }
         cancel_processing("Fehler: Datei wurde nicht hochgeladen! (timeout?)");
       }
 
