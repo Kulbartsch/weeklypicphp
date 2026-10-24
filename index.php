@@ -158,7 +158,7 @@
     <hr />
     <p>Dieses Programm ist unter der GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 lizenziert.
        Den Quellcode findest du auf <a href="https://github.com/Kulbartsch/weeklypicphp">GitHub</a>.<br />
-       Copyright © 2021 <a href="http://kulbartsch.de/">Alexander Kulbartsch.</a></p>
+       Copyright © 2021-2026 <a href="http://kulbartsch.de/">Alexander Kulbartsch.</a></p>
 
   </body>
 </html>
